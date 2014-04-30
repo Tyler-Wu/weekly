@@ -93,7 +93,10 @@ $(document).ready(function(){
 	//other things to do on document ready, seperated for ajax calls
 	docReady();
 });
-		
+
+function NewGuid() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+}
 		
 function docReady(){
 	//prevent # links from moving to top
@@ -325,10 +328,7 @@ function docReady(){
 			
 			// we need to copy it, so that multiple events don't have a reference to the same object
 			var copiedEventObject = $.extend({}, originalEventObject);
-            copiedEventObject.id=function GuId() {
-                var temp = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
-                return temp;
-            };
+            copiedEventObject.id = NewGuid();
 			// assign it the date that was reported
 			copiedEventObject.start = date;
 			copiedEventObject.allDay = allDay;
@@ -344,7 +344,9 @@ function docReady(){
 			}
 		},
         eventClick:function(calEvent){
-            $('#calendar').fullCalendar( 'removeEvents' ,'111');
+            element.bind('dblclick', function() {
+                $('#calendar').fullCalendar( 'removeEvents' ,calEvent.id);
+            });
         }
 	});
 	
