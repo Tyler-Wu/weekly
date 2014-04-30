@@ -44,7 +44,7 @@ namespace GS.WeeklyReport.Portal
              "~/Content/css/opa-icons.css",
              "~/Content/css/uploadify.css"));
 
-            bundles.Add(new StyleBundle("~/Content/charismajs").Include(
+            bundles.Add(new ScriptBundle("~/Scripts/charismajs").Include(
                 "~/Scripts/charismajs/jquery-1.7.2.min.js",
                   "~/Scripts/charismajs/jquery-ui-1.8.21.custom.min.js",
                   "~/Scripts/charismajs/bootstrap-transition.js",
