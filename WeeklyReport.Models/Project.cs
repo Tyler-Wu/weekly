@@ -22,10 +22,10 @@ namespace WeeklyReport.Models
         public System.Guid PorjectId { get; set; }
         public string Name { get; set; }
         public System.Guid LeaderId { get; set; }
-        public Nullable<System.DateTime> StartData { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
         public string Color { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
     
         public virtual User User { get; set; }
         public virtual ICollection<WorkItem> WorkItem { get; set; }

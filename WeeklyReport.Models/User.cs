@@ -25,6 +25,8 @@ namespace WeeklyReport.Models
         public int RoleId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+        public string UserName { get; set; }
+        public string Passwrod { get; set; }
     
         public virtual ICollection<Project> Project { get; set; }
         public virtual Role Role { get; set; }
