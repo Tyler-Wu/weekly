@@ -8,7 +8,7 @@ using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.Portal.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         UserService service = new UserService();
         //

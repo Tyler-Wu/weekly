@@ -9,7 +9,7 @@ using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.Portal.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
 
         UserService service = new UserService();
