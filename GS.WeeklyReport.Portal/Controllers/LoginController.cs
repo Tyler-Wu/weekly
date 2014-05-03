@@ -9,7 +9,7 @@ using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.Portal.Controllers
 {
-    public class LoginController : BaseController
+    public class LoginController : Controller
     {
 
         UserService service = new UserService();
@@ -19,7 +19,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                return  Login(loginUser.UserName, loginUser.Passwrod);
+                return Login(loginUser.UserName, loginUser.Passwrod);
             }
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return View();
@@ -31,6 +31,7 @@ namespace GS.WeeklyReport.Portal.Controllers
             var user = service.LoadEntities(u => u.UserName == username && u.Passwrod == password).FirstOrDefault();
             if (user != null)
             {
+                Session["loginUser"] = user;
                 return RedirectToAction("Index", "Home");
             }
             return View("Index");
