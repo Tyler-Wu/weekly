@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBaseRepositroy.cs" />
+    <Compile Include="IProjectRepository.cs" />
     <Compile Include="IUserReposity.cs" />
     <Compile Include="IWorkItemRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
