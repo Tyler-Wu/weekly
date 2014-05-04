@@ -7,7 +7,7 @@ using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.IRepository
 {
-    public interface IUserReposity:IBaseRepositroy<User>
+    public interface IUserRepository:IBaseRepositroy<User>
     {
 
     }

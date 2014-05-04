@@ -8,7 +8,7 @@ namespace GS.WeeklyReport.IRepository
 {
     public interface IDbSession
     {
-        IUserReposity UserReposity { get;}
+        IUserRepository UserRepository { get; }
         IProjectRepository ProjectRepository { get;}
 
         IWorkItemRepository WorkItemRepository { get;}

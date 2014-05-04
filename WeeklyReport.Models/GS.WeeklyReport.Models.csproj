@@ -63,9 +63,6 @@
     <Compile Include="sp_helpdiagrams_Result.cs">
       <DependentUpon>WeeklyReportModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>WeeklyReportModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>WeeklyReportModel.tt</DependentUpon>
     </Compile>
@@ -95,7 +92,9 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="WeeklyReportModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

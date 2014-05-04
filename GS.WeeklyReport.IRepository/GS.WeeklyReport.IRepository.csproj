@@ -42,7 +42,7 @@
     <Compile Include="IBaseRepositroy.cs" />
     <Compile Include="IDbSession.cs" />
     <Compile Include="IProjectRepository.cs" />
-    <Compile Include="IUserReposity.cs" />
+    <Compile Include="IUserRepository.cs" />
     <Compile Include="IWorkItemRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

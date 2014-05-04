@@ -11,7 +11,7 @@ namespace GS.WeeklyReport.RepositoryFactory
     {
         public static DbSession GetCurrentDbSession()
         {
-            DbSession db = CallContext.GetData("DbSessionFactory") as DbSession;
+            var db = CallContext.GetData("DbSessionFactory") as DbSession;
             if (db == null)
             {
                 db = new DbSession();

@@ -6,12 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 using GS.WeeklyReport.IRepository;
 using GS.WeeklyReport.Repository;
+using GS.WeeklyReport.RepositoryFactory;
 using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.Service
 {
     public class ProjectService : IProjectRepository
     {
+        // private  IDbSession _dbSession=DbSessionFactory.GetCurrentDbSession();
+        //private IProjectRepository repository;
+
+        //public ProjectService()
+        //{
+        //    repository = _dbSession.ProjectRepository;
+        //}
+
         ProjectRepository repository = new ProjectRepository();
 
         public Project Add(Project entity)

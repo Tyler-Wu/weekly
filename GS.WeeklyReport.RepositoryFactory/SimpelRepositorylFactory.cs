@@ -12,11 +12,27 @@ namespace GS.WeeklyReport.RepositoryFactory
 {
     public class SimpelRepositorylFactory
     {
-        public static IWorkItemRepository GetUserinfoDal()
+        public static IWorkItemRepository GetWorkItemRepository()
         {
             string className = ConfigurationManager.AppSettings["DALNameScape"] + ".IWorkItemRepository";
             object obj = GetInstane(ConfigurationManager.AppSettings["DalAssembly"], className);
             return obj as IWorkItemRepository;
+        }
+        public static IUserRepository GetUserRepository()
+        {
+            //string className = ConfigurationManager.AppSettings["RepositoryNameScape"] + ".IUserRepository";
+            //object obj = GetInstane(ConfigurationManager.AppSettings["RepositoryAssembly"], className);
+            string className = ConfigurationManager.AppSettings["RepositoryNameScape"] + ".IUserRepository";
+            object obj = Assembly.Load(ConfigurationManager.AppSettings["RepositoryAssembly"])
+                .CreateInstance(className, true);
+            return obj as IUserRepository;
+        }
+
+        public static IProjectRepository GetProjectRepository()
+        {
+            string className = ConfigurationManager.AppSettings["RepositoryNameScape"] + ".IProjectRepository";
+            object obj = GetInstane(ConfigurationManager.AppSettings["RepositoryAssembly"], className);
+            return obj as IProjectRepository;
         }
 
         public static object GetInstane(string assembly, string className)

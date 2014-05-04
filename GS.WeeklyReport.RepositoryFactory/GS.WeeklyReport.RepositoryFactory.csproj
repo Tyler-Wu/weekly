@@ -51,6 +51,10 @@
       <Project>{21CCA4B7-F40B-4F2B-A98F-C173013DD4EC}</Project>
       <Name>GS.WeeklyReport.IRepository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GS.WeeklyReport.Repository\GS.WeeklyReport.Repository.csproj">
+      <Project>{6950467F-F50F-45DD-8540-1B15C4A0B299}</Project>
+      <Name>GS.WeeklyReport.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

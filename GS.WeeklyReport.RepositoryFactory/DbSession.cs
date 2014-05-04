@@ -9,14 +9,23 @@ namespace GS.WeeklyReport.RepositoryFactory
 {
     public class DbSession:IDbSession
     {
-        private IWorkItemRepository _IWorkItemRepository;
+        private IWorkItemRepository _workItemRepository;
+        private IUserRepository _userRepository;
+        private IProjectRepository _projectRepository;
 
-        public IUserReposity UserReposity { get; private set; }
-        public IProjectRepository ProjectRepository { get; private set; }
+        public IUserRepository UserRepository
+        {
+            get { return _userRepository ?? (_userRepository = SimpelRepositorylFactory.GetUserRepository()); }
+        }
+
+        public IProjectRepository ProjectRepository
+        {
+            get { return _projectRepository ?? (_projectRepository = SimpelRepositorylFactory.GetProjectRepository()); }
+        }
 
         public IWorkItemRepository WorkItemRepository
         {
-            get { return _IWorkItemRepository ?? (_IWorkItemRepository = SimpelRepositorylFactory.GetUserinfoDal()); }
+            get { return _workItemRepository ?? (_workItemRepository = SimpelRepositorylFactory.GetWorkItemRepository()); }
         }
 
         public int SaveChanges()

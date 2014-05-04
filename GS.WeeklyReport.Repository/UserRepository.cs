@@ -7,7 +7,7 @@ using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.Repository
 {
-    public class UserReposity:BaseRepository<User>
+    public class UserRepository:BaseRepository<User>
     {
 
     }

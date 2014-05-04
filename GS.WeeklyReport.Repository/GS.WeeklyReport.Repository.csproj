@@ -52,7 +52,7 @@
     <Compile Include="ProjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleRepository.cs" />
-    <Compile Include="UserReposity.cs" />
+    <Compile Include="UserRepository.cs" />
     <Compile Include="WorkItemRepository.cs" />
   </ItemGroup>
   <ItemGroup>

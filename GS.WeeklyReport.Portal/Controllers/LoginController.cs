@@ -15,16 +15,18 @@ namespace GS.WeeklyReport.Portal.Controllers
         UserService service = new UserService();
         //
         // GET: /Login/
+       
         public ActionResult Index(User loginUser)
         {
-            if (ModelState.IsValid)
+            if (loginUser.UserName!=null&&loginUser.Passwrod!=null)
             {
                 return Login(loginUser.UserName, loginUser.Passwrod);
             }
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+           
             return View();
         }
 
+          
 
         public ActionResult Login(string username, string password)
         {
