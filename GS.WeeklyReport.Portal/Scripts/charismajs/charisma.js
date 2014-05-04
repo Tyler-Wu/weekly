@@ -122,7 +122,7 @@ function docReady(){
 	$("input:checkbox, input:radio, input:file").not('[data-no-uniform="true"],#uniform-is-ajax').uniform();
 
 	//chosen - improves select
-	$('[data-rel="chosen"],[rel="chosen"]').chosen();
+	//$('[data-rel="chosen"],[rel="chosen"]').chosen();
 
 	//tabs
 	$('#myTab a:first').tab('show');
@@ -343,7 +343,7 @@ function docReady(){
 				$(this).remove();
 			}
 		},
-        eventClick:function(calEvent){
+        eventClick:function(calEvent,element){
             element.bind('dblclick', function() {
                 $('#calendar').fullCalendar( 'removeEvents' ,calEvent.id);
             });

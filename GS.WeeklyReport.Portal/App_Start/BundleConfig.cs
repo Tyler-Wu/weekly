@@ -10,11 +10,6 @@ namespace GS.WeeklyReport.Portal
         {
             //BundleTable.EnableOptimizations = true;
 
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -26,9 +21,9 @@ namespace GS.WeeklyReport.Portal
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+             "~/Content/css/bootstrap-cerulean.css",
              "~/Content/css/bootstrap-responsive.css",
-              "~/Content/css/jquery-ui-1.8.21.custom.css",
-             "~/Content/css/.css",
+             "~/Content/css/jquery-ui-1.8.21.custom.css",
              "~/Content/css/charisma-app.css",
              "~/Content/css/fullcalendar.css",
              "~/Content/css/fullcalendar.print.css",
@@ -63,7 +58,7 @@ namespace GS.WeeklyReport.Portal
                   "~/Scripts/charismajs/jquery.cookie.js",
                   "~/Scripts/charismajs/fullcalendar.min.js",
                   "~/Scripts/charismajs/jquery.dataTables.min.js",
-                  "~/Scripts/charismajs/js/excanvas.js",
+                  "~/Scripts/charismajs/excanvas.js",
                   "~/Scripts/charismajs/jquery.flot.min.js",
                   "~/Scripts/charismajs/jquery.flot.pie.min.js",
                   "~/Scripts/charismajs/jquery.flot.stack.js",
@@ -78,8 +73,8 @@ namespace GS.WeeklyReport.Portal
                   "~/Scripts/charismajs/jquery.iphone.toggle.js",
                   "~/Scripts/charismajs/jquery.autogrow-textarea.js",
                   "~/Scripts/charismajs/jquery.uploadify-3.1.min.js",
-                  "~/Scripts/charismajs/jquery.uploadify-3.1.min.js",
-                  "~/Scripts/charismajs/js/charisma.js"
+                  "~/Scripts/charismajs/jquery.history.js",
+                  "~/Scripts/charismajs/charisma.js"
                 ));
         }
     }
