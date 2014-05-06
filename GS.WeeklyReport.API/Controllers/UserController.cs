@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using GS.WeeklyReport.IService;
 using GS.WeeklyReport.Service;
 using WeeklyReport.Models;
 
@@ -15,7 +16,7 @@ namespace GS.WeeklyReport.API.Controllers
 {
     public class UserController : ApiController
     {
-        UserService service = new UserService();
+        IUserService service = new UserService();
 
         // GET api/User
         public IQueryable<User> GetUser()

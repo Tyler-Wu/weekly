@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{40185451-1029-487D-8E12-355AF0E5B657}</ProjectGuid>
+    <ProjectGuid>{2BB6FD21-0485-4663-A942-5FA799CE29C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GS.WeeklyReport.Service</RootNamespace>
-    <AssemblyName>GS.WeeklyReport.Service</AssemblyName>
+    <RootNamespace>GS.WeeklyReport.IService</RootNamespace>
+    <AssemblyName>GS.WeeklyReport.IService</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,30 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseService.cs" />
-    <Compile Include="ProjectService.cs" />
+    <Compile Include="IBaseService.cs" />
+    <Compile Include="IProjectService.cs" />
+    <Compile Include="IRoleService.cs" />
+    <Compile Include="IUserService.cs" />
+    <Compile Include="IWorkItemService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoleService.cs" />
-    <Compile Include="UserService.cs" />
-    <Compile Include="WorkItemService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GS.WeeklyReport.IRepository\GS.WeeklyReport.IRepository.csproj">
-      <Project>{21CCA4B7-F40B-4F2B-A98F-C173013DD4EC}</Project>
-      <Name>GS.WeeklyReport.IRepository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GS.WeeklyReport.IService\GS.WeeklyReport.IService.csproj">
-      <Project>{2bb6fd21-0485-4663-a942-5fa799ce29c8}</Project>
-      <Name>GS.WeeklyReport.IService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GS.WeeklyReport.RepositoryFactory\GS.WeeklyReport.RepositoryFactory.csproj">
-      <Project>{B86CB611-FCF2-497D-8B24-18DB122D9FBB}</Project>
-      <Name>GS.WeeklyReport.RepositoryFactory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GS.WeeklyReport.Repository\GS.WeeklyReport.Repository.csproj">
-      <Project>{6950467F-F50F-45DD-8540-1B15C4A0B299}</Project>
-      <Name>GS.WeeklyReport.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WeeklyReport.Models\GS.WeeklyReport.Models.csproj">
       <Project>{D318F934-7BB1-4E6A-95A6-6FC738D999B5}</Project>
       <Name>GS.WeeklyReport.Models</Name>

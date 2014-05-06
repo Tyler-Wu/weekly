@@ -18,24 +18,21 @@ namespace GS.WeeklyReport.Repository
         public T Add(T entity)
         {
             db.Set<T>().Add(entity);
-            db.SaveChanges();
+            //db.SaveChanges();
             return entity;
         }
 
         public bool Update(T entity)
         {
             db.Entry(entity).State = EntityState.Modified;
-            return db.SaveChanges() > 0;
-            //return true;
+            return true;
 
         }
 
         public bool Delete(T entity)
         {
             db.Entry(entity).State = EntityState.Deleted;
-            db.SaveChanges();
-            return db.SaveChanges() > 0;
-            //return true;
+            return true;
         }
 
         #endregion

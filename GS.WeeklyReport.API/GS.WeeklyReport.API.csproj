@@ -197,6 +197,10 @@
       <Project>{21CCA4B7-F40B-4F2B-A98F-C173013DD4EC}</Project>
       <Name>GS.WeeklyReport.IRepository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GS.WeeklyReport.IService\GS.WeeklyReport.IService.csproj">
+      <Project>{2BB6FD21-0485-4663-A942-5FA799CE29C8}</Project>
+      <Name>GS.WeeklyReport.IService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GS.WeeklyReport.Service\GS.WeeklyReport.Service.csproj">
       <Project>{40185451-1029-487d-8e12-355af0e5b657}</Project>
       <Name>GS.WeeklyReport.Service</Name>
