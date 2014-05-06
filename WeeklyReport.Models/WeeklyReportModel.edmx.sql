@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/29/2014 08:41:32
--- Generated from EDMX file: E:\MvcWeeklyReport\WeeklyReport.Models\WeeklyReportModel.edmx
+-- Date Created: 05/06/2014 16:08:06
+-- Generated from EDMX file: E:\weekly\WeeklyReport.Models\WeeklyReportModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -56,10 +56,10 @@ CREATE TABLE [dbo].[Project] (
     [PorjectId] uniqueidentifier  NOT NULL,
     [Name] nvarchar(50)  NOT NULL,
     [LeaderId] uniqueidentifier  NOT NULL,
-    [StartData] datetime  NULL,
     [Description] nvarchar(200)  NULL,
     [Status] varchar(10)  NULL,
-    [Color] varchar(10)  NULL
+    [Color] varchar(10)  NULL,
+    [StartDate] datetime  NULL
 );
 GO
 
@@ -76,7 +76,9 @@ CREATE TABLE [dbo].[User] (
     [Name] nvarchar(20)  NOT NULL,
     [RoleId] int  NOT NULL,
     [CreateDate] datetime  NOT NULL,
-    [UpdateDate] datetime  NULL
+    [UpdateDate] datetime  NULL,
+    [UserName] nvarchar(20)  NULL,
+    [Passwrod] nvarchar(20)  NULL
 );
 GO
 
@@ -94,6 +96,13 @@ CREATE TABLE [dbo].[WorkItem] (
     [UpdateDate] datetime  NULL,
     [CreateUser] uniqueidentifier  NULL,
     [UpdateUser] uniqueidentifier  NULL
+);
+GO
+
+-- Creating table 'ProjectUser'
+CREATE TABLE [dbo].[ProjectUser] (
+    [ProjectUser_User_PorjectId] uniqueidentifier  NOT NULL,
+    [ProjectUser_Project_UserId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -123,6 +132,12 @@ GO
 ALTER TABLE [dbo].[WorkItem]
 ADD CONSTRAINT [PK_WorkItem]
     PRIMARY KEY CLUSTERED ([ItemId] ASC);
+GO
+
+-- Creating primary key on [ProjectUser_User_PorjectId], [ProjectUser_Project_UserId] in table 'ProjectUser'
+ALTER TABLE [dbo].[ProjectUser]
+ADD CONSTRAINT [PK_ProjectUser]
+    PRIMARY KEY CLUSTERED ([ProjectUser_User_PorjectId], [ProjectUser_Project_UserId] ASC);
 GO
 
 -- --------------------------------------------------
@@ -183,6 +198,29 @@ ADD CONSTRAINT [FK_WorkItem_User]
 CREATE INDEX [IX_FK_WorkItem_User]
 ON [dbo].[WorkItem]
     ([UserId]);
+GO
+
+-- Creating foreign key on [ProjectUser_User_PorjectId] in table 'ProjectUser'
+ALTER TABLE [dbo].[ProjectUser]
+ADD CONSTRAINT [FK_ProjectUser_Project]
+    FOREIGN KEY ([ProjectUser_User_PorjectId])
+    REFERENCES [dbo].[Project]
+        ([PorjectId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [ProjectUser_Project_UserId] in table 'ProjectUser'
+ALTER TABLE [dbo].[ProjectUser]
+ADD CONSTRAINT [FK_ProjectUser_User]
+    FOREIGN KEY ([ProjectUser_Project_UserId])
+    REFERENCES [dbo].[User]
+        ([UserId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProjectUser_User'
+CREATE INDEX [IX_FK_ProjectUser_User]
+ON [dbo].[ProjectUser]
+    ([ProjectUser_Project_UserId]);
 GO
 
 -- --------------------------------------------------

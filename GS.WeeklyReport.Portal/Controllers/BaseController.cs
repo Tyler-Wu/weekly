@@ -18,6 +18,7 @@ namespace GS.WeeklyReport.Portal.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
-        }
+        }
+
 	}
 }

@@ -14,5 +14,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         {
             return View();
         }
+
+       
 	}
 }

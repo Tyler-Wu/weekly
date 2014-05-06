@@ -13,15 +13,15 @@ namespace GS.WeeklyReport.Service
 {
     public class ProjectService : IProjectRepository
     {
-        // private  IDbSession _dbSession=DbSessionFactory.GetCurrentDbSession();
-        //private IProjectRepository repository;
+        private IDbSession _dbSession = DbSessionFactory.GetCurrentDbSession();
+        private IProjectRepository repository;
 
-        //public ProjectService()
-        //{
-        //    repository = _dbSession.ProjectRepository;
-        //}
+        public ProjectService()
+        {
+            repository = _dbSession.ProjectRepository;
+        }
 
-        ProjectRepository repository = new ProjectRepository();
+        //ProjectRepository repository = new ProjectRepository();
 
         public Project Add(Project entity)
         {

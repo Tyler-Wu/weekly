@@ -9,10 +9,11 @@ namespace GS.WeeklyReport.IRepository
     public interface IDbSession
     {
         IUserRepository UserRepository { get; }
-        IProjectRepository ProjectRepository { get;}
+        IProjectRepository ProjectRepository { get; }
 
-        IWorkItemRepository WorkItemRepository { get;}
+        IWorkItemRepository WorkItemRepository { get; }
 
+        IRoleRepository RoleRepository { get; }
         int SaveChanges();
     }
 

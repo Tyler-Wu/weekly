@@ -18,7 +18,7 @@ namespace GS.WeeklyReport.Portal.Controllers
        
         public ActionResult Index(User loginUser)
         {
-            if (loginUser.UserName!=null&&loginUser.Passwrod!=null)
+            if (!string.IsNullOrEmpty(loginUser.UserName)&&!string.IsNullOrEmpty(loginUser.Passwrod))
             {
                 return Login(loginUser.UserName, loginUser.Passwrod);
             }

@@ -13,14 +13,14 @@ namespace GS.WeeklyReport.Service
 {
     public class UserService : IBaseRepositroy<User>
     {
-        //private  IDbSession _dbSession=DbSessionFactory.GetCurrentDbSession();
-        //private IUserRepository repository;
+        private IDbSession _dbSession = DbSessionFactory.GetCurrentDbSession();
+        private IUserRepository repository;
 
-        //public UserService()
-        //{
-        //    repository = _dbSession.UserRepository;
-        //}
-        UserRepository repository = new UserRepository();
+        public UserService()
+        {
+            repository = _dbSession.UserRepository;
+        }
+        //UserRepository repository = new UserRepository();
         public User Add(User entity)
         {
             return repository.Add(entity);
