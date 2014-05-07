@@ -314,41 +314,119 @@ function docReady(){
 
 	//initialize the calendar
 	$('#calendar').fullCalendar({
-		header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
-		},
-		editable: true,
-		droppable: true, // this allows things to be dropped onto the calendar !!!
-		drop: function(date, allDay) { // this function is called when something is dropped
-		
-			// retrieve the dropped element's stored Event Object
-			var originalEventObject = $(this).data('eventObject');
-			
-			// we need to copy it, so that multiple events don't have a reference to the same object
-			var copiedEventObject = $.extend({}, originalEventObject);
-            copiedEventObject.id = NewGuid();
-			// assign it the date that was reported
-			copiedEventObject.start = date;
-			copiedEventObject.allDay = allDay;
-			
-			// render the event on the calendar
-			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-			$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-			
-			// is the "remove after drop" checkbox checked?
-			if ($('#drop-remove').is(':checked')) {
-				// if so, remove the element from the "Draggable Events" list
-				$(this).remove();
-			}
-		},
-        eventClick:function(calEvent,element){
-            element.bind('dblclick', function() {
-                $('#calendar').fullCalendar( 'removeEvents' ,calEvent.id);
-            });
-        }
+	    header: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: 'month,agendaWeek,agendaDay'
+	    },
+	    editable: true,
+	    droppable: true, // this allows things to be dropped onto the calendar !!!
+	    drop: function (date, allDay) { // this function is called when something is dropped
+
+	        // retrieve the dropped element's stored Event Object
+	        var originalEventObject = $(this).data('eventObject');
+
+	        // we need to copy it, so that multiple events don't have a reference to the same object
+	        var copiedEventObject = $.extend({}, originalEventObject);
+	        copiedEventObject.id = function GuId() {
+	            var temp = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+	            return temp;
+	        };
+	        // assign it the date that was reported 
+	        copiedEventObject.start = date;
+	        copiedEventObject.allDay = allDay;
+
+	        // render the event on the calendar
+	        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+	        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+
+	        // is the "remove after drop" checkbox checked?
+	        if ($('#drop-remove').is(':checked')) {
+	            // if so, remove the element from the "Draggable Events" list
+	            $(this).remove();
+	        }
+	    },
+	    eventClick: function (calEvent) {
+	        $('#calendar').fullCalendar('removeEvents', event.id);
+	    }
 	});
+	{
+	    userid:"001",
+        roleId:"001",
+        projectid:"0001",
+        startTime:"1399474298",
+        endTime:"1399476298",
+        startDate:"1399246200",
+        endDate:"1399717800",
+        creatTime:"1399246200",
+        updatedate:"1399474298"
+    }
+
+    //chart with points
+	if ($("#sincos").length) {
+	    var sin = [], cos = [];
+
+	    for (var i = 0; i < 14; i += 0.5) {
+	        sin.push([i, Math.sin(i) / i]);
+	        cos.push([i, Math.cos(i)]);
+	    }
+
+	    var plot = $.plot($("#sincos"),
+			   [{ data: sin, label: "sin(x)/x" }, { data: cos, label: "cos(x)" }], {
+			       series: {
+			           lines: { show: true },
+			           points: { show: true }
+			       },
+			       grid: { hoverable: true, clickable: true, backgroundColor: { colors: ["#fff", "#eee"] } },
+			       yaxis: { min: -1.2, max: 1.2 },
+			       colors: ["#539F2E", "#3C67A5"]
+			   });
+
+	    function showTooltip(x, y, contents) {
+	        $('<div id="tooltip">' + contents + '</div>').css({
+	            position: 'absolute',
+	            display: 'none',
+	            top: y + 5,
+	            left: x + 5,
+	            border: '1px solid #fdd',
+	            padding: '2px',
+	            'background-color': '#dfeffc',
+	            opacity: 0.80
+	        }).appendTo("body").fadeIn(200);
+	    }
+
+	    var previousPoint = null;
+	    $("#sincos").bind("plothover", function (event, pos, item) {
+	        $("#x").text(pos.x.toFixed(2));
+	        $("#y").text(pos.y.toFixed(2));
+
+	        if (item) {
+	            if (previousPoint != item.dataIndex) {
+	                previousPoint = item.dataIndex;
+
+	                $("#tooltip").remove();
+	                var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(2);
+
+	                showTooltip(item.pageX, item.pageY,
+                                item.series.label + " of " + x + " = " + y);
+	            }
+	        }
+	        else {
+	            $("#tooltip").remove();
+	            previousPoint = null;
+	        }
+	    });
+
+
+
+	    $("#sincos").bind("plotclick", function (event, pos, item) {
+	        if (item) {
+	            $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
+	            plot.highlight(item.series, item.datapoint);
+	        }
+	    });
+	}
 	
 	
 	//chart with points
