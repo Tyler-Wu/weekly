@@ -310,31 +310,45 @@ function docReady(){
 		});
 		
 	});
-
+	function guid() {
+	    var temp = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	    return temp;
+	};
 
 	//initialize the calendar
-	$('#calendar').fullCalendar({
-	    header: {
-	        left: 'prev,next today',
-	        center: 'title',
-	        right: 'month,agendaWeek,agendaDay'
-	    },
-	    editable: true,
-	    droppable: true, // this allows things to be dropped onto the calendar !!!
-	    drop: function (date, allDay) { // this function is called when something is dropped
-
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        firstDay: 1,
+        editable: true,
+        droppable: true, // this allows things to be dropped onto the calendar !!!,
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        allDaySlot: false, //all-dayÐÅÏ¢É¾³ý
+        slotMinutes: 30,
+        minTime: 7,
+        maxTime: 19,
+        firstHour: 7,
+        axisFormat:'h(:mm)tt',
+	    drop: function (date, allDay,ui) { // this function is called when something is dropped
+	        console.log($(this));
+	        var bgcolor = this.currentStyle.backgroundColor;
 	        // retrieve the dropped element's stored Event Object
 	        var originalEventObject = $(this).data('eventObject');
-
+	        var tempDate = new Date(date);
 	        // we need to copy it, so that multiple events don't have a reference to the same object
 	        var copiedEventObject = $.extend({}, originalEventObject);
-	        copiedEventObject.id = function GuId() {
-	            var temp = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
-	            return temp;
-	        };
+	        copiedEventObject.id = guid();
 	        // assign it the date that was reported 
 	        copiedEventObject.start = date;
+	        copiedEventObject.end = new Date(tempDate.setHours(tempDate.getHours() + 1));
 	        copiedEventObject.allDay = allDay;
+	        copiedEventObject.backgroundColor = bgcolor;
 
 	        // render the event on the calendar
 	        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
@@ -345,22 +359,74 @@ function docReady(){
 	            // if so, remove the element from the "Draggable Events" list
 	            $(this).remove();
 	        }
+
 	    },
-	    eventClick: function (calEvent) {
-	        $('#calendar').fullCalendar('removeEvents', event.id);
-	    }
+        eventRender: function(event,element) {
+            element.unbind().bind('dblclick', function() {
+                $('#calendar').fullCalendar('removeEvents', event.id);
+            });
+        },
+        eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+
+            var a = $('#calendar').fullCalendar('formatDate', event.start, "yyyy-MM-dd HH:mm:ss");
+
+            var b;
+
+            if (event.end != null || event.end != undefined) {
+                b = $('#calendar').fullCalendar('formatDate', event.end, "yyyy-MM-dd HH:mm:ss");
+            }
+
+            console.log("data:{"
+                +"start :"+a+",End:"+b
+                );
+            //$.ajax
+            //({
+            //    url: MyURL,
+            //    type: 'Post',
+            //    data: { 'Start': a, 'End': b },
+            //    success: function (response) {
+
+            //    },
+            //    error: function (msg) {
+            //        revertFunc();
+            //    },
+            //});
+        },
+                eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+
+            var a = $('#calendar').fullCalendar('formatDate', event.start, "yyyy-MM-dd HH:mm:ss");
+
+            var b;
+
+            if (event.end != null || event.end != undefined) {
+                b = $('#calendar').fullCalendar('formatDate', event.end, "yyyy-MM-dd HH:mm:ss");
+            }
+
+            console.log("data:{"
+                +"start :"+a+",End:"+b
+                );
+            //$.ajax
+            //({
+            //    url: MyURL,
+            //    type: 'Post',
+            //    data: { 'Start': a, 'End': b },
+            //    success: function (response) {
+
+            //    },
+            //    error: function (msg) {
+            //        revertFunc();
+            //    },
+            //});
+        },
+                eventClick: function (event) {
+                    if (event) {
+                        var fancyContent = ('<div class="header">Event Details</div> <div id="prac" class="pracform"> <label><b>Event: </b></label>' + event.title + '<br>' + '<label><b>Date: </b></label>' + event.date + '<br>' + '<label><b>Start Time: </b></label>' + event.start + '<br>' + '<label><b>End Time: </b></label>' + event.end + '<br>' + '<label><b>Description: </b></label>' + '<div class="event_desc">' + event.description + '</div>' + '<br>' + '<label><b>Location: </b></label><a href=' + event.url + '>' + event.location + '</a>' + '<br>' + '</div>');
+                        $.fancybox({
+                            'content': fancyContent
+                        });
+                    }
+                }
 	});
-	{
-	    userid:"001",
-        roleId:"001",
-        projectid:"0001",
-        startTime:"1399474298",
-        endTime:"1399476298",
-        startDate:"1399246200",
-        endDate:"1399717800",
-        creatTime:"1399246200",
-        updatedate:"1399474298"
-    }
 
     //chart with points
 	if ($("#sincos").length) {

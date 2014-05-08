@@ -25,8 +25,8 @@ namespace GS.WeeklyReport.Portal
              "~/Content/css/bootstrap-responsive.css",
              "~/Content/css/jquery-ui-1.8.21.custom.css",
              "~/Content/css/charisma-app.css",
+             //"~/Content/css/fullcalendar.print.css",
              "~/Content/css/fullcalendar.css",
-             "~/Content/css/fullcalendar.print.css",
              "~/Content/css/chosen.css",
              "~/Content/css/uniform.default.css",
              "~/Content/css/colorbox.css",
@@ -50,7 +50,7 @@ namespace GS.WeeklyReport.Portal
                   "~/Scripts/charismajs/bootstrap-tab.js",
                   "~/Scripts/charismajs/bootstrap-tooltip.js",
                   "~/Scripts/charismajs/bootstrap-popover.js",
-                  "~/Scripts/charismajs//bootstrap-button.js",
+                  "~/Scripts/charismajs/bootstrap-button.js",
                   "~/Scripts/charismajs/bootstrap-collapse.js",
                   "~/Scripts/charismajs/bootstrap-carousel.js",
                   "~/Scripts/charismajs/bootstrap-typeahead.js",
@@ -63,7 +63,7 @@ namespace GS.WeeklyReport.Portal
                   "~/Scripts/charismajs/jquery.flot.pie.min.js",
                   "~/Scripts/charismajs/jquery.flot.stack.js",
                   "~/Scripts/charismajs/jquery.flot.resize.min.js",
-                  "~/Scripts/charismajs/query.chosen.min.js",
+                  "~/Scripts/charismajs/jquery.chosen.min.js",
                   "~/Scripts/charismajs/jquery.uniform.min.js",
                   "~/Scripts/charismajs/jquery.colorbox.min.js",
                   "~/Scripts/charismajs/jquery.cleditor.min.js",
@@ -74,7 +74,8 @@ namespace GS.WeeklyReport.Portal
                   "~/Scripts/charismajs/jquery.autogrow-textarea.js",
                   "~/Scripts/charismajs/jquery.uploadify-3.1.min.js",
                   "~/Scripts/charismajs/jquery.history.js",
-                  "~/Scripts/charismajs/charisma.js"
+                  "~/Scripts/charismajs/charisma.js",
+                  "~/Scripts/charismajs/fancyBox1.3.1.js"
                 ));
         }
     }
