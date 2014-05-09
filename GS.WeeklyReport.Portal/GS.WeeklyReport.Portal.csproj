@@ -196,6 +196,7 @@
     <Content Include="Content\css\colorbox.css" />
     <Content Include="Content\css\elfinder.min.css" />
     <Content Include="Content\css\elfinder.theme.css" />
+    <Content Include="Content\css\fancybox.css" />
     <Content Include="Content\css\fullcalendar.css" />
     <Content Include="Content\css\fullcalendar.print.css" />
     <Content Include="Content\css\jquery-ui-1.8.21.custom.css" />

@@ -37,7 +37,9 @@ namespace GS.WeeklyReport.Portal
              "~/Content/css/elfinder.theme.css",
              "~/Content/css/jquery.iphone.toggle.css",
              "~/Content/css/opa-icons.css",
-             "~/Content/css/uploadify.css"));
+             "~/Content/css/uploadify.css",
+             "~/Content/css/fancybox.css"
+             ));
 
             bundles.Add(new ScriptBundle("~/Scripts/charismajs").Include(
                 "~/Scripts/charismajs/jquery-1.7.2.min.js",

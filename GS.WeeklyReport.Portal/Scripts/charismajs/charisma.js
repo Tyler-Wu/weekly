@@ -336,8 +336,20 @@ function docReady(){
         firstHour: 7,
         axisFormat:'h(:mm)tt',
 	    drop: function (date, allDay,ui) { // this function is called when something is dropped
-	        console.log($(this));
-	        var bgcolor = this.currentStyle.backgroundColor;
+	        console.log(this);
+	        var bgcolor;
+	        if ($.browser.msie) {
+	             bgcolor = this.currentStyle.backgroundColor;
+	        } else if ($.browser.safari) {
+	            bgcolor = getComputedStyle(this, false).backgroundColor;
+	        } else if ($.browser.mozilla) {
+	            bgcolor = this.currentStyle.backgroundColor;
+	        } else if ($.browser.opera) {
+	            bgcolor = this.currentStyle.backgroundColor;
+	        } else {
+	            alert("i don't konw this browser!");
+	        }
+	        //var bgcolor = this.currentStyle.backgroundColor;
 	        // retrieve the dropped element's stored Event Object
 	        var originalEventObject = $(this).data('eventObject');
 	        var tempDate = new Date(date);
@@ -354,6 +366,10 @@ function docReady(){
 	        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 	        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
+
+	        console.log("data:{"
+                + "start :" + copiedEventObject.start + ",End:" + copiedEventObject.end + "}"
+                );
 	        // is the "remove after drop" checkbox checked?
 	        if ($('#drop-remove').is(':checked')) {
 	            // if so, remove the element from the "Draggable Events" list
@@ -366,18 +382,24 @@ function docReady(){
                 $('#calendar').fullCalendar('removeEvents', event.id);
             });
         },
-        eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
-
+        eventDrop: function(event) {
             var a = $('#calendar').fullCalendar('formatDate', event.start, "yyyy-MM-dd HH:mm:ss");
-
             var b;
-
             if (event.end != null || event.end != undefined) {
                 b = $('#calendar').fullCalendar('formatDate', event.end, "yyyy-MM-dd HH:mm:ss");
             }
-
             console.log("data:{"
-                +"start :"+a+",End:"+b
+                + "start :" + a + ",End:" + b + "}"
+                );
+        },
+        eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+            var a = $('#calendar').fullCalendar('formatDate', event.start, "yyyy-MM-dd HH:mm:ss");
+            var b;
+            if (event.end != null || event.end != undefined) {
+                b = $('#calendar').fullCalendar('formatDate', event.end, "yyyy-MM-dd HH:mm:ss");
+            }
+            console.log("data:{"
+                +"start :"+a+",End:"+b+"}"
                 );
             //$.ajax
             //({
@@ -416,15 +438,17 @@ function docReady(){
             //    error: function (msg) {
             //        revertFunc();
             //    },
-            //});
+                    //});element
         },
-                eventClick: function (event) {
-                    if (event) {
-                        var fancyContent = ('<div class="header">Event Details</div> <div id="prac" class="pracform"> <label><b>Event: </b></label>' + event.title + '<br>' + '<label><b>Date: </b></label>' + event.date + '<br>' + '<label><b>Start Time: </b></label>' + event.start + '<br>' + '<label><b>End Time: </b></label>' + event.end + '<br>' + '<label><b>Description: </b></label>' + '<div class="event_desc">' + event.description + '</div>' + '<br>' + '<label><b>Location: </b></label><a href=' + event.url + '>' + event.location + '</a>' + '<br>' + '</div>');
-                        $.fancybox({
-                            'content': fancyContent
-                        });
-                    }
+                eventClick: function (event, element) {
+                    var fancyContent = ('<div class="header">Book the following days off</div>Start Time: </b></label>' +event.start + '<br>' + '<label><b>End Time: </b></label>' + event.end + '<br>' + '<label><a href="#">yes<a href="#">No</a></div>');
+                    $.fancybox({
+                        width: 1500,
+                        midWidth: 900,
+                        height: 800,
+                        minHeight: 600,
+                        content: fancyContent
+                    });
                 }
 	});
 
