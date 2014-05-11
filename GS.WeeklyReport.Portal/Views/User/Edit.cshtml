@@ -1,8 +1,13 @@
 ﻿@model WeeklyReport.Models.User
 
 @{
-    Layout = null;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+}
+
+
+
 
 <!DOCTYPE html>
 
@@ -12,9 +17,7 @@
     <title>Edit</title>
 </head>
 <body>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    
+   
     
     @using (Html.BeginForm())
     {

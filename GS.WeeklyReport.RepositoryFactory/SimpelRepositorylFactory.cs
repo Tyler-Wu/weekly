@@ -15,17 +15,14 @@ namespace GS.WeeklyReport.RepositoryFactory
     {
         public static IWorkItemRepository GetWorkItemRepository()
         {
-            string className = ConfigurationManager.AppSettings["DALNameScape"] + ".IWorkItemRepository";
-            object obj = GetInstane(ConfigurationManager.AppSettings["DalAssembly"], className);
+            string className = ConfigurationManager.AppSettings["RepositoryNameScape"] + ".WorkItemRepository";
+            object obj = GetInstane(ConfigurationManager.AppSettings["RepositoryAssembly"], className);
             return obj as IWorkItemRepository;
         }
         public static IUserRepository GetUserRepository()
         {
             string className = ConfigurationManager.AppSettings["RepositoryNameScape"] + ".UserRepository";
             object obj = GetInstane(ConfigurationManager.AppSettings["RepositoryAssembly"], className);
-            //string className = ConfigurationManager.AppSettings["RepositoryNameScape"] + ".UserRepository";
-            //object obj = Assembly.Load(ConfigurationManager.AppSettings["RepositoryAssembly"])
-            //    .CreateInstance(className, true);
             return obj as IUserRepository;
         }
 
@@ -34,9 +31,13 @@ namespace GS.WeeklyReport.RepositoryFactory
             string className = ConfigurationManager.AppSettings["RepositoryNameScape"] + ".ProjectRepository";
             object obj = GetInstane(ConfigurationManager.AppSettings["RepositoryAssembly"], className);
             return obj as IProjectRepository;
-            //var repository = new ProjectRepository();
-            //return repository as IProjectRepository;
 
+        }
+        internal static IRoleRepository GetRoleRepository()
+        {
+            string className = ConfigurationManager.AppSettings["RepositoryNameScape"] + ".RoleRepository";
+            object obj = GetInstane(ConfigurationManager.AppSettings["RepositoryAssembly"], className);
+            return obj as IRoleRepository;
         }
 
         public static object GetInstane(string assembly, string className)
@@ -49,11 +50,6 @@ namespace GS.WeeklyReport.RepositoryFactory
             }
 
             return obj;
-        }
-
-        internal static IRoleRepository GetRoleRepository()
-        {
-            throw new NotImplementedException();
         }
     }
 }
