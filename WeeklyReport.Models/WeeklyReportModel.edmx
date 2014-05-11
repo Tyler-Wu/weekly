@@ -83,6 +83,9 @@
     <Property Name="UpdateDate" Type="datetime" Nullable="true" />
     <Property Name="CreateUser" Type="uniqueidentifier" Nullable="true" />
     <Property Name="UpdateUser" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="AllDay" Type="bit" Nullable="false" />
+    <Property Name="Duration" Type="float" Nullable="false" />
+    <Property Name="CalendarId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProjectUser">
     <Key>
@@ -227,6 +230,9 @@
           <Property Name="UpdateUser" Type="Guid" />
           <NavigationProperty Name="Project" Relationship="Self.FK_WorkItem_Project" FromRole="WorkItem" ToRole="Project" />
           <NavigationProperty Name="User" Relationship="Self.FK_WorkItem_User" FromRole="WorkItem" ToRole="User" />
+          <Property Name="AllDay" Type="Boolean" Nullable="false" />
+          <Property Name="Duration" Type="Double" Nullable="false" />
+          <Property Name="CalendarId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Project_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
@@ -406,6 +412,9 @@
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
           <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
           <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+          <ScalarProperty Name="AllDay" ColumnName="AllDay" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

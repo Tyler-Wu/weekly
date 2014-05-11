@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/06/2014 16:08:06
--- Generated from EDMX file: E:\weekly\WeeklyReport.Models\WeeklyReportModel.edmx
+-- Date Created: 05/11/2014 17:06:00
+-- Generated from EDMX file: F:\code\WeeklyReprot\WeeklyReport.Models\WeeklyReportModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -20,14 +20,20 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Project_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Project] DROP CONSTRAINT [FK_Project_User];
 GO
-IF OBJECT_ID(N'[dbo].[FK_User_Role]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_User_Role];
-GO
 IF OBJECT_ID(N'[dbo].[FK_WorkItem_Project]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkItem] DROP CONSTRAINT [FK_WorkItem_Project];
 GO
+IF OBJECT_ID(N'[dbo].[FK_User_Role]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_User_Role];
+GO
 IF OBJECT_ID(N'[dbo].[FK_WorkItem_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkItem] DROP CONSTRAINT [FK_WorkItem_User];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProjectUser_Project]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProjectUser] DROP CONSTRAINT [FK_ProjectUser_Project];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProjectUser_User]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProjectUser] DROP CONSTRAINT [FK_ProjectUser_User];
 GO
 
 -- --------------------------------------------------
@@ -45,6 +51,9 @@ IF OBJECT_ID(N'[dbo].[User]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[WorkItem]', 'U') IS NOT NULL
     DROP TABLE [dbo].[WorkItem];
+GO
+IF OBJECT_ID(N'[dbo].[ProjectUser]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProjectUser];
 GO
 
 -- --------------------------------------------------
@@ -95,7 +104,10 @@ CREATE TABLE [dbo].[WorkItem] (
     [CreateDate] datetime  NOT NULL,
     [UpdateDate] datetime  NULL,
     [CreateUser] uniqueidentifier  NULL,
-    [UpdateUser] uniqueidentifier  NULL
+    [UpdateUser] uniqueidentifier  NULL,
+    [AllDay] bit  NOT NULL,
+    [Duration] float  NOT NULL,
+    [CalendarId] int  NOT NULL
 );
 GO
 

@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c50c0a7db500402fbbfad074c85df86f" Name="Diagram1">
+      <Diagram DiagramId="c50c0a7db500402fbbfad074c85df86f" Name="Diagram1" ZoomLevel="79">
         <EntityTypeShape EntityType="WeeklyReportModel.Project" Width="1.5" PointX="6.125" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WeeklyReportModel.Role" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="WeeklyReportModel.User" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="WeeklyReportModel.WorkItem" Width="1.5" PointX="8.375" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WeeklyReportModel.WorkItem" Width="4.5" PointX="8.375" PointY="1.5" IsExpanded="true" />
         <AssociationConnector Association="WeeklyReportModel.FK_Project_User" ManuallyRouted="false" />
         <AssociationConnector Association="WeeklyReportModel.FK_WorkItem_Project" ManuallyRouted="false" />
         <AssociationConnector Association="WeeklyReportModel.FK_User_Role" ManuallyRouted="false" />
