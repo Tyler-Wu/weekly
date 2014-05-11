@@ -378,7 +378,7 @@ function docReady() {
             var tempDate = new Date(date);
             // we need to copy it, so that multiple events don't have a reference to the same object
             var copiedEventObject = $.extend({}, originalEventObject);
-            copiedEventObject.workItemId = guid();
+            copiedEventObject.workItemId = '00000000-0000-0000-0000-000000000000';
             copiedEventObject.info = this.outerText;
             // assign it the date that was reported 
             copiedEventObject.start = date;
