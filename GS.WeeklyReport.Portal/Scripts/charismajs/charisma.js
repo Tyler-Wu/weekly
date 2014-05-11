@@ -307,7 +307,13 @@ function docReady() {
 
     });
     function guid() {
-        var temp = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        var temp = "";
+        for (var i = 1; i <= 32; i++) {
+            var n = Math.floor(Math.random() * 16.0).toString(16);
+            temp += n;
+            if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+                temp += "-";
+        }
         return temp;
     };
 
@@ -446,19 +452,31 @@ function docReady() {
                 href: '../calendarDialog/calendarDialog'
             });
         },
-        eventMouseover: function (event, allDay) {
+        eventMouseover: function (event) {
+            var durationTime = (event.end - event.start) / (3600 * 1000);
             console.log(event.info);
             console.log($.fullCalendar.formatDate(event.start, 'yyyy-MM-dd h:mm:ss'));
             console.log($.fullCalendar.formatDate(event.end, 'yyyy-MM-dd h:mm:ss'));
-            var durationTime = (event.end - event.start) / (3600 * 1000);
-            $.post("schedule/add", {
-                projectName: event.info,
-                start: ($.fullCalendar.formatDate(start, 'yyyy-MM-dd h:mm:ss')),
-                end: ($.fullCalendar.formatDate(end, 'yyyy-MM-dd h:mm:ss')),
-                duration: durationTime
-            },success(function(item) {
-                console.log(item);
-            }));
+            console.log(durationTime);
+            var workItem = {
+                'workItemId': event.id,
+                'projectName': event.info,
+                'start': ($.fullCalendar.formatDate(event.start, 'yyyy-MM-dd h:mm:ss')),
+                'end': ($.fullCalendar.formatDate(event.end, 'yyyy-MM-dd h:mm:ss')),
+                'duration': durationTime
+            }
+            $.ajax
+            ({
+                url: MyURL,
+                type: 'Post',
+                data: workItem,
+                success: function (response) {
+
+                },
+                error: function (msg) {
+                    revertFunc();
+                },
+            });
         }
     });
 
