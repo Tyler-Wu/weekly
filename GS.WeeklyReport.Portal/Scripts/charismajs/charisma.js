@@ -417,63 +417,6 @@ function docReady() {
                 );
         },
         eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
-            var a = $('#calendar').fullCalendar('formatDate', event.start, "yyyy-MM-dd HH:mm:ss");
-            var b;
-            if (event.end != null || event.end != undefined) {
-                b = $('#calendar').fullCalendar('formatDate', event.end, "yyyy-MM-dd HH:mm:ss");
-            }
-            console.log("data:{"
-                + "start :" + a + ",End:" + b + "}"
-                );
-            //$.ajax
-            //({
-            //    url: MyURL,
-            //    type: 'Post',
-            //    data: { 'Start': a, 'End': b },
-            //    success: function (response) {
-
-            //    },
-            //    error: function (msg) {
-            //        revertFunc();
-            //    },
-            //});
-        },
-        eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
-
-            var a = $('#calendar').fullCalendar('formatDate', event.start, "yyyy-MM-dd HH:mm:ss");
-
-            var b;
-
-            if (event.end != null || event.end != undefined) {
-                b = $('#calendar').fullCalendar('formatDate', event.end, "yyyy-MM-dd HH:mm:ss");
-            }
-
-            console.log("data:{"
-                + "start :" + a + ",End:" + b
-                );
-            //$.ajax
-            //({
-            //    url: MyURL,
-            //    type: 'Post',
-            //    data: { 'Start': a, 'End': b },
-            //    success: function (response) {
-
-            //    },
-            //    error: function (msg) {
-            //        revertFunc();
-            //    },
-            //});
-        },
-        eventClick: function (event, element) {
-            $.fancybox({
-                width: 1500,
-                midWidth: 900,
-                height: 800,
-                minHeight: 600,
-                href: '../calendarDialog/calendarDialog'
-            });
-        },
-        eventMouseover: function (event) {
             var durationTime = (event.end - event.start) / (3600 * 1000);
             var workItem = {
                 'id': event._id,
@@ -486,8 +429,8 @@ function docReady() {
                 'color': event.backgroundColor,
                 'allDay': event.allDay
             };
-            console.log('Start: '+event.start.getTime() / 1000);
-            console.log('End: '+event.end.getTime() / 1000);
+            console.log('Start: ' + event.start.getTime() / 1000);
+            console.log('End: ' + event.end.getTime() / 1000);
             $.ajax
             ({
                 url: '/Calendar/AddCalendar',
@@ -500,6 +443,18 @@ function docReady() {
                     //  revertFunc();
                 },
             });
+        },
+        eventClick: function (event, element) {
+            $.fancybox({
+                width: 1500,
+                midWidth: 900,
+                height: 800,
+                minHeight: 600,
+                href: '../calendarDialog/calendarDialog'
+            });
+        },
+        eventMouseover: function (event) {
+            
         }
     });
 
