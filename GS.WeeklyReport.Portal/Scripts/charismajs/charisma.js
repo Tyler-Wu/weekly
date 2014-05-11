@@ -459,12 +459,16 @@ function docReady() {
             console.log($.fullCalendar.formatDate(event.end, 'yyyy-MM-dd h:mm:ss'));
             console.log(durationTime);
             var workItem = {
+                'id': event.id,
+                'title': event.info,
                 'workItemId': event.id,
                 'projectName': event.info,
                 'start': ($.fullCalendar.formatDate(event.start, 'yyyy-MM-dd h:mm:ss')),
                 'end': ($.fullCalendar.formatDate(event.end, 'yyyy-MM-dd h:mm:ss')),
-                'duration': durationTime
-            }
+                'duration': durationTime,
+                'color': event.backgroundColor,
+                'allDay': event.allDay
+            };
             $.ajax
             ({
                 url: '/Calendar/AddCalendar', 
