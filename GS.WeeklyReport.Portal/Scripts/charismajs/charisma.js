@@ -1,4 +1,4 @@
-$(document).ready(function () {
+ï»¿$(document).ready(function () {
     //themes, change CSS with JS
     //default theme(CSS) is cerulean, change it if needed
     var current_theme = $.cookie('current_theme') == null ? 'cerulean' : $.cookie('current_theme');
@@ -324,6 +324,27 @@ function docReady() {
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
+        events: [
+         {
+             end: 1399255200,
+             color: "#817b58",
+             id: "fc1",
+             start: 1399248000,
+             title: "green - zhang",
+             projectName: "Info",
+             allDay: false,
+             workItemId: "dabc4299-9637-d440-62bf-81de94df8d56"
+         },
+         {
+             end: 1399280400,
+             color: "#817b58",
+             id: "fc2",
+             start: 1399276800,
+             title: "green - zhang",
+             projectName: "Info",
+             allDay: false,
+             workItemId: "dabc4299-9637-d440-62bf-81de94df8d56"
+         }],
         firstDay: 1,
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar !!!,
@@ -331,7 +352,7 @@ function docReady() {
         monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        allDaySlot: false, //all-dayÐÅÏ¢É¾³ý
+        allDaySlot: false, //all-dayï¿½ï¿½Ï¢É¾ï¿½ï¿½
         slotMinutes: 30,
         minTime: 7,
         maxTime: 19,
@@ -357,7 +378,7 @@ function docReady() {
             var tempDate = new Date(date);
             // we need to copy it, so that multiple events don't have a reference to the same object
             var copiedEventObject = $.extend({}, originalEventObject);
-            copiedEventObject.id = guid();
+            copiedEventObject.workItemId = guid();
             copiedEventObject.info = this.outerText;
             // assign it the date that was reported 
             copiedEventObject.start = date;
@@ -454,31 +475,29 @@ function docReady() {
         },
         eventMouseover: function (event) {
             var durationTime = (event.end - event.start) / (3600 * 1000);
-            console.log(event.info);
-            console.log($.fullCalendar.formatDate(event.start, 'yyyy-MM-dd h:mm:ss'));
-            console.log($.fullCalendar.formatDate(event.end, 'yyyy-MM-dd h:mm:ss'));
-            console.log(durationTime);
             var workItem = {
-                'id': event.id,
+                'id': event._id,
                 'title': event.info,
-                'workItemId': event.id,
+                'workItemId': event.workItemId,
                 'projectName': event.info,
-                'start': ($.fullCalendar.formatDate(event.start, 'yyyy-MM-dd h:mm:ss')),
-                'end': ($.fullCalendar.formatDate(event.end, 'yyyy-MM-dd h:mm:ss')),
+                'start': (event.start.getTime() / 1000),
+                'end': (event.end.getTime() / 1000),
                 'duration': durationTime,
                 'color': event.backgroundColor,
                 'allDay': event.allDay
             };
+            console.log('Start: '+event.start.getTime() / 1000);
+            console.log('End: '+event.end.getTime() / 1000);
             $.ajax
             ({
-                url: '/Calendar/AddCalendar', 
+                url: '/Calendar/AddCalendar',
                 type: 'Post',
                 data: workItem,
                 success: function (response) {
 
                 },
                 error: function (msg) {
-                  //  revertFunc();
+                    //  revertFunc();
                 },
             });
         }
