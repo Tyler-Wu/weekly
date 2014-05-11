@@ -14,7 +14,10 @@ namespace GS.WeeklyReport.Portal.Controllers
         {
             return View();
         }
-
+        public ActionResult CalendarDialog()
+        {
+            return View();
+        }
        
 	}
 }

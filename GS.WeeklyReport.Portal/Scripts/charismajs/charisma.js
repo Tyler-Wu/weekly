@@ -438,7 +438,7 @@ function docReady(){
             //    error: function (msg) {
             //        revertFunc();
             //    },
-                    //});element
+                    //});
         },
                 eventClick: function (event, element) {
                     var fancyContent = ('<div class="header">Book the following days off</div>Start Time: </b></label>' +event.start + '<br>' + '<label><b>End Time: </b></label>' + event.end + '<br>' + '<label><a href="#">yes<a href="#">No</a></div>');
@@ -447,7 +447,7 @@ function docReady(){
                         midWidth: 900,
                         height: 800,
                         minHeight: 600,
-                        content: fancyContent
+                        href: '../calendarDialog/calendarDialog'
                     });
                 }
 	});
