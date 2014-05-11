@@ -328,7 +328,7 @@ function docReady() {
          {
              end: 1399255200,
              color: "#817b58",
-             id: "fc1",
+           //  id: "fc1",
              start: 1399248000,
              title: "green - zhang",
              projectName: "Info",
@@ -338,7 +338,7 @@ function docReady() {
          {
              end: 1399280400,
              color: "#817b58",
-             id: "fc2",
+           //  id: "fc2",
              start: 1399276800,
              title: "green - zhang",
              projectName: "Info",
@@ -381,6 +381,7 @@ function docReady() {
             copiedEventObject.workItemId = '00000000-0000-0000-0000-000000000000';
             copiedEventObject.info = this.outerText;
             // assign it the date that was reported 
+            copiedEventObject.id = guid();
             copiedEventObject.start = date;
             copiedEventObject.end = new Date(tempDate.setHours(tempDate.getHours() + 1));
             copiedEventObject.allDay = allDay;
@@ -419,9 +420,9 @@ function docReady() {
         eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
             var durationTime = (event.end - event.start) / (3600 * 1000);
             var workItem = {
-                'id': event._id,
+                'calendarId':111, //event.id,
                 'title': event.info,
-                'workItemId': event.workItemId,
+                'itemId': event.workItemId,
                 'projectName': event.info,
                 'start': (event.start.getTime() / 1000),
                 'end': (event.end.getTime() / 1000),
@@ -433,7 +434,7 @@ function docReady() {
             console.log('End: ' + event.end.getTime() / 1000);
             $.ajax
             ({
-                url: '/Calendar/AddCalendar',
+                url: '/Calendar/AddWorkItem',
                 type: 'Post',
                 data: workItem,
                 success: function (response) {
