@@ -35,6 +35,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -42,6 +49,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -84,6 +93,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\RoleUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
@@ -94,9 +104,33 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GS.WeeklyReport.IRepository\GS.WeeklyReport.IRepository.csproj">
+      <Project>{21cca4b7-f40b-4f2b-a98f-c173013dd4ec}</Project>
+      <Name>GS.WeeklyReport.IRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GS.WeeklyReport.IService\GS.WeeklyReport.IService.csproj">
+      <Project>{2BB6FD21-0485-4663-A942-5FA799CE29C8}</Project>
+      <Name>GS.WeeklyReport.IService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GS.WeeklyReport.Portal\GS.WeeklyReport.Portal.csproj">
       <Project>{B2C314B4-DAED-4FF8-A355-38C72492BBBB}</Project>
       <Name>GS.WeeklyReport.Portal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GS.WeeklyReport.RepositoryFactory\GS.WeeklyReport.RepositoryFactory.csproj">
+      <Project>{b86cb611-fcf2-497d-8b24-18db122d9fbb}</Project>
+      <Name>GS.WeeklyReport.RepositoryFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GS.WeeklyReport.Repository\GS.WeeklyReport.Repository.csproj">
+      <Project>{6950467f-f50f-45dd-8540-1b15c4a0b299}</Project>
+      <Name>GS.WeeklyReport.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GS.WeeklyReport.Service\GS.WeeklyReport.Service.csproj">
+      <Project>{40185451-1029-487d-8e12-355af0e5b657}</Project>
+      <Name>GS.WeeklyReport.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WeeklyReport.Models\GS.WeeklyReport.Models.csproj">
+      <Project>{D318F934-7BB1-4E6A-95A6-6FC738D999B5}</Project>
+      <Name>GS.WeeklyReport.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -18,7 +18,7 @@ namespace GS.WeeklyReport.Repository
         public T Add(T entity)
         {
             db.Set<T>().Add(entity);
-            //db.SaveChanges();
+            db.SaveChanges();
             return entity;
         }
 
