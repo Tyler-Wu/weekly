@@ -467,14 +467,14 @@ function docReady() {
             }
             $.ajax
             ({
-                url: MyURL,
+                url: '/Calendar/AddCalendar', 
                 type: 'Post',
                 data: workItem,
                 success: function (response) {
 
                 },
                 error: function (msg) {
-                    revertFunc();
+                  //  revertFunc();
                 },
             });
         }
