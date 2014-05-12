@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GS.WeeklyReport.IRepository;
+using GS.WeeklyReport.Repository;
 
 namespace GS.WeeklyReport.RepositoryFactory
 {
@@ -39,7 +40,7 @@ namespace GS.WeeklyReport.RepositoryFactory
 
         public int SaveChanges()
         {
-            return DbSessionFactory.GetCurrentDbSession().SaveChanges();
+            return DbContextFactory.GetCurrentDbContext().SaveChanges();
         }
     }
 }

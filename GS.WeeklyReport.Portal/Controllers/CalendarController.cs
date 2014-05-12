@@ -35,14 +35,12 @@ namespace GS.WeeklyReport.Portal.Controllers
                 workItem.ItemId = Guid.NewGuid();
                 if (_loginUser != null)
                 {
-                    workItem.User = _loginUser;
-                    workItem.UserId = workItem.User.UserId;
-                    workItem.CreateUser = workItem.User.UserId;
+                    workItem.UserId = _loginUser.UserId;
+                    workItem.CreateUser = _loginUser.UserId;
                 }
-                workItem.Project = projectService.LoadEntities(p => p.Name == "Default").FirstOrDefault();
-             
+               // workItem.Project = projectService.LoadEntities(p => p.Name == "Default").FirstOrDefault();
                 //workItem.ProjectId = new Guid("9a8dc7e3-247b-2757-1323-003b78b0d220");
-                workItem.ProjectId = workItem.Project.PorjectId;
+                workItem.ProjectId = new Guid("9A8DC7E3-247B-2757-1323-003B78B0D220");
                 workItem.StartDate = GetTime(workItem.Start.ToString());
                 workItem.EndDate = GetTime(workItem.End.ToString());
                 workItem.StartTime = new TimeSpan(workItem.Start);
@@ -55,11 +53,11 @@ namespace GS.WeeklyReport.Portal.Controllers
                     StartDate = workItem.StartDate,
                     EndDate = workItem.EndDate,
                     StartTime = workItem.StartTime,
-                    Project = workItem.Project,
+          
                     ProjectId = workItem.ProjectId,
                     CreateDate = workItem.CreateDate,
                     UserId = workItem.UserId,
-                    User = workItem.User,
+                   
                     CreateUser = workItem.CreateUser,
                     Duration = workItem.Duration,
                     AllDay = workItem.AllDay
