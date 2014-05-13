@@ -15,26 +15,24 @@ namespace GS.WeeklyReport.Portal.Controllers
         UserService service = new UserService();
         //
         // GET: /Login/
-       
+
         public ActionResult Index(User loginUser)
         {
-            if (!string.IsNullOrEmpty(loginUser.UserName)&&!string.IsNullOrEmpty(loginUser.Passwrod))
-            {
-                return Login(loginUser.UserName, loginUser.Passwrod);
-            }
-           
+          
             return View();
         }
 
-          
-
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(User loginUser)
         {
-            var user = service.LoadEntities(u => u.UserName == username && u.Passwrod == password).FirstOrDefault();
-            if (user != null)
+            if (!string.IsNullOrEmpty(loginUser.UserName) && !string.IsNullOrEmpty(loginUser.Passwrod))
             {
-                Session["loginUser"] = user;
-                return RedirectToAction("Index", "Home");
+                var user = service.LoadEntities(u => u.UserName == loginUser.UserName && u.Passwrod == loginUser.Passwrod).FirstOrDefault();
+                if (user != null)
+                {
+                    Session["loginUser"] = user;
+                    return RedirectToAction("Index", "Home");
+                }
+                return View("Index");
             }
             return View("Index");
         }

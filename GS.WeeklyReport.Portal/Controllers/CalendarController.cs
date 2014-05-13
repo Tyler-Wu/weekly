@@ -3,81 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using GS.WeeklyReport.IService;
 using GS.WeeklyReport.Portal.Models;
 using GS.WeeklyReport.Service;
+using GS.WeeklyReport.Common;
 using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.Portal.Controllers
 {
     public class CalendarController : BaseController
     {
-        IWorkItemService workItemService = new WorkItemService();
-        IProjectService projectService = new ProjectService();
+        private IWorkItemService workItemService = new WorkItemService();
+        private IProjectService projectService = new ProjectService();
         private User _loginUser;
 
         // GET: /Calendar/
         public ActionResult Index()
         {
+            var projectList = projectService.LoadEntities(p => true).AsEnumerable();
+            ViewBag.projectList = projectList;
             return View();
         }
+
         public ActionResult CalendarDialog()
         {
             return View();
         }
+
         [HttpPost]
-        public string AddWorkItem(WorkItemModel workItem)
+        public string AddWorkItem(WorkItem workItem)
         {
             _loginUser = Session["loginUser"] as User;
             //
-            if (workItem.ItemId == new Guid("00000000-0000-0000-0000-000000000000"))
+            if (_loginUser != null)
             {
-                workItem.ItemId = Guid.NewGuid();
-                if (_loginUser != null)
+                if (workItem.ItemId == new Guid("00000000-0000-0000-0000-000000000000"))
                 {
+                    workItem.ItemId = Guid.NewGuid();
                     workItem.UserId = _loginUser.UserId;
                     workItem.CreateUser = _loginUser.UserId;
+                    workItem.CreateDate = DateTime.Now;
+                    workItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
+                    workItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
+
+                    workItem.ProjectId = new Guid("0478EB82-E075-4811-B6AB-2BF85CC96000");
+                    workItemService.Add(workItem);
                 }
-               // workItem.Project = projectService.LoadEntities(p => p.Name == "Default").FirstOrDefault();
-                //workItem.ProjectId = new Guid("9a8dc7e3-247b-2757-1323-003b78b0d220");
-                workItem.ProjectId = new Guid("9A8DC7E3-247B-2757-1323-003B78B0D220");
-                workItem.StartDate = GetTime(workItem.Start.ToString());
-                workItem.EndDate = GetTime(workItem.End.ToString());
-                workItem.StartTime = new TimeSpan(workItem.Start);
-                workItem.EndTime = new TimeSpan(workItem.End);
-                workItem.CreateDate = DateTime.Now;
-                var modelItem = new WorkItem()
+                else
                 {
-                    ItemId = workItem.ItemId,
-                    CalendarId = workItem.CalendarId,
-                    StartDate = workItem.StartDate,
-                    EndDate = workItem.EndDate,
-                    StartTime = workItem.StartTime,
-          
-                    ProjectId = workItem.ProjectId,
-                    CreateDate = workItem.CreateDate,
-                    UserId = workItem.UserId,
-                   
-                    CreateUser = workItem.CreateUser,
-                    Duration = workItem.Duration,
-                    AllDay = workItem.AllDay
-                };
-
-                workItemService.Add(modelItem);
-
-            }
-            else
-            {
-
+                    workItem.UpdateDate = DateTime.Now;
+                    workItem.UpdateUser = _loginUser.UserId;
+                    workItemService.Update(workItem);
+                }
             }
             return "success";
         }
-        private DateTime GetTime(string timeStamp)
-        {
-            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            long lTime = long.Parse(timeStamp + "0000000");
-            TimeSpan toNow = new TimeSpan(lTime); return dtStart.Add(toNow);
-        }
-
     }
 }

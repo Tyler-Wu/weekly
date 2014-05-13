@@ -31,15 +31,15 @@ namespace GS.WeeklyReport.Service
 
         public bool Update(T entity)
         {
-            CurrentRepositroy.Update(entity);
-           return  DbSession.SaveChanges()>0;
-           
+            return CurrentRepositroy.Update(entity);
+            //return  DbSession.SaveChanges()>0;
+
         }
 
         public bool Delete(T entity)
         {
-            CurrentRepositroy.Delete(entity);
-           return  DbSession.SaveChanges() > 0;
+           return  CurrentRepositroy.Delete(entity);
+           //return  DbSession.SaveChanges() > 0;
 
         }
 

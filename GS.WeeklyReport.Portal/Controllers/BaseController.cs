@@ -14,7 +14,7 @@ namespace GS.WeeklyReport.Portal.Controllers
             base.OnActionExecuting(filterContext);
 
             var loginUser = Session["loginUser"] as User;
-            if (loginUser==null)
+            if (loginUser == null)
             {
                 Response.Redirect("/Login/Index");
             }

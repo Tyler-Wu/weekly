@@ -18,13 +18,14 @@ namespace GS.WeeklyReport.Repository
         public T Add(T entity)
         {
             db.Set<T>().Add(entity);
-            //db.SaveChanges();
+            db.SaveChanges();
             return entity;
         }
 
         public bool Update(T entity)
         {
             db.Entry(entity).State = EntityState.Modified;
+            db.SaveChanges();
             return true;
 
         }
@@ -41,7 +42,7 @@ namespace GS.WeeklyReport.Repository
 
         public IQueryable<T> LoadEntities(Expression<Func<T, bool>> whereLambda)
         {
-            return db.Set<T>().Where(whereLambda).AsQueryable();
+            return db.Set<T>().Where(whereLambda).AsQueryable().AsNoTracking();
         }
 
 
