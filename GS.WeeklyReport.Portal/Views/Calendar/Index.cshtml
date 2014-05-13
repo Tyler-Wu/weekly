@@ -45,4 +45,18 @@
     </div><!--/row-->
     <!-- content ends -->
 </div>
+<script>
+    $(document).ready(function() {
+        initProjectList();
+    });
+
+    function initProjectList(parameters) {
+        $.get("/Calendar/GetProjectList", function (result) {
+            if (result) {
+                console.log(result);
+                $("#external-events h4").after('<div class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[0].Name + '</div>');
+            }
+        });
+    }
+</script>
 

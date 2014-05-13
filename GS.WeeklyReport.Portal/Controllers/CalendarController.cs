@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.UI;
 using GS.WeeklyReport.IService;
@@ -21,8 +22,8 @@ namespace GS.WeeklyReport.Portal.Controllers
         // GET: /Calendar/
         public ActionResult Index()
         {
-            var projectList = projectService.LoadEntities(p => true).AsEnumerable();
-            ViewBag.projectList = projectList;
+            //var projectList = projectService.LoadEntities(p => true).AsEnumerable();
+            //ViewBag.projectList = projectList;
             return View();
         }
 
@@ -30,7 +31,21 @@ namespace GS.WeeklyReport.Portal.Controllers
         {
             return View();
         }
-
+        [HttpGet]
+        public JsonResult GetProjectList()
+        {
+            var projectList = projectService.LoadEntities(p => true).Select(item => new { item.ProjectId, item.Name, item.Color }).AsEnumerable();
+            return Json(projectList, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult GetWorkItem(int timeSpan)
+        {
+            DateTime dt = DateTime.Now;
+            DateTime start = new DateTime(dt.Year, dt.Month, 1);  //月初日期
+            DateTime end = start.AddMonths(1).AddDays(-1);  //月底日期
+            var workItemList = workItemService.LoadEntities(w => w.StartDate < start && w.EndDate > end).AsEnumerable();
+            return Json(workItemList, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public string AddWorkItem(WorkItem workItem)
         {

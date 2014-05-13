@@ -42,7 +42,7 @@ namespace GS.WeeklyReport.Repository
 
         public IQueryable<T> LoadEntities(Expression<Func<T, bool>> whereLambda)
         {
-            return db.Set<T>().Where(whereLambda).AsQueryable().AsNoTracking();
+            return db.Set<T>().Where(whereLambda).AsQueryable();
         }
 
 
