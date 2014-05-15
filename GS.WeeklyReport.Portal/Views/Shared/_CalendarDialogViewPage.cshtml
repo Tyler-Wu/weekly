@@ -1,13 +1,22 @@
-﻿@{
+﻿@using AutoMapper.Internal
+@{
     ViewBag.Title = "CalendarDialog";
 }
-
-<div class="fancy">
-    <h3>新建日程</h3>
-    <form id="add_form" method="post">
-        Project: <span>@ViewBag.ProjectTitle</span>
+<div class="panel panel-primary">
+    <div class=" panel-heading">
+    <h3 class="panel-title">新建日程</h3>
+</div>
+    <div class="panel-body">
+        <label>Project: </label>
+        <div class="text-center">
+            <span>@ViewBag.ProjectTitle</span>
+        </div>
+        <br />
+        Schedule:<textarea class="form-control" rows="3" ></textarea>
         <br/>
-       Schedule:<textarea rows="8" required></textarea>
+        StartTime: @ViewBag.StartTime
+        <br />
+        EndTime:<input type="text" id="endTime" />
         <div class="sub_btn">
             <span class="del">
                 <input type="button" class="btn btn_del"
@@ -16,6 +25,15 @@
             <input type="submit" class="btn btn_ok" value="确定">
             <input type="button" class="btn btn_cancel" value="取消" onclick="$.fancybox.close()">
         </div>
-    </form>
+    </div>
 </div>
-
+<script>
+    $(document).ready(function () {
+        $('#endTime').datetimepicker({
+            ampm: true,
+            hourMin: 7,
+            hourMax: 18,
+            minuteGrid: 30
+        });
+    });
+</script>

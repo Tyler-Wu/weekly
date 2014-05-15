@@ -214,6 +214,7 @@
     <Content Include="Content\css\jquery.noty.css" />
     <Content Include="Content\css\noty_theme_default.css" />
     <Content Include="Content\css\opa-icons.css" />
+    <Content Include="Content\css\project-fancybox.css" />
     <Content Include="Content\css\uniform.default.css" />
     <Content Include="Content\css\uploadify.css" />
     <Content Include="Content\img\ajax-loaders\ajax-loader-1.gif" />
@@ -378,7 +379,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\charismajs\project-fancybox.js" />
     <Content Include="Scripts\charismajs\fancyBox1.3.1.js" />
+    <Content Include="Scripts\charismajs\jquery-ui-slide.min.js" />
+    <Content Include="Scripts\charismajs\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

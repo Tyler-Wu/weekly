@@ -447,8 +447,8 @@ function docReady() {
         },
         eventClick: function (event, element) {
             $.fancybox({
-                width: 333,
-                height: 308,
+                width: 500,
+                height: 300,
                 autoScale: false,
                 scrolling: 'no',
                 autoDimensions:false,

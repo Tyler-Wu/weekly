@@ -38,7 +38,8 @@ namespace GS.WeeklyReport.Portal
              "~/Content/css/jquery.iphone.toggle.css",
              "~/Content/css/opa-icons.css",
              "~/Content/css/uploadify.css",
-             "~/Content/css/fancybox.css"
+             "~/Content/css/fancybox.css",
+             "~/Content/css/project-fancybox.css"
              ));
 
             bundles.Add(new ScriptBundle("~/Scripts/charismajs").Include(
@@ -62,10 +63,13 @@ namespace GS.WeeklyReport.Portal
                   "~/Scripts/charismajs/jquery.dataTables.min.js",
                   "~/Scripts/charismajs/excanvas.js",
                   "~/Scripts/charismajs/jquery.flot.min.js",
+                  "~/Scripts/charismajs/project-fancybox.js",
                   "~/Scripts/charismajs/jquery.flot.pie.min.js",
                   "~/Scripts/charismajs/jquery.flot.stack.js",
                   "~/Scripts/charismajs/jquery.flot.resize.min.js",
                   "~/Scripts/charismajs/jquery.chosen.min.js",
+                  "~/Scripts/charismajs/jquery-ui-slide.min.js",
+                  "~/Scripts/charismajs/jquery-ui-timepicker-addon.js",
                   "~/Scripts/charismajs/jquery.uniform.min.js",
                   "~/Scripts/charismajs/jquery.colorbox.min.js",
                   "~/Scripts/charismajs/jquery.cleditor.min.js",
