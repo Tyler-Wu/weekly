@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/13/2014 20:44:43
--- Generated from EDMX file: F:\code\WeeklyReprot\WeeklyReport.Models\WeeklyReportModel.edmx
+-- Date Created: 05/15/2014 05:54:06
+-- Generated from EDMX file: C:\Users\green\Desktop\weekly01\WeeklyReport.Models\WeeklyReportModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -20,20 +20,20 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Project_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Project] DROP CONSTRAINT [FK_Project_User];
 GO
+IF OBJECT_ID(N'[dbo].[FK_WorkItem_Project]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WorkItem] DROP CONSTRAINT [FK_WorkItem_Project];
+GO
+IF OBJECT_ID(N'[dbo].[FK_User_Role]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_User_Role];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WorkItem_User]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WorkItem] DROP CONSTRAINT [FK_WorkItem_User];
+GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectUser_Project]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProjectUser] DROP CONSTRAINT [FK_ProjectUser_Project];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectUser_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProjectUser] DROP CONSTRAINT [FK_ProjectUser_User];
-GO
-IF OBJECT_ID(N'[dbo].[FK_User_Role]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_User_Role];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WorkItem_Project]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkItem] DROP CONSTRAINT [FK_WorkItem_Project];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WorkItem_User]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkItem] DROP CONSTRAINT [FK_WorkItem_User];
 GO
 
 -- --------------------------------------------------
@@ -43,9 +43,6 @@ GO
 IF OBJECT_ID(N'[dbo].[Project]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Project];
 GO
-IF OBJECT_ID(N'[dbo].[ProjectUser]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ProjectUser];
-GO
 IF OBJECT_ID(N'[dbo].[Role]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Role];
 GO
@@ -54,6 +51,9 @@ IF OBJECT_ID(N'[dbo].[User]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[WorkItem]', 'U') IS NOT NULL
     DROP TABLE [dbo].[WorkItem];
+GO
+IF OBJECT_ID(N'[dbo].[ProjectUser]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProjectUser];
 GO
 
 -- --------------------------------------------------

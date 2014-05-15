@@ -447,12 +447,14 @@ function docReady() {
         },
         eventClick: function (event, element) {
             $.fancybox({
-                width: 1500,
-                midWidth: 900,
-                height: 800,
-                minHeight: 600,
-                href: '../calendarDialog/calendarDialog'
+                width: 333,
+                height: 308,
+                autoScale: false,
+                scrolling: 'no',
+                autoDimensions:false,
+                href: '../CalendarDialog/CalendarDialog?endtime=' + event.end+'&starttime='+event.start+'&title='+event.title+'&backgroundcolor='+event.backgroudColor
             });
+            console.log(typeof event);
         },
         eventMouseover: function (event) {
             

@@ -9,6 +9,7 @@ using GS.WeeklyReport.IService;
 using GS.WeeklyReport.Portal.Models;
 using GS.WeeklyReport.Service;
 using GS.WeeklyReport.Common;
+using Microsoft.Ajax.Utilities;
 using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.Portal.Controllers
@@ -47,7 +48,7 @@ namespace GS.WeeklyReport.Portal.Controllers
             return Json(workItemList, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public string AddWorkItem(WorkItem workItem)
+        public ActionResult AddWorkItem(WorkItem workItem)
         {
             _loginUser = Session["loginUser"] as User;
             //
@@ -61,18 +62,25 @@ namespace GS.WeeklyReport.Portal.Controllers
                     workItem.CreateDate = DateTime.Now;
                     workItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
                     workItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
-
                     workItem.ProjectId = new Guid("0478EB82-E075-4811-B6AB-2BF85CC96000");
-                    workItemService.Add(workItem);
+
+                    var model = workItemService.Add(workItem);
+                    if (model != null)
+                    {
+                        return Content(model.ItemId.ToString());
+                    }
                 }
                 else
                 {
                     workItem.UpdateDate = DateTime.Now;
                     workItem.UpdateUser = _loginUser.UserId;
-                    workItemService.Update(workItem);
+                    if (workItemService.Update(workItem))
+                    {
+                        return Content("sucessful");
+                    }
                 }
             }
-            return "success";
+            return Content("fail");
         }
     }
 }

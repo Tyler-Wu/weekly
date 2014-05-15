@@ -1,6 +1,13 @@
-﻿<div class="fancy">
-    <h3>新建事件</h3>
+﻿@{
+    ViewBag.Title = "CalendarDialog";
+}
+
+<div class="fancy">
+    <h3>新建日程</h3>
     <form id="add_form" method="post">
+        Project: <span>@ViewBag.ProjectTitle</span>
+        <br/>
+       Schedule:<textarea rows="8" required></textarea>
         <div class="sub_btn">
             <span class="del">
                 <input type="button" class="btn btn_del"

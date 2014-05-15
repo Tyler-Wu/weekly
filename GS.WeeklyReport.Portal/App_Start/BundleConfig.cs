@@ -25,7 +25,7 @@ namespace GS.WeeklyReport.Portal
              "~/Content/css/bootstrap-responsive.css",
              "~/Content/css/jquery-ui-1.8.21.custom.css",
              "~/Content/css/charisma-app.css",
-             //"~/Content/css/fullcalendar.print.css",
+             "~/Content/css/calendar-dialog.css",
              "~/Content/css/fullcalendar.css",
              "~/Content/css/chosen.css",
              "~/Content/css/uniform.default.css",
