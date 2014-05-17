@@ -13,7 +13,7 @@ namespace GS.WeeklyReport.Portal.Controllers
     {
         //
         // GET: /calendarDialog/
-        public ActionResult CalendarDialog(string endTime,string startTime,String title,String color)
+        public ActionResult CalendarDialog(string endTime, string startTime, String title, String backgroundColor, String id)
         { 
             IProjectService service =new ProjectService();
             var list=service.LoadEntities(p => true).Select(i=>new {i.Name,i.ProjectId}).AsEnumerable();
@@ -21,7 +21,8 @@ namespace GS.WeeklyReport.Portal.Controllers
             ViewBag.EndTime = endTime;
             ViewBag.StartTime = startTime;
             ViewBag.ProjectTitle = title;
-            ViewBag.Color = color;
+            ViewBag.Color = backgroundColor;
+            ViewBag.Id = id;
             return PartialView("~/Views/Shared/_CalendarDialogViewPage.cshtml");
         }
 	}

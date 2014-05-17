@@ -306,6 +306,7 @@ function docReady() {
         });
 
     });
+    //生成GUID
     function guid() {
         var temp = "";
         for (var i = 1; i <= 32; i++) {
@@ -316,7 +317,69 @@ function docReady() {
         }
         return temp;
     };
+    // by zhangxinxu welcome to visit my personal website http://www.zhangxinxu.com/
+    // 2010-03-12 v1.0.0
+    //十六进制颜色值域RGB格式颜色值之间的相互转换
 
+    //-------------------------------------
+    //十六进制颜色值的正则表达式
+    var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+    /*RGB颜色转换为16进制*/
+    String.prototype.colorHex = function () {
+        var that = this;
+        if (/^(rgb|RGB)/.test(that)) {
+            var aColor = that.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",");
+            var strHex = "#";
+            for (var i = 0; i < aColor.length; i++) {
+                var hex = Number(aColor[i]).toString(16);
+                if (hex === "0") {
+                    hex += hex;
+                }
+                strHex += hex;
+            }
+            if (strHex.length !== 7) {
+                strHex = that;
+            }
+            return strHex;
+        } else if (reg.test(that)) {
+            var aNum = that.replace(/#/, "").split("");
+            if (aNum.length === 6) {
+                return that;
+            } else if (aNum.length === 3) {
+                var numHex = "#";
+                for (var i = 0; i < aNum.length; i += 1) {
+                    numHex += (aNum[i] + aNum[i]);
+                }
+                return numHex;
+            }
+        } else {
+            return that;
+        }
+    };
+
+    //-------------------------------------------------
+
+    /*16进制颜色转为RGB格式*/
+    String.prototype.colorRgb = function () {
+        var sColor = this.toLowerCase();
+        if (sColor && reg.test(sColor)) {
+            if (sColor.length === 4) {
+                var sColorNew = "#";
+                for (var i = 1; i < 4; i += 1) {
+                    sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
+                }
+                sColor = sColorNew;
+            }
+            //处理六位的颜色值
+            var sColorChange = [];
+            for (var i = 1; i < 7; i += 2) {
+                sColorChange.push(parseInt("0x" + sColor.slice(i, i + 2)));
+            }
+            return "RGB(" + sColorChange.join(",") + ")";
+        } else {
+            return sColor;
+        }
+    };
     //initialize the calendar
     $('#calendar').fullCalendar({
         header: {
@@ -328,7 +391,7 @@ function docReady() {
          {
              end: 1399255200,
              color: "#817b58",
-           //  id: "fc1",
+           id: "fc1",
              start: 1399248000,
              title: "green - zhang",
              projectName: "Info",
@@ -338,7 +401,7 @@ function docReady() {
          {
              end: 1399280400,
              color: "#817b58",
-           //  id: "fc2",
+            id: "fc2",
              start: 1399276800,
              title: "green - zhang",
              projectName: "Info",
@@ -402,9 +465,10 @@ function docReady() {
             }
 
         },
-        eventRender: function (event, element) {
-            element.unbind().bind('dblclick', function () {
+        event: function (event, element) {
+            $('#deleteThisShedule').click(function () {
                 $('#calendar').fullCalendar('removeEvents', event.id);
+                $.fancybox.close();
             });
         },
         eventDrop: function (event) {
@@ -447,13 +511,13 @@ function docReady() {
         },
         eventClick: function (event, element) {
             $.fancybox({
-                width: 500,
+                width: 520,
                 height: 300,
                 autoScale: false,
                 scrolling: 'no',
-                autoDimensions:false,
-                href: '../CalendarDialog/CalendarDialog?endtime=' + event.end+'&starttime='+event.start+'&title='+event.title+'&backgroundcolor='+event.backgroudColor
-            });
+                autoDimensions: false,
+                href: '../CalendarDialog/CalendarDialog?endtime=' + event.end +'&id=' + event.id+'&starttime=' + event.start + '&title=' + event.title + '&backgroundColor=' + event.backgroundColor.colorRgb()
+        });
             console.log(typeof event);
         },
         eventMouseover: function (event) {
