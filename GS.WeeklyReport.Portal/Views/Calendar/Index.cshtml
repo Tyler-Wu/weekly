@@ -46,17 +46,37 @@
     <!-- content ends -->
 </div>
 <script>
+
     $(document).ready(function() {
         initProjectList();
     });
 
-    function initProjectList(parameters) {
+    function initProjectList() {
         $.get("/Calendar/GetProjectList", function (result) {
             if (result) {
                 console.log(result);
-                $("#external-events h4").after('<div class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[0].Name + '</div>');
+                $("#external-events h4").append('<div id="example" class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[0].Name + '</div>');
+                $('#external-events div.external-event').each(function () {
+
+                    // it doesn't need to have a start or end
+                    var eventObject = {
+                        title: $.trim($(this).text()) // use the element's text as the event title
+                    };
+
+                    // store the Event Object in the DOM element so we can get to it later
+                    $(this).data('eventObject', eventObject);
+
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 999,
+                        revert: true,      // will cause the event to go back to its
+                        revertDuration: 0  //  original position after the drag
+                    });
+
+                });
             }
         });
     }
+
 </script>
 
