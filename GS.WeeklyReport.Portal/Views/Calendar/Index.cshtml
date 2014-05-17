@@ -52,7 +52,7 @@
     });
 
     function initProjectList() {
-        $.get("/Calendar/GetProjectList", function (result) {
+        $.get("/Calendar/GetProjectList", function (result) { 
             if (result) {
                 console.log(result);
                 $("#external-events h4").append('<div id="example" class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[0].Name + '</div>');
