@@ -53,30 +53,28 @@
                     <div class="control-group">
                         <label class="control-label" for="appendedPrependedInput">Shedule: </label>
                         <div class="controls">
-                            <textarea class="autogrow" style="width: 270px; resize: none"></textarea>
+                            <textarea class="autogrow" style="width: 270px; resize: none" id="textAreaInfo"></textarea>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="prependedInput">StartTime: </label>
                         <div class="controls">
-                            <input class="input-xlarge focused" type="text" />
+                            <input class="input-xlarge focused" id="startTime" type="text" readonly />
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="prependedInput">EndTime: </label>
                         <div class="controls">
-                            <input class="input-xlarge focused" type="text" />
+                            <input class="input-xlarge focused" type="text" id="endTime" readonly />
                         </div>
                     </div>
-                    
                 </fieldset>
-               
             </form>
         </div>
     </div><!--/span-->
     <div>
         <p class="btn-group" style="float: right;margin-top: 8px;">
-            <button class="btn">确认</button>
+            <button class="btn" id="submitThisShedule">确认</button>
             <button class="btn" onclick="$.fancybox.close()">取消</button>
             <button class="btn" id="deleteThisShedule" value="click">删除</button>
         </p>
@@ -84,16 +82,44 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('#endTime').datetimepicker({
-            ampm: true,
-            hourMin: 7,
-            hourMax: 18,
-            minuteGrid: 30
-        });
+
+        function getLocalTime(nS) {
+            return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
+        }
+
+        $("#startTime").val(getLocalTime(@ViewBag.StartTime));
+        $("#endTime").val(getLocalTime(@ViewBag.EndTime));
+
         $('#deleteThisShedule').click(function () {
             var id = '@ViewBag.Id';
             $('#calendar').fullCalendar('removeEvents', [id]);
             $.fancybox.close();
+        });
+        $('#submitThisShedule').click(function () {
+            var workItem = {
+                'calendarId': 111, //event.id,
+                'title': '@ViewBag.ProjectTitle',
+                'itemId': '@ViewBag.workItemId',
+                'projectName': '@ViewBag.ProjectTitle',
+                'start': '@ViewBag.StartTime',
+                'end': '@ViewBag.EndTime',
+                'duration':'@ViewBag.duration',
+                'color': '@ViewBag.Color ',
+                'allDay': '@ViewBag.allDay',
+                'body': $('#textAreaInfo').val()
+            };
+            $.ajax({
+                type: 'Post',
+                url: '/Calendar/AddWorkItem',
+                data: workItem,
+                success: function (response) {
+                    alert('Success');
+                    $.fancybox.close();
+                },
+                error: function (msg) {
+                    console.log('error: ' + msg);
+                },
+            });
         });
     });
 </script>

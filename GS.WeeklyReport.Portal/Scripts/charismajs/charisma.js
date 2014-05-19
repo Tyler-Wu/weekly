@@ -510,13 +510,17 @@ function docReady() {
             });
         },
         eventClick: function (event, element) {
+            var startTime = event.start.getTime() / 1000,
+                endTime = event.end.getTime() / 1000,
+            durationTime = (event.end - event.start) / (3600 * 1000);
+
             $.fancybox({
                 width: 520,
                 height: 300,
                 autoScale: false,
                 scrolling: 'no',
                 autoDimensions: false,
-                href: '../CalendarDialog/CalendarDialog?endtime=' + event.end +'&id=' + event.id+'&starttime=' + event.start + '&title=' + event.title + '&backgroundColor=' + event.backgroundColor.colorRgb()
+                href: '../CalendarDialog/CalendarDialog?endtime=' + endTime + '&id=' + event.id + '&starttime=' + startTime + '&title=' + event.title + '&backgroundColor=' + event.backgroundColor.colorRgb() + '&allDay=' + event.allDay + '&workItemId=' + event.workItemId + '&duration=' + durationTime
         });
             console.log(typeof event);
         },
