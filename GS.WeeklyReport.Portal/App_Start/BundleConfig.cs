@@ -27,7 +27,8 @@ namespace GS.WeeklyReport.Portal
 
             bundles.Add(new ScriptBundle("~/Scripts/BUI").Include(
                                       "~/Scripts/jquery-1.8.2.js",
-                                      "~/Scripts/bui.js"
+                                      "~/Scripts/bui.js",
+                                      "~/Script/WeeklyReport.js"
                 ));
         }
     }
