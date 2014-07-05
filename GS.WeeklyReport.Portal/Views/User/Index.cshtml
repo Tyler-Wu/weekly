@@ -1,10 +1,11 @@
-﻿@model IEnumerable<WeeklyReport.Models.User>
+﻿@using WeeklyReport.Models
+@model IEnumerable<WeeklyReport.Models.User>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/Scripts/myJs.js"></script>
 <div id="content" class="span10">
     <!-- content starts -->
 
@@ -38,6 +39,7 @@
                             <th>Role</th>
                             <th>CreateDate</th>
                             <th>UpdateDate</th>
+                            <th>Projects</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,14 +51,19 @@
                                 <td class="center">@m.Role.Name</td>
                                 <td class="center">@m.CreateDate</td>
                                 <td class="center">@m.UpdateDate</td>
+                                <td class="center">@foreach (Project P in m.Project)
+                                                   {
+                                                       @(P.Name+" ")
+                                                   }
+                                </td>
                                 @*<td class="center">
-                                    <span class="label label-success">Active</span>
-                                </td>*@
+                                        <span class="label label-success">Active</span>
+                                    </td>*@
                                 <td class="center">
-                                    <a class="btn btn-success" href="/User/Detail/@m.UserId">
+                                    <span class="btn btn-success" onclick="openDialog('/User/Details/@m.UserId','Details')">
                                         <i class="icon-zoom-in icon-white"></i>
                                         View
-                                    </a>
+                                    </span>
                                     <a class="btn btn-info" href="/User/Edit/@m.UserId">
                                         <i class="icon-edit icon-white"></i>
                                         Edit
@@ -74,7 +81,5 @@
         </div><!--/span-->
 
     </div><!--/row-->
-
-
 </div>
 

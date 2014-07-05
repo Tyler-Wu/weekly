@@ -1,58 +1,61 @@
 ﻿@model WeeklyReport.Models.User
-
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
 }
+<div class="form-horizontal">
+    <table class="table table-condensed table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>User<hr /></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="form-actions">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.RoleId, new { @class = "control-label col-md-2" })</td>
+                <td>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.RoleId)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.CreateDate, new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.CreateDate)
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="form-group">
+                <td>
+                    @Html.LabelFor(model => model.UpdateDate, new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.UpdateDate)
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>User</h4>
-    	<hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.RoleId)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.RoleId)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.CreateDate)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.UpdateDate)
-            </dd>
-    
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>

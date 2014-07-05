@@ -296,6 +296,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\myJs.js" />
     <Content Include="Scripts\seed.js" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\WeeklyReport.js" />
@@ -338,6 +339,7 @@
     <Content Include="Views\Calendar\CalendarDialog.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Shared\_DialogLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

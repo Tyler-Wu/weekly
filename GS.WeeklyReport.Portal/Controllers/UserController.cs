@@ -16,13 +16,13 @@ namespace GS.WeeklyReport.Portal.Controllers
         // GET: /User/
         public ActionResult Index()
         {
-            var uesrs = service.LoadEntities(u => true);
-            return View(uesrs);
+            var users = service.LoadEntities(u => true);
+            return View(users);
         }
 
         //
         // GET: /User/Details/5
-        public ActionResult Details(Guid id)
+        public ActionResult Details(Guid id) 
         {
             var user = service.LoadEntities(u => u.UserId == id).FirstOrDefault();
             return View(user);
@@ -32,7 +32,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         // GET: /User/Create
         public ActionResult Create()
         {
-            
+
             return View();
         }
 
