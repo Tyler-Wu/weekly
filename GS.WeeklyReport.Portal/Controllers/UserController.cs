@@ -64,16 +64,21 @@ namespace GS.WeeklyReport.Portal.Controllers
         //
         // POST: /User/Edit/5
         [HttpPost]
-        public ActionResult Edit(Guid id, User entity)
+        public ActionResult Edit(User entity)
         {
             try
             {
+                User user = service.LoadEntities(u => u.UserId == entity.UserId).FirstOrDefault();
+                user.Name = entity.Name;
+                user.RoleId = entity.RoleId;
+                user.UpdateDate = entity.UpdateDate;
                 // TODO: Add update logic here
-                service.Update(entity);
+                service.Update(user);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e.Message);
                 return View();
             }
         }

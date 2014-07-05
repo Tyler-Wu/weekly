@@ -17,12 +17,13 @@ namespace GS.WeeklyReport.Portal
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/jquery-1.8.2.js",
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-             "~/Content/BUI/bs3/bui.css"
-
+             "~/Content/BUI/bs3/bui.css",
+             "~/Content/bootstrap.css"
              ));
 
             bundles.Add(new ScriptBundle("~/Scripts/BUI").Include(
