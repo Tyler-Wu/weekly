@@ -91,34 +91,19 @@
               Store = Data.Store,
               enumObj = { "1": "选项一", "2": "选项二", "3": "选项三" },
               columns = [
-                { title: 'Name', dataIndex: 'Name',width:600 }, //editor中的定义等用于 BUI.Form.Field.Text的定义
-                { title: 'Leader', dataIndex: 'UName', width: 600 },
+                { title: 'Name', dataIndex: 'Name', width: 150 }, //editor中的定义等用于 BUI.Form.Field.Text的定义
+                { title: 'Leader', dataIndex: 'UName', width:150 },
                 {
-                    title: 'StartData', dataIndex: 'StartDate', width: 600, datetimeRenderer: function (d) {
-                        if (!d) {
-                            return '';
-                        }
-                        if (BUI.isString(d)) {
-                            return d;
-                        }
-                        var date = null;
-                        try {
-                            date = new Date(d);
-                        } catch (e) {
-                            return '';
-                        }
-                        if (!date || !date.getFullYear) {
-                            return '';
-                        }
-                        return date.getFullYear() + '-' + formatTimeUnit(date.getMonth() + 1) + '-' + formatTimeUnit(date.getDate()) + ' ' + formatTimeUnit(date.getHours()) + ':' + formatTimeUnit(date.getMinutes()) + ':' + formatTimeUnit(date.getSeconds());
+                    title: 'StartData', dataIndex: 'StartDate', width: 150, renderer: function (d) {
+                        return new Date(parseInt(d.substr(6, 13))).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
                     }
                 },
-                { title: 'Description', dataIndex: 'Description', width: 600 },
-                { title: 'Status', dataIndex: 'Status', width: 600 },
-                { title: 'Color', dataIndex: 'Color', width: 600 },
+                { title: 'Description', dataIndex: 'Description', width:150 },
+                { title: 'Status', dataIndex: 'Status', width: 150},
+                { title: 'Color', dataIndex: 'Color', width:150 },
                 {
                     title: '',
-                    width: 1500,
+                    width:'500',
                     renderer: function () {
                         // return '<span class="grid-command btn-edit btn btn-info"><i class="icon-edit icon-white"> Edit</i></span>'
                         return '<span class="grid-command btn1 btn btn-success"><i class="icon-zoom-in icon-white"></i>View</span>' +
@@ -174,13 +159,18 @@
                 }),
                   store = new Store({
                       url: '/Project/GetProject',
-                      autoLoad: true
+                      autoLoad: true,
+                      pageSize: 2
                   }),
                   grid = new Grid.Grid({
                       render: '#grid',
                       columns: columns,
-                      width: 700,
+                      width:'100%',
                       forceFit: true,
+                      bbar:{
+                          // pagingBar:表明包含分页栏
+                          pagingBar:true
+                      },
                       //tbar: { //添加、删除
                       //    items: [{
                       //        btnCls: 'button button-small',
@@ -216,51 +206,6 @@
                     store.remove(selections);
                 }
             </script>
-            </div>
-            <div>
-                @*<div class="box-content">
-                <table class="table table-striped table-bordered bootstrap-datatable datatable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Leader</th>
-                            <th>StartDate</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Color</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var m in Model)
-                        {
-                            <tr>
-                                <td>@m.Name</td>
-                                <td class="center">@m.User.Name</td>
-                                <td class="center">@m.StartDate</td>
-                                <td class="center">@m.Description</td>
-                                <td class="center">@m.Status</td>
-                                <td class="center">@m.Color</td>*@
-            @*<td class="center">
-                    <span class="label label-success">Active</span>
-                </td>*@
-                @*<td class="center">
-                                    <a class="btn btn-success" href="#">
-                                        <i class="icon-zoom-in icon-white"></i>
-                                        View
-                                    </a>
-                                    <a class="btn btn-info" href="#">
-                                        <i class="icon-edit icon-white"></i>
-                                        Edit
-                                    </a>
-                                    <a class="btn btn-danger" href="#">
-                                        <i class="icon-trash icon-white"></i>
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>*@
             </div>
             </div>
         </div><!--/row-->
