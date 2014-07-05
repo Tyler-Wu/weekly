@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c50c0a7db500402fbbfad074c85df86f" Name="Diagram1" ZoomLevel="90">
-        <EntityTypeShape EntityType="WeeklyReportModel.Project" Width="1.5" PointX="9.375" PointY="2.125" />
-        <EntityTypeShape EntityType="WeeklyReportModel.Role" Width="1.5" PointX="4.875" PointY="2.75" />
-        <EntityTypeShape EntityType="WeeklyReportModel.User" Width="1.5" PointX="7.125" PointY="2" />
-        <EntityTypeShape EntityType="WeeklyReportModel.WorkItem" Width="1.5" PointX="11.625" PointY="1.5" />
+        <EntityTypeShape EntityType="WeeklyReportModel.Project" Width="1.5" PointX="7.25" PointY="2.75" />
+        <EntityTypeShape EntityType="WeeklyReportModel.Role" Width="1.5" PointX="1.625" PointY="2.75" />
+        <EntityTypeShape EntityType="WeeklyReportModel.User" Width="1.5" PointX="4" PointY="2" />
+        <EntityTypeShape EntityType="WeeklyReportModel.WorkItem" Width="1.5" PointX="10.125" PointY="1.5" />
         <AssociationConnector Association="WeeklyReportModel.FK_Project_User" />
         <AssociationConnector Association="WeeklyReportModel.FK_WorkItem_Project" />
         <AssociationConnector Association="WeeklyReportModel.FK_User_Role" />
