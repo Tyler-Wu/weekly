@@ -21,7 +21,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         public JsonResult InitChartInfo()
         {
             var categories = projectService.LoadEntities(p => true).Select(p=>new {p.Name,p.ProjectId});
-            return Json("11");
+            return Json(categories, JsonRequestBehavior.AllowGet);
         }
 	}
 }

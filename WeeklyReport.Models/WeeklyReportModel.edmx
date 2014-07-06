@@ -88,11 +88,11 @@
   </EntityType>
   <EntityType Name="ProjectUser">
     <Key>
-      <PropertyRef Name="ProjectUser_User_ProjectId" />
-      <PropertyRef Name="ProjectUser_Project_UserId" />
+      <PropertyRef Name="Project_ProjectId" />
+      <PropertyRef Name="User_UserId" />
     </Key>
-    <Property Name="ProjectUser_User_ProjectId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ProjectUser_Project_UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Project_ProjectId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="User_UserId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <Association Name="FK_Project_User">
     <End Role="User" Type="WeeklyReportModel.Store.User" Multiplicity="1" />
@@ -154,7 +154,7 @@
         <PropertyRef Name="ProjectId" />
       </Principal>
       <Dependent Role="ProjectUser">
-        <PropertyRef Name="ProjectUser_User_ProjectId" />
+        <PropertyRef Name="Project_ProjectId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -166,7 +166,7 @@
         <PropertyRef Name="UserId" />
       </Principal>
       <Dependent Role="ProjectUser">
-        <PropertyRef Name="ProjectUser_Project_UserId" />
+        <PropertyRef Name="User_UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -252,8 +252,9 @@
           <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Color" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="User" Relationship="WeeklyReportModel.FK_Project_User" FromRole="Project" ToRole="User" />
+          <NavigationProperty Name="Leader" Relationship="WeeklyReportModel.FK_Project_User" FromRole="Project" ToRole="User" />
           <NavigationProperty Name="WorkItem" Relationship="WeeklyReportModel.FK_WorkItem_Project" FromRole="Project" ToRole="WorkItem" />
+          <NavigationProperty Name="User" Relationship="WeeklyReportModel.ProjectUser" FromRole="Project" ToRole="User" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -274,9 +275,10 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Passwrod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Project" Relationship="WeeklyReportModel.FK_Project_User" FromRole="User" ToRole="Project" />
+          <NavigationProperty Name="Position" Relationship="WeeklyReportModel.FK_Project_User" FromRole="User" ToRole="Project" />
           <NavigationProperty Name="Role" Relationship="WeeklyReportModel.FK_User_Role" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="WorkItem" Relationship="WeeklyReportModel.FK_WorkItem_User" FromRole="User" ToRole="WorkItem" />
+          <NavigationProperty Name="Project" Relationship="WeeklyReportModel.ProjectUser" FromRole="User" ToRole="Project" />
         </EntityType>
         <EntityType Name="WorkItem">
           <Key>
@@ -417,10 +419,10 @@
     </EntitySetMapping>
     <AssociationSetMapping Name="ProjectUser" TypeName="WeeklyReportModel.ProjectUser" StoreEntitySet="ProjectUser">
       <EndProperty Name="Project">
-        <ScalarProperty Name="ProjectId" ColumnName="ProjectUser_User_ProjectId" />
+        <ScalarProperty Name="ProjectId" ColumnName="Project_ProjectId" />
       </EndProperty>
       <EndProperty Name="User">
-        <ScalarProperty Name="UserId" ColumnName="ProjectUser_Project_UserId" />
+        <ScalarProperty Name="UserId" ColumnName="User_UserId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

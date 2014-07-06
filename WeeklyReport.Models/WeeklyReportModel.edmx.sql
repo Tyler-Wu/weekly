@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/15/2014 05:54:06
--- Generated from EDMX file: C:\Users\green\Desktop\weekly01\WeeklyReport.Models\WeeklyReportModel.edmx
+-- Date Created: 07/07/2014 01:08:54
+-- Generated from EDMX file: F:\code\WeeklyReprot\WeeklyReport.Models\WeeklyReportModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -29,11 +29,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_WorkItem_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkItem] DROP CONSTRAINT [FK_WorkItem_User];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ProjectUser_Project]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProjectUser] DROP CONSTRAINT [FK_ProjectUser_Project];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ProjectUser_User]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProjectUser] DROP CONSTRAINT [FK_ProjectUser_User];
+IF OBJECT_ID(N'[dbo].[FK_ProjectUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_ProjectUser];
 GO
 
 -- --------------------------------------------------
@@ -51,9 +48,6 @@ IF OBJECT_ID(N'[dbo].[User]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[WorkItem]', 'U') IS NOT NULL
     DROP TABLE [dbo].[WorkItem];
-GO
-IF OBJECT_ID(N'[dbo].[ProjectUser]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ProjectUser];
 GO
 
 -- --------------------------------------------------
@@ -112,8 +106,8 @@ GO
 
 -- Creating table 'ProjectUser'
 CREATE TABLE [dbo].[ProjectUser] (
-    [ProjectUser_User_ProjectId] uniqueidentifier  NOT NULL,
-    [ProjectUser_Project_UserId] uniqueidentifier  NOT NULL
+    [Project_ProjectId] uniqueidentifier  NOT NULL,
+    [User_UserId] uniqueidentifier  NOT NULL
 );
 GO
 
@@ -145,10 +139,10 @@ ADD CONSTRAINT [PK_WorkItem]
     PRIMARY KEY CLUSTERED ([ItemId] ASC);
 GO
 
--- Creating primary key on [ProjectUser_User_ProjectId], [ProjectUser_Project_UserId] in table 'ProjectUser'
+-- Creating primary key on [Project_ProjectId], [User_UserId] in table 'ProjectUser'
 ALTER TABLE [dbo].[ProjectUser]
 ADD CONSTRAINT [PK_ProjectUser]
-    PRIMARY KEY CLUSTERED ([ProjectUser_User_ProjectId], [ProjectUser_Project_UserId] ASC);
+    PRIMARY KEY CLUSTERED ([Project_ProjectId], [User_UserId] ASC);
 GO
 
 -- --------------------------------------------------
@@ -211,19 +205,19 @@ ON [dbo].[WorkItem]
     ([UserId]);
 GO
 
--- Creating foreign key on [ProjectUser_User_ProjectId] in table 'ProjectUser'
+-- Creating foreign key on [Project_ProjectId] in table 'ProjectUser'
 ALTER TABLE [dbo].[ProjectUser]
 ADD CONSTRAINT [FK_ProjectUser_Project]
-    FOREIGN KEY ([ProjectUser_User_ProjectId])
+    FOREIGN KEY ([Project_ProjectId])
     REFERENCES [dbo].[Project]
         ([ProjectId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [ProjectUser_Project_UserId] in table 'ProjectUser'
+-- Creating foreign key on [User_UserId] in table 'ProjectUser'
 ALTER TABLE [dbo].[ProjectUser]
 ADD CONSTRAINT [FK_ProjectUser_User]
-    FOREIGN KEY ([ProjectUser_Project_UserId])
+    FOREIGN KEY ([User_UserId])
     REFERENCES [dbo].[User]
         ([UserId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -231,7 +225,7 @@ ADD CONSTRAINT [FK_ProjectUser_User]
 -- Creating non-clustered index for FOREIGN KEY 'FK_ProjectUser_User'
 CREATE INDEX [IX_FK_ProjectUser_User]
 ON [dbo].[ProjectUser]
-    ([ProjectUser_Project_UserId]);
+    ([User_UserId]);
 GO
 
 -- --------------------------------------------------
