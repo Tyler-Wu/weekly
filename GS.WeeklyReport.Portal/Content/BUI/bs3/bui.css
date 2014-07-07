@@ -977,7 +977,7 @@ td.bui-grid-cell-empty {
 }
 .bui-grid-table .bui-grid-hd-inner {
   padding: 10px 0;
-  height: 24px;
+  /*height: 24px;*/
   overflow: hidden;
   font-weight: bold;
   background-position: 0 0;

@@ -22,14 +22,16 @@ namespace GS.WeeklyReport.Portal
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-             "~/Content/BUI/bs3/bui.css",
-             "~/Content/bootstrap.css"
+                //"~/Content/bootstrap.css",
+              //"~/Content/BUI/bs3/dpl.css",
+             "~/Content/BUI/bs3/bui.css"
              ));
 
             bundles.Add(new ScriptBundle("~/Scripts/BUI").Include(
                                       "~/Scripts/jquery-1.8.2.js",
-                                      "~/Scripts/bui.js",
-                                      "~/Script/WeeklyReport.js"
+                                       "~/Scripts/bootstrap.js",
+                                      "~/Scripts/bui.js"
+
                 ));
         }
     }
