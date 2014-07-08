@@ -38,49 +38,157 @@
                         </div>
                     </div>
                 </div>
-                <script src="~/Scripts/jquery-1.8.2.js"></script>
-                <script src="~/Scripts/BUI/bui.js"></script>
-                <script type="text/javascript">
-                    var Grid = BUI.Grid,
-                    Data = BUI.Data;
-                    var Grid = Grid,
-                  Store = Data.Store,
-                  columns = [
-                    { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' }, //editor中的定义等用于 BUI.Form.Field.Text的定义
-                    { title: 'Leader', dataIndex: 'UName', width: 50, elCls: 'center' },
-                    {
-                        title: 'StartData', dataIndex: 'StartDate', width: 100, elCls: 'center'
-                    },
-                    { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
-                    { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
-                    { title: 'Color', dataIndex: 'Color', width: 50, elCls: 'center' },
-                    {
-                        title: '',
-                        renderer: function () {
-
-                        }
-                    }
-                  ];
-                  var    store = new Store({
-                          url: '/Project/GetProject',
-                          autoLoad: true,
-                          pageSize: 2
-                      }),
-                      grid = new Grid.Grid({
-                          render: '#grid',
-                          columns: columns,
-                          //width: '100%',
-                          forceFit: true,
-                          bbar: {
-                              // pagingBar:表明包含分页栏
-                              pagingBar: true
-                          },
-                          store: store
-                      });
-
-                    grid.render();
-                </script>
             </div>
         </div>
     </div><!--/row-->
 </div>
+<div id="contentDialog" class="hide">
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>文本：</label>
+                <div class="controls">
+                    <input name="a" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>数字：</label>
+                <div class="controls">
+                    <input name="b" type="text" data-rules="{required:true,number : true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8 ">
+                <label class="control-label">日期：</label>
+                <div id="range" class="controls">
+                    <input name="c" class="calendar" type="text">
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">选择：</label>
+                <div class="controls">
+                    <select name="d" class="input-normal">
+                        <option value="">请选择</option>
+                        <option value="1">选项一</option>
+                        <option value="2">选项二</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label">多选：</label>
+                <div class="controls bui-form-field-select" data-select="{multipleSelect:true,items : [{text:'选项一',value:'1'},{text:'选项二',value:'2'},{text:'选项三',value:'3'}]}">
+                    <input type="hidden" name="e">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span15">
+                <label class="control-label">备注：</label>
+                <div class="controls control-row4">
+                    <textarea name="f" class="input-large" type="text"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+<script src="~/Scripts/BUI/bui.js"></script>
+<script type="text/javascript">
+    var Grid = BUI.Grid,
+    Data = BUI.Data;
+    var Grid = Grid,
+  Store = Data.Store,
+  columns = [
+    { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' }, //editor中的定义等用于 BUI.Form.Field.Text的定义
+    { title: 'Leader', dataIndex: 'UName', width: 50, elCls: 'center' },
+    {
+        title: 'StartData', dataIndex: 'StartDate', width: 100, elCls: 'center'
+    },
+    { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
+    { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
+    { title: 'Color', dataIndex: 'Color', width: 50, elCls: 'center' },
+    {
+        title: 'Action',
+        renderer: function () {
+            return '<span class="grid-command btn-edit">Edit</span>';
+        }
+    }
+  ];
+    var isAddRemote = false,
+editing = new Grid.Plugins.DialogEditing({
+    contentId: 'contentDialog', //设置隐藏的Dialog内容
+    triggerCls: 'btn-edit', //触发显示Dialog的样式
+    editor: {
+        title: '自定义',
+        listeners: {
+            show: function () {
+                var form = this.get('form');
+                if (!isAddRemote) {
+                   //var bField = form.getField('b');
+                    //bField.set('remote', {
+                    //    url: '../form/data/remote.php',
+                    //    dataType: 'json',//默认为字符串
+                    //    callback: function (data) {
+                    //        if (data.success) {
+                    //            return '';
+                    //        } else {
+                    //            return data.msg;
+                    //        }
+                    //    }
+                    //});
+                    isAddRemote = true;
+                }
+                //TO DO
+            }
+        }
+    }
+}),
+      store = new Store({
+          url: '/Project/GetProject',
+          autoLoad: true,
+          pageSize: 2
+      }),
+      grid = new Grid.Grid({
+          render: '#grid',
+          columns: columns,
+          //width: '100%',
+          forceFit: true,
+          tbar: { //添加、删除
+              items: [{
+                  btnCls: 'button button-small',
+                  text: '<i class="icon-plus"></i>添加',
+                  listeners: {
+                      'click': addFunction
+                  }
+              },
+              {
+                  btnCls: 'button button-small',
+                  text: '<i class="icon-remove"></i>删除',
+                  listeners: {
+                      'click': delFunction
+                  }
+              }]
+          },
+          plugins: [editing, Grid.Plugins.CheckSelection],
+          store: store
+      });
+
+    grid.render();
+
+    //添加记录
+    function addFunction() {
+        var newData = { b: 0 };
+        editing.add(newData, 'a'); //添加记录后，直接编辑
+    }
+    //删除选中的记录
+    function delFunction() {
+        var selections = grid.getSelection();
+        store.remove(selections);
+    }
+</script>
+
