@@ -44,13 +44,14 @@ namespace GS.WeeklyReport.Portal.Controllers
             try
             {
                 // TODO: Add insert logic here
+                entity.UserId = Guid.NewGuid();
+                entity.CreateDate = DateTime.Now;
                 service.Add(entity);
-
-                return RedirectToAction("Index");
+                return View("success");
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -72,15 +73,16 @@ namespace GS.WeeklyReport.Portal.Controllers
                 User user = service.LoadEntities(u => u.UserId == entity.UserId).FirstOrDefault();
                 user.Name = entity.Name;
                 user.RoleId = entity.RoleId;
-                user.UpdateDate = entity.UpdateDate;
+                user.UpdateDate = DateTime.Now;
                 // TODO: Add update logic here
                 service.Update(user);
-                return RedirectToAction("Index");
+                ViewBag.text = "You have edited the User successfully.";
+                return View("success");
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
-                return View();
+                return View("Error");
             }
         }
 
@@ -113,8 +115,9 @@ namespace GS.WeeklyReport.Portal.Controllers
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
+
     }
 }

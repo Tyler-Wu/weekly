@@ -14,7 +14,6 @@
         <AssociationConnector Association="WeeklyReportModel.FK_User_Role" />
         <AssociationConnector Association="WeeklyReportModel.FK_WorkItem_User" />
         <AssociationConnector Association="WeeklyReportModel.ProjectUser" />
-        <EntityTypeShape EntityType="WeeklyReportModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -345,6 +345,7 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Shared\_DialogLayout.cshtml" />
     <Content Include="Views\Data\Index.cshtml" />
+    <Content Include="Views\Shared\success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
