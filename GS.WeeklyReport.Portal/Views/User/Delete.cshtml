@@ -1,64 +1,59 @@
 ﻿@model WeeklyReport.Models.User
-
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
 }
+<div class="form-panel">
+    <table class="table table-condensed table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan="2"><h2>User Details</h2><hr /></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="form-actions">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.RoleId, new { @class = "control-label col-md-2" })</td>
+                <td>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.RoleId)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.CreateDate, new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.CreateDate)
+                    </div>
+                </td>
+            </tr>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Delete</title>
-</head>
-<body>
-    <h3>Are you sure you want to delete this?</h3>
-    <div>
-        <h4>User</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.RoleId)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.RoleId)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.CreateDate)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.UpdateDate)
-            </dd>
-    
-        </dl>
-    
-        @using (Html.BeginForm()) {
-            @Html.AntiForgeryToken()
-    
-            <div class="form-actions no-color">
-                <input type="submit" value="Delete" class="btn btn-default" /> |
-                @Html.ActionLink("Back to List", "Index")
-            </div>
-        }
-    </div>
-</body>
-</html>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.UpdateDate, new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.UpdateDate)
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <input type="button" class="btn btn-default" value="Delete" onclick="location.href='/user/Delete?id=@Model.UserId'" />
+    <input type="button" class="btn btn-default" value="Back to List" onclick="window.close()" />
+</div>

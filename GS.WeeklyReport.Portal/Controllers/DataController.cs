@@ -44,7 +44,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                     Name = "mike",
                     RoleId = 1,
                     CreateDate = DateTime.Now,
-                    Passwrod = "123456",
+                    Password = "123456",
                     UserName = "mike"
                 }
             };
@@ -79,7 +79,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                     Name = "tony",
                     RoleId = 1,
                     CreateDate = DateTime.Now,
-                    Passwrod = "123456",
+                    Password = "123456",
                     UserName = "tony"
                 },
                       new User()
@@ -88,7 +88,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                     Name = "green",
                     RoleId = 2,
                     CreateDate = DateTime.Now,
-                    Passwrod = "123456",
+                    Password = "123456",
                     UserName = "green"
                 }
             };

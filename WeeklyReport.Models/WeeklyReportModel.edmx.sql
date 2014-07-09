@@ -81,7 +81,7 @@ CREATE TABLE [dbo].[User] (
     [CreateDate] datetime  NOT NULL,
     [UpdateDate] datetime  NULL,
     [UserName] nvarchar(20)  NULL,
-    [Passwrod] nvarchar(20)  NULL
+    [Password] nvarchar(20)  NULL
 );
 GO
 

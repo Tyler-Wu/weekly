@@ -34,6 +34,7 @@ namespace GS.WeeklyReport.Repository
         public bool Delete(T entity)
         {
             db.Entry(entity).State = EntityState.Deleted;
+            db.SaveChanges();
             return true;
         }
 

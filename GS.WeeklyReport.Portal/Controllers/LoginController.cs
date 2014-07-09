@@ -24,9 +24,9 @@ namespace GS.WeeklyReport.Portal.Controllers
 
         public ActionResult Login(User loginUser)
         {
-            if (!string.IsNullOrEmpty(loginUser.UserName) && !string.IsNullOrEmpty(loginUser.Passwrod))
+            if (!string.IsNullOrEmpty(loginUser.UserName) && !string.IsNullOrEmpty(loginUser.Password))
             {
-                var user = service.LoadEntities(u => u.UserName == loginUser.UserName && u.Passwrod == loginUser.Passwrod).FirstOrDefault();
+                var user = service.LoadEntities(u => u.UserName == loginUser.UserName && u.Password == loginUser.Password).FirstOrDefault();
                 if (user != null)
                 {
                     Session["loginUser"] = user;

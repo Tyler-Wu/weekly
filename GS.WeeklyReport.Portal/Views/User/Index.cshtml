@@ -6,6 +6,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="~/Scripts/myJs.js"></script>
+<script>
+    function DelUser(uid) {
+        if (confirm("Are you sure to delete this user?")) {
+            $.ajax({
+                type: "Delete",
+                url: "/user/Delete/" + uid,
+                success: function (data) {
+                    alert(data);
+                    if (data === "success") {
+                        alert("deleted successfully");
+
+                    } else {
+                        alert("deleted fail");
+                    }
+                }
+            });
+        }
+    }
+</script>
 <div id="content" class="span10">
     <!-- content starts -->
 
@@ -31,6 +50,10 @@
                 </div>
             </div>
             <div class="box-content">
+                <span class="btn btn-block" onclick="openDialog('/user/create')">
+                    <i class="icon-trash icon-white"></i>
+                    Create
+                </span>
                 <table class="table table-striped table-bordered bootstrap-datatable datatable">
                     <thead>
                         <tr>
@@ -51,27 +74,28 @@
                                 <td class="center">@m.Role.Name</td>
                                 <td class="center">@m.CreateDate</td>
                                 <td class="center">@m.UpdateDate</td>
-                                <td class="center">@foreach (Project P in m.Project)
-                                                   {
-                                                       @(P.Name+" ")
-                                                   }
+                                <td class="center">
+                                    @foreach (Project P in m.Project)
+                                    {
+                                        @(P.Name + " ")
+                                    }
                                 </td>
                                 @*<td class="center">
-                                        <span class="label label-success">Active</span>
-                                    </td>*@
+                                    <span class="label label-success">Active</span>
+                                </td>*@
                                 <td class="center">
                                     <span class="btn btn-success" onclick="openDialog('/User/Details/@m.UserId','Details')">
                                         <i class="icon-zoom-in icon-white"></i>
                                         View
                                     </span>
-                                    <a class="btn btn-info" href="/User/Edit/@m.UserId">
+                                    <span class="btn btn-info" onclick="openDialog('/User/Edit/@m.UserId','Edit')">
                                         <i class="icon-edit icon-white"></i>
                                         Edit
-                                    </a>
-                                    <a class="btn btn-danger" href="/User/Delete/@m.UserId">
+                                    </span>
+                                    <span class="btn btn-danger" onclick="DelUser('@m.UserId')">
                                         <i class="icon-trash icon-white"></i>
                                         Delete
-                                    </a>
+                                    </span>
                                 </td>
                             </tr>
                         }

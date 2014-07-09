@@ -4,173 +4,184 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WeeklyReportModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="WeeklyReportModelStoreContainer">
-    <EntitySet Name="Project" EntityType="WeeklyReportModel.Store.Project" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Role" EntityType="WeeklyReportModel.Store.Role" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="User" EntityType="WeeklyReportModel.Store.User" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="WorkItem" EntityType="WeeklyReportModel.Store.WorkItem" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectUser" EntityType="WeeklyReportModel.Store.ProjectUser" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_Project_User" Association="WeeklyReportModel.Store.FK_Project_User">
-      <End Role="User" EntitySet="User" />
-      <End Role="Project" EntitySet="Project" />
-    </AssociationSet>
-    <AssociationSet Name="FK_WorkItem_Project" Association="WeeklyReportModel.Store.FK_WorkItem_Project">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="WorkItem" EntitySet="WorkItem" />
-    </AssociationSet>
-    <AssociationSet Name="FK_User_Role" Association="WeeklyReportModel.Store.FK_User_Role">
-      <End Role="Role" EntitySet="Role" />
-      <End Role="User" EntitySet="User" />
-    </AssociationSet>
-    <AssociationSet Name="FK_WorkItem_User" Association="WeeklyReportModel.Store.FK_WorkItem_User">
-      <End Role="User" EntitySet="User" />
-      <End Role="WorkItem" EntitySet="WorkItem" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectUser_Project" Association="WeeklyReportModel.Store.FK_ProjectUser_Project">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectUser" EntitySet="ProjectUser" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProjectUser_User" Association="WeeklyReportModel.Store.FK_ProjectUser_User">
-      <End Role="User" EntitySet="User" />
-      <End Role="ProjectUser" EntitySet="ProjectUser" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Project">
-    <Key>
-      <PropertyRef Name="ProjectId" />
-    </Key>
-    <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="LeaderId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="200" />
-    <Property Name="Status" Type="varchar" Nullable="true" MaxLength="10" />
-    <Property Name="Color" Type="varchar" Nullable="true" MaxLength="10" />
-    <Property Name="StartDate" Type="datetime" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Role">
-    <Key>
-      <PropertyRef Name="RoleId" />
-    </Key>
-    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="20" />
-  </EntityType>
-  <EntityType Name="User">
-    <Key>
-      <PropertyRef Name="UserId" />
-    </Key>
-    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="RoleId" Type="int" Nullable="false" />
-    <Property Name="CreateDate" Type="datetime" Nullable="false" />
-    <Property Name="UpdateDate" Type="datetime" Nullable="true" />
-    <Property Name="UserName" Type="nvarchar" Nullable="true" MaxLength="20" />
-    <Property Name="Passwrod" Type="nvarchar" Nullable="true" MaxLength="20" />
-  </EntityType>
-  <EntityType Name="WorkItem">
-    <Key>
-      <PropertyRef Name="ItemId" />
-    </Key>
-    <Property Name="ItemId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Body" Type="nvarchar" Nullable="true" MaxLength="500" />
-    <Property Name="StartDate" Type="datetime" Nullable="false" />
-    <Property Name="EndDate" Type="datetime" Nullable="false" />
-    <Property Name="CreateDate" Type="datetime" Nullable="false" />
-    <Property Name="UpdateDate" Type="datetime" Nullable="true" />
-    <Property Name="CreateUser" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="UpdateUser" Type="uniqueidentifier" Nullable="true" />
-    <Property Name="AllDay" Type="bit" Nullable="false" />
-    <Property Name="Duration" Type="float" Nullable="false" />
-    <Property Name="End" Type="bigint" Nullable="true" />
-    <Property Name="Start" Type="bigint" Nullable="true" />
-  </EntityType>
-  <EntityType Name="ProjectUser">
-    <Key>
-      <PropertyRef Name="Project_ProjectId" />
-      <PropertyRef Name="User_UserId" />
-    </Key>
-    <Property Name="Project_ProjectId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="User_UserId" Type="uniqueidentifier" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_Project_User">
-    <End Role="User" Type="WeeklyReportModel.Store.User" Multiplicity="1" />
-    <End Role="Project" Type="WeeklyReportModel.Store.Project" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="Project">
-        <PropertyRef Name="LeaderId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_WorkItem_Project">
-    <End Role="Project" Type="WeeklyReportModel.Store.Project" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="WorkItem" Type="WeeklyReportModel.Store.WorkItem" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectId" />
-      </Principal>
-      <Dependent Role="WorkItem">
-        <PropertyRef Name="ProjectId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_User_Role">
-    <End Role="Role" Type="WeeklyReportModel.Store.Role" Multiplicity="1" />
-    <End Role="User" Type="WeeklyReportModel.Store.User" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="RoleId" />
-      </Principal>
-      <Dependent Role="User">
-        <PropertyRef Name="RoleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_WorkItem_User">
-    <End Role="User" Type="WeeklyReportModel.Store.User" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="WorkItem" Type="WeeklyReportModel.Store.WorkItem" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="WorkItem">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectUser_Project">
-    <End Role="Project" Type="WeeklyReportModel.Store.Project" Multiplicity="1" />
-    <End Role="ProjectUser" Type="WeeklyReportModel.Store.ProjectUser" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="ProjectId" />
-      </Principal>
-      <Dependent Role="ProjectUser">
-        <PropertyRef Name="Project_ProjectId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProjectUser_User">
-    <End Role="ProjectUser" Type="WeeklyReportModel.Store.ProjectUser" Multiplicity="*" />
-    <End Role="User" Type="WeeklyReportModel.Store.User" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="ProjectUser">
-        <PropertyRef Name="User_UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="WeeklyReportModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LeaderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="varchar" MaxLength="10" />
+          <Property Name="Color" Type="varchar" MaxLength="10" />
+          <Property Name="StartDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ProjectUser">
+          <Key>
+            <PropertyRef Name="Project_ProjectId" />
+            <PropertyRef Name="User_UserId" />
+          </Key>
+          <Property Name="Project_ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="User_UserId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="20" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="WorkItem">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Body" Type="nvarchar" MaxLength="500" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="CreateUser" Type="uniqueidentifier" />
+          <Property Name="UpdateUser" Type="uniqueidentifier" />
+          <Property Name="AllDay" Type="bit" Nullable="false" />
+          <Property Name="Duration" Type="float" Nullable="false" />
+          <Property Name="End" Type="bigint" />
+          <Property Name="Start" Type="bigint" />
+        </EntityType>
+        <Association Name="FK_Project_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="LeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectUser_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ProjectUser" Type="Self.ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="Project_ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectUser_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ProjectUser" Type="Self.ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="User_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkItem_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkItem" Type="Self.WorkItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="WorkItem">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkItem_User">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkItem" Type="Self.WorkItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="WorkItem">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WeeklyReportModelStoreContainer">
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectUser" EntityType="Self.ProjectUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkItem" EntityType="Self.WorkItem" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Project_User" Association="Self.FK_Project_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectUser_Project" Association="Self.FK_ProjectUser_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectUser" EntitySet="ProjectUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectUser_User" Association="Self.FK_ProjectUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ProjectUser" EntitySet="ProjectUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkItem_Project" Association="Self.FK_WorkItem_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="WorkItem" EntitySet="WorkItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkItem_User" Association="Self.FK_WorkItem_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="WorkItem" EntitySet="WorkItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WeeklyReportModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -229,6 +240,7 @@
             <End Role="Project" EntitySet="Project" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="WeeklyReportModel.sysdiagrams" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -274,11 +286,11 @@
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Passwrod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Position" Relationship="WeeklyReportModel.FK_Project_User" FromRole="User" ToRole="Project" />
           <NavigationProperty Name="Role" Relationship="WeeklyReportModel.FK_User_Role" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="WorkItem" Relationship="WeeklyReportModel.FK_WorkItem_User" FromRole="User" ToRole="WorkItem" />
           <NavigationProperty Name="Project" Relationship="WeeklyReportModel.ProjectUser" FromRole="User" ToRole="Project" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WorkItem">
           <Key>
@@ -357,6 +369,16 @@
           <End Type="WeeklyReportModel.Project" Role="Project" Multiplicity="*" />
           <End Type="WeeklyReportModel.User" Role="User" Multiplicity="*" />
         </Association>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -387,13 +409,13 @@
     <EntitySetMapping Name="User">
       <EntityTypeMapping TypeName="IsTypeOf(WeeklyReportModel.User)">
         <MappingFragment StoreEntitySet="User">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="RoleId" ColumnName="RoleId" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="Passwrod" ColumnName="Passwrod" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -425,6 +447,17 @@
         <ScalarProperty Name="UserId" ColumnName="User_UserId" />
       </EndProperty>
     </AssociationSetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="WeeklyReportModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

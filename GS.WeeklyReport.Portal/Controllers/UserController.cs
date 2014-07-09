@@ -45,6 +45,7 @@ namespace GS.WeeklyReport.Portal.Controllers
             {
                 // TODO: Add insert logic here
                 service.Add(entity);
+
                 return RedirectToAction("Index");
             }
             catch
@@ -85,10 +86,17 @@ namespace GS.WeeklyReport.Portal.Controllers
 
         //
         // GET: /User/Delete/5
-        public ActionResult Delete(Guid id)
+        public String Delete(Guid id)
         {
             var user = service.LoadEntities(u => u.UserId == id).FirstOrDefault();
-            return View(user);
+            if (service.Delete(user))
+            {
+                return "success";
+            }
+            else
+            {
+                return "false";
+            }
         }
 
         //
