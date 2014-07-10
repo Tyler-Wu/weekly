@@ -20,9 +20,14 @@ namespace GS.WeeklyReport.Portal.Controllers
             return View(users);
         }
 
+        public JsonResult GetUserForSelect()
+        {
+            var users = service.LoadEntities(u => true).Select(u => new { text=u.UserName, value=u.UserId });
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
         //
         // GET: /User/Details/5
-        public ActionResult Details(Guid id) 
+        public ActionResult Details(Guid id)
         {
             var user = service.LoadEntities(u => u.UserId == id).FirstOrDefault();
             return View(user);
@@ -79,7 +84,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                 ViewBag.text = "You have edited the User successfully.";
                 return View("success");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return View("Error");

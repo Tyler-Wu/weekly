@@ -4,7 +4,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div id="content" class="span10">
     <!-- content starts -->
 
@@ -38,6 +37,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div><!--/row-->
@@ -46,27 +46,29 @@
     <form class="form-horizontal">
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label"><s>*</s>文本：</label>
+                <label class="control-label"><s>*</s>Project Name：</label>
                 <div class="controls">
                     <input name="a" type="text" data-rules="{required:true}" class="input-normal control-text">
                 </div>
             </div>
             <div class="control-group span8">
-                <label class="control-label"><s>*</s>数字：</label>
+                <label class="control-label"><s>*</s>  Leader：</label>
                 <div class="controls">
-                    <input name="b" type="text" data-rules="{required:true,number : true}" class="input-normal control-text">
+                    <div id="leaderSelect">
+                        <input type="hidden" id="hide" value="b" name="hide">
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="control-group span8 ">
-                <label class="control-label">日期：</label>
+                <label class="control-label">StartData：</label>
                 <div id="range" class="controls">
                     <input name="c" class="calendar" type="text">
                 </div>
             </div>
             <div class="control-group span8">
-                <label class="control-label">选择：</label>
+                <label class="control-label">Color：</label>
                 <div class="controls">
                     <select name="d" class="input-normal">
                         <option value="">请选择</option>
@@ -79,15 +81,15 @@
         </div>
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label">多选：</label>
-                <div class="controls bui-form-field-select" data-select="{multipleSelect:true,items : [{text:'选项一',value:'1'},{text:'选项二',value:'2'},{text:'选项三',value:'3'}]}">
-                    <input type="hidden" name="e">
+                <label class="control-label">Members：</label>
+                <div id="memberSelect" class="controls control-row4">
+                    <input type="hidden" id="hide" value="" name="hide">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="control-group span15">
-                <label class="control-label">备注：</label>
+                <label class="control-label">Description：</label>
                 <div class="controls control-row4">
                     <textarea name="f" class="input-large" type="text"></textarea>
                 </div>
@@ -100,83 +102,89 @@
 <script src="~/Scripts/BUI/bui.js"></script>
 <script type="text/javascript">
     var Grid = BUI.Grid,
-    Data = BUI.Data;
-    var Grid = Grid,
-  Store = Data.Store,
-  columns = [
-    { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' }, //editor中的定义等用于 BUI.Form.Field.Text的定义
-    { title: 'Leader', dataIndex: 'UName', width: 50, elCls: 'center' },
-    {
-        title: 'StartData', dataIndex: 'StartDate', width: 100, elCls: 'center'
-    },
-    { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
-    { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
-    { title: 'Color', dataIndex: 'Color', width: 50, elCls: 'center' },
-    {
-        title: 'Action',
-        renderer: function () {
-            return '<span class="grid-command btn-edit">Edit</span>';
-        }
-    }
-  ];
-    var isAddRemote = false,
-editing = new Grid.Plugins.DialogEditing({
-    contentId: 'contentDialog', //设置隐藏的Dialog内容
-    triggerCls: 'btn-edit', //触发显示Dialog的样式
-    editor: {
-        title: '自定义',
-        listeners: {
-            show: function () {
-                var form = this.get('form');
-                if (!isAddRemote) {
-                   //var bField = form.getField('b');
-                    //bField.set('remote', {
-                    //    url: '../form/data/remote.php',
-                    //    dataType: 'json',//默认为字符串
-                    //    callback: function (data) {
-                    //        if (data.success) {
-                    //            return '';
-                    //        } else {
-                    //            return data.msg;
-                    //        }
-                    //    }
-                    //});
-                    isAddRemote = true;
-                }
-                //TO DO
-            }
-        }
-    }
-}),
-      store = new Store({
-          url: '/Project/GetProject',
-          autoLoad: true,
-          pageSize: 2
-      }),
-      grid = new Grid.Grid({
-          render: '#grid',
-          columns: columns,
-          //width: '100%',
-          forceFit: true,
-          tbar: { //添加、删除
-              items: [{
-                  btnCls: 'button button-small',
-                  text: '<i class="icon-plus"></i>添加',
-                  listeners: {
-                      'click': addFunction
+        Data = BUI.Data,
+        Grid = Grid,
+        Store = Data.Store,
+        userStore = new Data.Store(
+        {
+            url: "/User/GetUserForSelect",
+            autoLoad: true
+        }),
+        columns = [
+                  { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
+                  { title: 'Leader', dataIndex: 'UName', width: 50, elCls: 'center' },
+                  { title: 'StartData', dataIndex: 'StartDate', width: 100, elCls: 'center' },
+                  { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
+                  { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
+                  { title: 'Color', dataIndex: 'Color', width: 50, elCls: 'center' },
+                  { title: 'Action', renderer: function () { return '<span class="grid-command btn-edit">Edit</span>'; } }
+        ],
+        Select = BUI.Select,
+        memberSelect = new Select.Select({
+            render: '#memberSelect',
+            valueField: '#hide',
+            multipleSelect: true,
+            store: userStore
+        }),
+       leaderSelect = new Select.Select({
+           render: '#leaderSelect',
+           valueField: '#hide',
+           store: userStore
+       });
+    memberSelect.render();
+    leaderSelect.render();
+
+    var editing = new Grid.Plugins.DialogEditing({
+        contentId: 'contentDialog', //设置隐藏的Dialog内容
+        triggerCls: 'btn-edit', //触发显示Dialog的样式
+        editor: {
+            title: 'Submit', buttons: [
+                  {
+                      text: 'Submit',
+                      elCls: 'btn btn-primary',
+                      handler: function () {
+                          //do some thing
+                          this.close();
+                      }
+                  }, {
+                      text: 'Close',
+                      elCls: 'btn',
+                      handler: function () {
+                          this.close();
+                      }
                   }
-              },
-              {
-                  btnCls: 'button button-small',
-                  text: '<i class="icon-remove"></i>删除',
-                  listeners: {
-                      'click': delFunction
-                  }
-              }]
-          },
-          plugins: [editing, Grid.Plugins.CheckSelection],
-          store: store
-      });
+            ],
+        }
+    }),
+   store = new Store({
+       url: '/Project/GetProject',
+       autoLoad: true,
+       pageSize: 2
+   }),
+   grid = new Grid.Grid({
+       render: '#grid',
+       columns: columns,
+       //width: '100%',
+       forceFit: true,
+       tbar: { //添加、删除
+           items: [{
+               btnCls: 'btn btn-small',
+               text: '<i class="icon-plus"></i>Add',
+               listeners: {
+                   'click': addFunction
+               }
+           },
+           {
+               btnCls: 'btn btn-small',
+               text: '<i class="icon-remove"></i>Delete',
+               listeners: {
+                   'click': delFunction
+               }
+           }]
+       },
+       plugins: [editing, Grid.Plugins.CheckSelection],
+       store: store
+   });
 
     grid.render();
 
@@ -191,4 +199,3 @@ editing = new Grid.Plugins.DialogEditing({
         store.remove(selections);
     }
 </script>
-

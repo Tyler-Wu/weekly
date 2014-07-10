@@ -17,7 +17,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         // GET: /Data/
         public ActionResult Index()
         {
-            //AddRole();
+            AddRole();
             //AddUser();
             AddProject();
             return View();
@@ -46,6 +46,24 @@ namespace GS.WeeklyReport.Portal.Controllers
                     CreateDate = DateTime.Now,
                     Password = "123456",
                     UserName = "mike"
+                },
+                new User()
+                {
+                    UserId =new Guid("2FEFF1B0-B86D-A711-37DD-A45210A53F56"),
+                    Name = "tony",
+                    RoleId = 1,
+                    CreateDate = DateTime.Now,
+                    //Passwrod = "123456",
+                    UserName = "tony"
+                },
+                      new User()
+                {
+                    UserId =new Guid("DE395BA2-E458-06E4-180F-489B867014AE"),
+                    Name = "green",
+                    RoleId = 2,
+                    CreateDate = DateTime.Now,
+                    //Passwrod = "123456",
+                    UserName = "green"
                 }
             };
 
