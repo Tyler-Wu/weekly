@@ -5,25 +5,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/myJs.js"></script>
-<script>
-    function DelUser(uid) {
-        if (confirm("Are you sure to delete this user?")) {
-            $.ajax({
-                type: "GET",
-                url: "/user/Delete/" + uid,
-                success: function (data) {
-                    if (data === "success") {
-                        alert("deleted successfully");
-                        window.location.reload();
-                    } else {
-                        alert("deleted fail");
-                    }
-                }
-            });
-        }
-    }
-</script>
+
+
 <div id="content" class="span10">
     <!-- content starts -->
 
@@ -100,9 +83,47 @@
                         }
                     </tbody>
                 </table>
-            </div>
-        </div><!--/span-->
+                
+            </div><!--/span-->
 
-    </div><!--/row-->
+        </div><!--/row-->
+    </div>
+    <div class="demo-content">
+        <div class="row">
+            <div class="span16">
+                <div id="grid">
+
+                </div>
+
+            </div>
+
+        </div>
+        <script src="~/Scripts/jquery-1.8.2.js"></script>
+        <script src="~/Scripts/BUI/bui.js"></script>
+        <script src="~/Scripts/common.js"></script>
+        <script>
+           function DelUser(uid) {
+                if (confirm("Are you sure to delete this user?")) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/user/Delete/" + uid,
+                        success: function (data) {
+                            if (data === "success") {
+                                alert("deleted successfully");
+                                window.location.reload();
+                            } else {
+                                alert("deleted fail");
+                            }
+                        }
+                    });
+                }
+            };
+           function EditUser(user) {
+                    var userId = user;
+                };
+        </script>
+        <script src="~/Scripts/User/myJs.js"></script>
+    </div>
 </div>
+    
 
