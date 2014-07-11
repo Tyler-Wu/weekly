@@ -43,47 +43,44 @@
     </div><!--/row-->
 </div>
 <div id="contentDialog" class="hide">
-    <form class="form-horizontal">
+    <form class="form-horizontal" id="projectForm" method="post">
         <div class="row">
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>Project Name：</label>
                 <div class="controls">
-                    <input name="a" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    <input name="Name" type="text" data-rules="{required:true}" class="input-normal control-text">
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>  Leader：</label>
                 <div class="controls">
                     <div id="leaderSelect">
-                        <input type="hidden" id="hide" value="b" name="hide">
+                        <input type="hidden" id="hide" name="LeaderId" >
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="control-group span8 ">
-                <label class="control-label">StartData：</label>
-                <div id="range" class="controls">
-                    <input name="c" class="calendar" type="text">
+            @*<div class="control-group span8 ">
+                    <label class="control-label">StartData：</label>
+                    <div id="range" class="controls">
+                        <input name="StartData" class="calendar" type="text" value="StartData">
+                    </div>
+                </div>*@
+            <div class="control-group span8">
+                <label class="control-label">Members：</label>
+                <div id="memberSelect" class="controls control-row4">
+                    <input type="hidden" id="hide" value="Members" name="hide">
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label">Color：</label>
                 <div class="controls">
-                    <select name="d" class="input-normal">
-                        <option value="">OPTIONS</option>
+                    <select name="Color" class="input-normal">
+                        <option value="">options</option>
                         <option value="1">red</option>
                         <option value="2">yellow</option>
                     </select>
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="control-group span8">
-                <label class="control-label">Members：</label>
-                <div id="memberSelect" class="controls control-row4">
-                    <input type="hidden" id="hide" value="" name="hide">
                 </div>
             </div>
         </div>
@@ -91,7 +88,7 @@
             <div class="control-group span15">
                 <label class="control-label">Description：</label>
                 <div class="controls control-row4">
-                    <textarea name="f" class="input-large" type="text"></textarea>
+                    <textarea name="Description" class="input-large" type="text"></textarea>
                 </div>
             </div>
         </div>
@@ -111,34 +108,42 @@
             url: "/User/GetUserForSelect",
             autoLoad: true
         }),
+        enumColor = {"1":"red","2":"yellow"},
         columns = [
-                  { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
-                  { title: 'Leader', dataIndex: 'UName', width: 50, elCls: 'center' },
-                  {
-                      title: 'StartData', dataIndex: 'StartDate', width: 80, elCls: 'center',
-                      renderer: function (value) {
-                          if (value) {
-                              return value.substring(0, 10);
-                          }
-                          return '--';
-                      }
-                  },
-                  {
-                      title: 'Members', dataIndex: 'User', width: 100, elCls: 'center', renderer: function (members) {
-                          var memberString = "";
-                          if (members) {
-                              for (var i = 0; i < members.length; i++) {
-                                  memberString = memberString + members[i].Name + ",";
-                              }
-                              return memberString.substring(0, memberString.length - 1);
-                          }
-                          return '--';
-                      }
-                  },
-                  { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
-                  { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
-                  { title: 'Color', dataIndex: 'Color', width: 50, elCls: 'center' },
-                  { title: 'Action', renderer: function () { return '<span class="grid-command btn-edit">Edit</span>'; } }
+            { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
+            { title: 'Leader', dataIndex: 'LeaderId', width: 50, elCls: 'center' },
+            {
+                title: 'StartData',
+                dataIndex: 'StartDate',
+                width: 80,
+                elCls: 'center',
+                renderer: function (value) {
+                    if (value) {
+                        return value.substring(0, 10);
+                    }
+                    return '--';
+                }
+            },
+            {
+                title: 'Members',
+                dataIndex: 'User',
+                width: 100,
+                elCls: 'center',
+                renderer: function (members) {
+                    var memberString = "";
+                    if (members) {
+                        for (var i = 0; i < members.length; i++) {
+                            memberString = memberString + members[i].UserId + ",";
+                        }
+                        return memberString.substring(0, memberString.length - 1);
+                    }
+                    return '--';
+                }
+            },
+            { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
+            { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
+            { title: 'Color', dataIndex: 'Color', width: 50, elCls: 'center'},//, renderer: Grid.Format.enumRenderer(enumColor) },
+            { title: 'Action', renderer: function () { return '<span class="grid-command btn-edit">Edit</span>'; } }
         ],
         Select = BUI.Select,
         memberSelect = new Select.Select({
@@ -147,11 +152,12 @@
             multipleSelect: true,
             store: userStore
         }),
-       leaderSelect = new Select.Select({
-           render: '#leaderSelect',
-           valueField: '#hide',
-           store: userStore
-       });
+        leaderSelect = new Select.Select({
+            render: '#leaderSelect',
+            valueField: '#hide',
+            store: userStore
+        });
+    console.log(userStore);
     memberSelect.render();
     leaderSelect.render();
 
@@ -159,22 +165,52 @@
         contentId: 'contentDialog', //设置隐藏的Dialog内容
         triggerCls: 'btn-edit', //触发显示Dialog的样式
         editor: {
-            title: 'Submit', buttons: [
-                  {
-                      text: 'Submit',
-                      elCls: 'btn btn-primary',
-                      handler: function () {
-                          //do some thing
-                          this.close();
-                      }
-                  }, {
-                      text: 'Close',
-                      elCls: 'btn',
-                      handler: function () {
-                          this.close();
-                      }
-                  }
-            ],
+            //title: 'Submit', buttons: [
+            //      {
+            //          text: 'Submit',
+            //          elCls: 'btn btn-primary',
+            //          handler: function () {
+            //              this.close();
+            //          }
+            //      }, {
+            //          text: 'Close',
+            //          elCls: 'btn',
+            //          handler: function () {
+            //              this.close();
+            //          }
+            //      }
+            //],
+            success: function () {
+                var edtor = this,
+                form = edtor.get('form'),
+                editType = editing.get('editType'),//add 或者 edit
+                url = 'data/save.php';
+                url += '?saveType=' + editType;
+                form.valid();
+                if (form.isValid()) {
+                    form.ajaxSubmit({ //表单异步提交
+                        url: url,
+                        success: function (data) {
+                            if (editType == 'add') {
+                                //do something
+                            } else {
+                                //do other
+                            }
+                            //将a 改成 1 测试一下显示错误
+                            if (data.hasError) { //返回的数据是 {hasError : fasle,error : 'xxxx',field : 'xxx'},也可以是任意格式的数据如 ： {success : false,'error' : 'xxxxx'}
+                                var field = data.field;
+                                form.getField(field).showErrors([data.error]); //也可以多个字段的错误信息 例如 errors : [{field : 'a',error: 'addd'},{field : 'a',error: 'addd'}]
+                            } else {
+                                edtor.accept();
+                            }
+
+                        },
+                        error: function () {
+                            //do something
+                        }
+                    });
+                }
+            }
         }
     }),
     store = new Store({

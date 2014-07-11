@@ -189,6 +189,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\BUI\bs3\bui.css" />
     <Content Include="Content\BUI\bs3\dpl.css" />
     <Content Include="Content\BUI\bui.css" />
@@ -221,8 +225,13 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\calendar-dialog.css" />
     <Content Include="Content\css\fancybox.css" />
+    <Content Include="Content\css\font-awesome-ie7.css" />
+    <Content Include="Content\css\font-awesome-ie7.min.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\fullcalendar.css" />
     <Content Include="Content\css\fullcalendar.print.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\calendar-200-300.gif" />
     <Content Include="Content\img\check_icon-100-100.gif" />
@@ -295,9 +304,6 @@
     <Content Include="Scripts\BUI\tooltip.js" />
     <Content Include="Scripts\BUI\tree.js" />
     <Content Include="Scripts\BUI\uploader.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\img\iconfont\iconfont.eot" />
     <Content Include="Content\img\iconfont\iconfont.ttf" />
     <Content Include="Content\img\iconfont\iconfont.woff" />
@@ -306,6 +312,15 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

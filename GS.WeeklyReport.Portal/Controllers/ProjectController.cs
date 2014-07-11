@@ -25,7 +25,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         public JsonResult GetProject()
         {
             var project = service.LoadEntities(p => true);
-            var projectList = project.Select(x => new { x.Name, UName =x.Leader.Name, x.StartDate, x.Description, x.Status, x.Color, x.User}).AsEnumerable();
+            var projectList = project.Select(x => new { x.Name, LeaderId = x.Leader.UserId, x.StartDate, x.Description, x.Status, x.Color, x.User }).AsEnumerable();
             return Json(projectList, JsonRequestBehavior.AllowGet);
         }
 
