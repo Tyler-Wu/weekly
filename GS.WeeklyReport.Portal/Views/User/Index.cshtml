@@ -10,13 +10,12 @@
     function DelUser(uid) {
         if (confirm("Are you sure to delete this user?")) {
             $.ajax({
-                type: "Delete",
+                type: "GET",
                 url: "/user/Delete/" + uid,
                 success: function (data) {
-                    alert(data);
                     if (data === "success") {
                         alert("deleted successfully");
-
+                        window.location.reload();
                     } else {
                         alert("deleted fail");
                     }
