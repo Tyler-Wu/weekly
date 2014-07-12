@@ -17,22 +17,28 @@ namespace GS.WeeklyReport.Portal
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/jquery-1.8.2.js",
+                      "~/Scripts/jquery-1.7.2.js",
+                      "~/Scripts/moment.js",
+                      "~/Scripts/fullcalendar.js",
+                      "~/Scripts/jquery-ui-1.8.21.custom.min.js",
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/WeeklyReport.js",
+                      "~/Scripts/bui.js",
+                      "~/Scripts/fancyBox-1.3.1.js"
+            ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                //"~/Content/bootstrap.css",
-              //"~/Content/BUI/bs3/dpl.css",
-             "~/Content/BUI/bs3/bui.css"
+                    "~/Content/bootstrap.css",
+                    "~/Content/BUI/bs3/dpl.css",
+                    "~/Content/BUI/bs3/bui.css",
+                    "~/Content/fullcalendar.css",
+                    "~/Content/css/font-awesome.css",
+                    "~/Content/css/bootstrap-cerulean.css",
+                    "~/Content/fullcalendar.print.css",
+                    "~/Content/fancyBox-1.3.1.css",
+                    "~/Content/calendar-dialog.css"
              ));
-
-            bundles.Add(new ScriptBundle("~/Scripts/BUI").Include(
-                                      "~/Scripts/jquery-1.8.2.js",
-                                       "~/Scripts/bootstrap.js",
-                                      "~/Scripts/bui.js"
-
-                ));
         }
     }
 }

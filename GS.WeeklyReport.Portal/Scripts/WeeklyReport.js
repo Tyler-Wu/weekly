@@ -152,7 +152,9 @@ function initProjectList() {
     $.get("/Calendar/GetProjectList", function (result) {
         if (result) {
             console.log(result);
-            $("#external-events h4").append('<div id="example" class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[0].Name + '</div>');
+            for (var i = 0; i < result.length; i++) {
+                $("#external-events h4").append('<div id="example" class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[i].Name + '</div>');
+            }
             $('#external-events div.external-event').each(function () {
 
                 // it doesn't need to have a start or end
@@ -173,7 +175,7 @@ function initProjectList() {
             });
         }
     });
-}    //生成GUID
+}
 function guid() {
     var temp = "";
     for (var i = 1; i <= 32; i++) {
