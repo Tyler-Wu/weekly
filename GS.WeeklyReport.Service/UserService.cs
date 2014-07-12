@@ -11,7 +11,7 @@ using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.Service
 {
-    public class UserService : BaseService<User>,IService.IUserService
+    public class UserService : BaseService<User>, IService.IUserService
     {
 
         public override void SetCurrentRepositroy()

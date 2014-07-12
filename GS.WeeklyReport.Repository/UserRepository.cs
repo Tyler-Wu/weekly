@@ -10,6 +10,10 @@ namespace GS.WeeklyReport.Repository
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-
+        public List<User> GetEntitiesByIds(string ids)
+        {
+            var arry = ids.Split(',');
+            return arry.Select(item => new Guid(item)).Select(id => LoadEntities(u => u.UserId == id).SingleOrDefault()).ToList();
+        }
     }
 }

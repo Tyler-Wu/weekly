@@ -7,8 +7,9 @@ using WeeklyReport.Models;
 
 namespace GS.WeeklyReport.IRepository
 {
-    public interface IUserRepository:IBaseRepositroy<User>
+    public interface IUserRepository : IBaseRepositroy<User>
     {
 
+        List<User> GetEntitiesByIds(string ids);
     }
 }
