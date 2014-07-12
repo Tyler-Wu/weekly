@@ -33,9 +33,9 @@ namespace GS.WeeklyReport.Portal
                     "~/Content/BUI/bs3/dpl.css",
                     "~/Content/BUI/bs3/bui.css",
                     "~/Content/fullcalendar.css",
+                    "~/Content/fullcalendar.print.css",
                     "~/Content/css/font-awesome.css",
                     "~/Content/css/bootstrap-cerulean.css",
-                    "~/Content/fullcalendar.print.css",
                     "~/Content/fancyBox-1.3.1.css",
                     "~/Content/calendar-dialog.css"
              ));
