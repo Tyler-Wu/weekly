@@ -55,7 +55,7 @@
                 <label class="control-label"><s>*</s>  Leader：</label>
                 <div class="controls">
                     <div id="leaderSelect">
-                        <input type="hidden" id="inputLeader" name="LeaderId" >
+                        <input type="hidden" id="inputLeader" name="LeaderId">
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
     </form>
 </div>
 
-<script src="~/Scripts/jquery-1.8.2.js"></script>
+
 <script src="~/Scripts/BUI/bui.js"></script>
 <script src="~/Scripts/lodash.js"></script>
 <script type="text/javascript">
@@ -108,56 +108,68 @@
             url: "/User/GetUserForSelect",
             autoLoad: true
         }),
-        enumColor = {"1":"red","2":"yellow"},
-        columns = [
-            { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
-            { title: 'Leader', dataIndex: 'LeaderId', width: 50, elCls: 'center' },
-            {
-                title: 'StartData',
-                dataIndex: 'StartDate',
-                width: 80,
-                elCls: 'center',
-                renderer: function (value) {
-                    if (value) {
-                        return value.substring(0, 10);
-                    }
-                    return '--';
+        enumUser = $.getJSON("/User/GetUserForSelect", function(data) {
+            var enumString = "{";
+            if (data) {
+                for (var i = 0; i < data.length; i++) {
+                    enumString += '"'+data[i].value+'":"' + data[i].text +'",';
                 }
-            },
-            {
-                title: 'Members',
-                dataIndex: 'User',
-                width: 100,
-                elCls: 'center',
-                renderer: function (members) {
-                    var memberString = "";
-                    if (members) {
-                        for (var i = 0; i < members.length; i++) {
-                            memberString = memberString + members[i].UserId + ",";
-                        }
-                        return memberString.substring(0, memberString.length - 1);
-                    }
-                    return '--';
-                }
-            },
-            { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
-            { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
-            { title: 'Color', dataIndex: 'Color', width: 50, elCls: 'center', renderer: Grid.Format.enumRenderer(enumColor) },
-            { title: 'Action', renderer: function () { return '<span class="grid-command btn-edit">Edit</span>'; } }
-        ],
-        Select = BUI.Select,
-        memberSelect = new Select.Select({
-            render: '#memberSelect',
-            valueField: '#inputMember',
-            multipleSelect: true,
-            store: userStore
+            }
+            enumString +=enumString.substring(0,enumString.length-1)+ "}";
+            console.log(enumString)
+            console.log(JSON.parse(enumString));
+            return JSON.parse(enumString);
         }),
-        leaderSelect = new Select.Select({
-            render: '#leaderSelect',
-            valueField: '#inputLeader',
-            store: userStore
-        });
-    console.log(userStore);
+        enumColor = { "1": "red", "2": "yellow" },
+        columns = [
+        { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
+        { title: 'Leader', dataIndex: 'LeaderId', width: 50, elCls: 'center', renderer: Grid.Format.enumRenderer(enumUser) },
+        {
+            title: 'StartData',
+            dataIndex: 'StartDate',
+            width: 80,
+            elCls: 'center',
+            renderer: function (value) {
+                if (value) {
+                    return value.substring(0, 10);
+                }
+                return '--';
+            }
+        },
+        {
+            title: 'Members',
+            dataIndex: 'User',
+            width: 100,
+            elCls: 'center',
+            renderer: function (members) {
+                var memberString = "";
+                if (members) {
+                    for (var i = 0; i < members.length; i++) {
+                        memberString = memberString + members[i].UserId + ",";
+                    }
+                    return memberString.substring(0, memberString.length - 1);
+                }
+                return '--';
+            }
+        },
+        { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
+        { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
+        { title: 'Color', dataIndex: 'Color', width: 50, elCls: 'center', renderer: Grid.Format.enumRenderer(enumColor) },
+        { title: 'Action', renderer: function () { return '<span class="grid-command btn-edit">Edit</span>'; } }
+        ],
+    Select = BUI.Select,
+    memberSelect = new Select.Select({
+        render: '#memberSelect',
+        valueField: '#inputMember',
+        multipleSelect: true,
+        store: userStore
+    }),
+    leaderSelect = new Select.Select({
+        render: '#leaderSelect',
+        valueField: '#inputLeader',
+        store: userStore
+    });
+ 
     memberSelect.render();
     leaderSelect.render();
 
@@ -165,21 +177,6 @@
         contentId: 'contentDialog', //设置隐藏的Dialog内容
         triggerCls: 'btn-edit', //触发显示Dialog的样式
         editor: {
-            //title: 'Submit', buttons: [
-            //      {
-            //          text: 'Submit',
-            //          elCls: 'btn btn-primary',
-            //          handler: function () {
-            //              this.close();
-            //          }
-            //      }, {
-            //          text: 'Close',
-            //          elCls: 'btn',
-            //          handler: function () {
-            //              this.close();
-            //          }
-            //      }
-            //],
             success: function () {
                 var edtor = this,
                 form = edtor.get('form'),

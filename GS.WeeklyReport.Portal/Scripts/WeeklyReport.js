@@ -41,7 +41,6 @@
         firstHour: 7,
         axisFormat: 'h(:mm)tt',
         drop: function (date, allDay, ui) { // this function is called when something is dropped
-            console.log(this);
             var bgcolor;
             if ($.browser.msie) {
                 bgcolor = this.currentStyle.backgroundColor;

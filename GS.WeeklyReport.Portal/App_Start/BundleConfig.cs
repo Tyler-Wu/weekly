@@ -29,7 +29,6 @@ namespace GS.WeeklyReport.Portal
             ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                    "~/Content/bootstrap.css",
                     "~/Content/BUI/bs3/dpl.css",
                     "~/Content/BUI/bs3/bui.css",
                     "~/Content/fullcalendar.css",

@@ -25,7 +25,6 @@ namespace GS.WeeklyReport.Portal.Controllers
             var users = service.LoadEntities(u => true).Select(u => new { text=u.UserName, value=u.UserId });
             return Json(users, JsonRequestBehavior.AllowGet);
         }
-
         //
         // GET: /User/Details/5
         public ActionResult Details(Guid id)
