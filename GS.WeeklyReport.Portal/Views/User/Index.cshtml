@@ -20,7 +20,6 @@
             </li>
         </ul>
     </div>
-
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>
@@ -31,99 +30,234 @@
                     <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                 </div>
             </div>
-            <div class="box-content">
-                <span class="btn btn-block" onclick="openDialog('/user/create')">
-                    <i class="icon-trash icon-white"></i>
-                    Create
-                </span>
-                <table class="table table-striped table-bordered bootstrap-datatable datatable">
-                    <thead>
-                        <tr>
-                            <th>UserName</th>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>CreateDate</th>
-                            <th>UpdateDate</th>
-                            <th>Projects</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var m in Model)
-                        {
-                            <tr>
-                                <td>@m.UserName</td>
-                                <td class="center">@m.Name</td>
-                                <td class="center">@m.Role.Name</td>
-                                <td class="center">@m.CreateDate</td>
-                                <td class="center">@m.UpdateDate</td>
-                                <td class="center">
-                                    @foreach (Project P in m.Project)
-                                    {
-                                        @(P.Name + " ")
-                                    }
-                                </td>
-                                @*<td class="center">
-                                    <span class="label label-success">Active</span>
-                                </td>*@
-                                <td class="center">
-                                    <span class="btn btn-success" onclick="openDialog('/User/Details/@m.UserId','Details')">
-                                        <i class="icon-zoom-in icon-white"></i>
-                                        View
-                                    </span>
-                                    <span class="btn btn-info" onclick="openDialog('/User/Edit/@m.UserId','Edit')">
-                                        <i class="icon-edit icon-white"></i>
-                                        Edit
-                                    </span>
-                                    <span class="btn btn-danger" onclick="DelUser('@m.UserId')">
-                                        <i class="icon-trash icon-white"></i>
-                                        Delete
-                                    </span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                
-            </div><!--/span-->
+            <div>
+                <div class="demo-content">
+                    <div class="row">
+                        <div class="span24">
+                            <div id="grid">
 
-        </div><!--/row-->
-    </div>
-    <div class="demo-content">
-        <div class="row">
-            <div class="span16">
-                <div id="grid">
-
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
-
         </div>
-        <script src="~/Scripts/jquery-1.8.2.js"></script>
-        <script src="~/Scripts/BUI/bui.js"></script>
-        <script src="~/Scripts/common.js"></script>
-        <script>
-           function DelUser(uid) {
-                if (confirm("Are you sure to delete this user?")) {
-                    $.ajax({
-                        type: "GET",
-                        url: "/user/Delete/" + uid,
+    </div><!--/row-->
+</div>
+<div id="contentDialog" class="hide">
+    <form class="form-horizontal">
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>UserName：</label>
+                <div class="controls">
+                    <input name="UserName" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>Name：</label>
+                <div class="controls">
+                    <input name="Name" type="text" data-rules="{required:true,number : true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>Role：</label>
+                <div class="controls">
+                    <input name="Role" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>CreateData：</label>
+                <div class="controls">
+                    <input name="CreateDate" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>UpdataDate：</label>
+                <div class="controls">
+                    <input name="UpdateDate" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+            <div class="control-group span8">
+                <label class="control-label">多选：</label>
+                <div id="s2" class="controls bui-form-field-select" data-select="">
+                    <input type="hidden" name="Projects">
+                    <input type="button" id="cc" value="cc"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/BUI/bui.js"></script>
+<script src="~/Scripts/lodash.js"></script>
+<script type="text/javascript">
+    var Grid = BUI.Grid,
+        Data = BUI.Data,
+        Grid = Grid,
+        Store = Data.Store,
+        Select = BUI.Select;
+    $(document).ready(function () {
+        alert("ss");
+                 $.get('../Project/GetProjiectForSelect', function (data) {
+                     alert("cc");
+                     var obj = {
+                         multipleSelect: true,
+                         items: data
+                     }
+                     $("#s2").attr("data-select", obj);
+                 });
+    });
+
+
+  var      userStore = new Data.Store(
+        {
+            url: "/User/GetUserForSelect",
+            autoLoad: true
+        }),
+        enumUser = $.getJSON("/User/GetUserForSelect", function (data) {
+            var enumString = "{";
+            if (data) {
+                for (var i = 0; i < data.length; i++) {
+                    enumString += '"' + data[i].value + '":"' + data[i].text + '",';
+                }
+            }
+            enumString += enumString.substring(0, enumString.length - 1) + "}";
+            console.log(enumString);
+            console.log(JSON.parse(enumString));
+            return JSON.parse(enumString);
+        }),
+         enumObj = { "1": "选项一", "2": "选项二", "3": "选项三" },
+        columns = [
+        { title: 'UserName', dataIndex: 'UserName', width: 50, elCls: 'center' },
+        { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
+        { title: 'Role', dataIndex: 'Role', width: 50, elCls: 'center' },
+        {
+            title: 'CreateDate', dataIndex: 'CreateDate', width: 50, elCls: 'center', renderer: function (value) {
+                if (value) {
+                    return value.substring(0, 10);
+                }
+                return '--';
+            }
+        },
+         {
+             title: 'UpdateDate', dataIndex: 'UpdateDate', width: 50, elCls: 'center', renderer: function (value) {
+                 if (value) {
+                     return value.substring(0, 10);
+                 }
+                 return '--';
+             }
+         },
+        { title: 'Projects', dataIndex: 'Projects', width: 50, elCls: 'center' , editor: { xtype: 'select', items: enumObj },
+            renderer: function (ec) {
+                var project = "";
+            for (var i = 0; i < ec.length; i++) {
+                project = project + ec[i].Name.toString() + " ";
+            }
+                return project;
+            } 
+        },
+        { title: 'Action', renderer: function () { return '<span id="Edit" class="grid-command btn-edit">Edit</span>'; } }
+        ],
+    Select = BUI.Select,
+    memberSelect = new Select.Select({
+        render: '#memberSelect',
+        valueField: '#inputMember',
+        multipleSelect: true,
+        store: userStore
+    }),
+    leaderSelect = new Select.Select({
+        render: '#leaderSelect',
+        valueField: '#inputLeader',
+        store: userStore
+    });
+
+    memberSelect.render();
+    leaderSelect.render();
+
+    var editing = new Grid.Plugins.DialogEditing({
+        contentId: 'contentDialog', //设置隐藏的Dialog内容
+        triggerCls: 'btn-edit', //触发显示Dialog的样式
+        editor: {
+            success: function () {
+                var edtor = this,
+                form = edtor.get('form'),
+                editType = editing.get('editType'),//add 或者 edit
+                url = '/Project/SaveProject';
+                url += '?saveType=' + editType;
+                form.valid();
+                if (form.isValid()) {
+                    form.ajaxSubmit({ //表单异步提交
+                        url: url,
                         success: function (data) {
-                            if (data === "success") {
-                                alert("deleted successfully");
-                                window.location.reload();
+                            if (editType == 'add') {
+                                //do something
                             } else {
-                                alert("deleted fail");
+                                //do other
                             }
+                            //将a 改成 1 测试一下显示错误
+                            if (data.hasError) { //返回的数据是 {hasError : fasle,error : 'xxxx',field : 'xxx'},也可以是任意格式的数据如 ： {success : false,'error' : 'xxxxx'}
+                                var field = data.field;
+                                form.getField(field).showErrors([data.error]); //也可以多个字段的错误信息 例如 errors : [{field : 'a',error: 'addd'},{field : 'a',error: 'addd'}]
+                            } else {
+                                edtor.accept();
+                            }
+
+                        },
+                        error: function () {
+                            //do something
                         }
                     });
                 }
-            };
-           function EditUser(user) {
-                    var userId = user;
-                };
-        </script>
-        <script src="~/Scripts/User/myJs.js"></script>
-    </div>
-</div>
-    
+            }
+        }
+    }),
+    store = new Store({
+        url: '/User/GetNumbersForSelect',
+        autoLoad: true,
+        pageSize: 2
+    }),
+     grid = new Grid.Grid({
+         render: '#grid',
+         columns: columns,
+         //width: '100%',
+         forceFit: true,
+         tbar: { //添加、删除
+             items: [{
+                 btnCls: 'btn btn-small',
+                 text: '<i class="icon-plus"></i>Add',
+                 listeners: {
+                     'click': addFunction
+                 }
+             },
+             {
+                 btnCls: 'btn btn-small',
+                 text: '<i class="icon-remove"></i>Delete',
+                 listeners: {
+                     'click': delFunction
+                 }
+             }]
+         },
+         plugins: [editing, Grid.Plugins.CheckSelection],
+         store: store
+     });
+
+    grid.render();
+
+    //添加记录
+    function addFunction() {
+        var newData = { b: 0 };
+        editing.add(newData, 'a'); //添加记录后，直接编辑
+    }
+    //删除选中的记录
+    function delFunction() {
+        var selections = grid.getSelection();
+        store.remove(selections);
+    }
+</script>
+
 

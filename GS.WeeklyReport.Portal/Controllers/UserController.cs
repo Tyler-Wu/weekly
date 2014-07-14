@@ -19,7 +19,14 @@ namespace GS.WeeklyReport.Portal.Controllers
             var users = service.LoadEntities(u => true);
             return View(users);
         }
+        public JsonResult GetNumbersForSelect()
+        {
+            var users = service.LoadEntities(u => true).Select(u => new { UserName = u.UserName, Name = u.Name, Role = u.Role.RoleId, CreateDate = u.CreateDate, UpdateDate = u.UpdateDate, Projects = u.Project }
+                );
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
 
+     
         public JsonResult GetUserForSelect()
         {
             var users = service.LoadEntities(u => true).Select(u => new { text=u.UserName, value=u.UserId });

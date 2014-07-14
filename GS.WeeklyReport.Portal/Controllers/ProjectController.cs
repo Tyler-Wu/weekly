@@ -51,6 +51,11 @@ namespace GS.WeeklyReport.Portal.Controllers
             }
             return Json(projectList, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetProjiectForSelect()
+        {
+            var project = service.LoadEntities(p => true).Select(c => new { value = c.ProjectId, text = c.Name });
+            return Json(project, JsonRequestBehavior.AllowGet);
+        }
 
         private string GetUserIds(ICollection<User> users)
         {
