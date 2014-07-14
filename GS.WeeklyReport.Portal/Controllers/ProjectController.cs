@@ -31,11 +31,35 @@ namespace GS.WeeklyReport.Portal.Controllers
         [HttpGet]
         public JsonResult GetProject()
         {
-            var project = service.LoadEntities(p => true);
-            var projectList =
-                project.Select(x => new { x.Name, x.LeaderId, x.StartDate, x.Description, x.Status, x.Color, x.User })
-                    .AsEnumerable();
+            var projectList = new List<ProjectViewModel>();
+            var projects = service.LoadEntities(p => true);
+            //var projectList =
+            //    project.Select(x => new { x.Name, x.LeaderId, x.StartDate, x.Description, x.Status, x.Color, x.User })
+            //        .AsEnumerable();
+            foreach (var project in projects)
+            {
+                projectList.Add(new ProjectViewModel()
+                {
+                    Name = project.Name,
+                    LeaderId = project.LeaderId,
+                    StartDate = project.StartDate,
+                    Description = project.Description,
+                    Status = project.Status,
+                    Color = project.Color,
+                    Members = GetUserIds(project.User)
+                });
+            }
             return Json(projectList, JsonRequestBehavior.AllowGet);
+        }
+
+        private string GetUserIds(ICollection<User> users)
+        {
+            string ids = "";
+            if (users.Count > 0)
+            {
+                ids = users.Aggregate(ids, (current, user) => current + (user.UserId + ","));
+            }
+            return ids.Length > 0 ? ids.Substring(0, ids.Length) : ids;
         }
 
         [HttpPost]

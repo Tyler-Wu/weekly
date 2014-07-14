@@ -108,18 +108,19 @@
             url: "/User/GetUserForSelect",
             autoLoad: true
         }),
-        enumUser = $.getJSON("/User/GetUserForSelect", function(data) {
-            var enumString = "{";
-            if (data) {
-                for (var i = 0; i < data.length; i++) {
-                    enumString += '"'+data[i].value+'":"' + data[i].text +'",';
-                }
-            }
-            enumString +=enumString.substring(0,enumString.length-1)+ "}";
-            console.log(enumString)
-            console.log(JSON.parse(enumString));
-            return JSON.parse(enumString);
-        }),
+        //enumUser = $.getJSON("/User/GetUserForSelect", function(data) {
+        //    var enumString = "{";
+        //    if (data) {
+        //        for (var i = 0; i < data.length; i++) {
+        //            enumString += '"'+data[i].value+'":"' + data[i].text +'",';
+        //        }
+        //    }
+        //    enumString +=enumString.substring(0,enumString.length-1)+ "}";
+        //    console.log(enumString)
+        //    console.log(JSON.parse(enumString));
+        //    return JSON.parse(enumString);
+        //}),
+        enumUser = { "00000000-0000-0000-0000-000000000000": "winffe" },
         enumColor = { "1": "red", "2": "yellow" },
         columns = [
         { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
@@ -138,19 +139,9 @@
         },
         {
             title: 'Members',
-            dataIndex: 'User',
+            dataIndex: 'Members',
             width: 100,
-            elCls: 'center',
-            renderer: function (members) {
-                var memberString = "";
-                if (members) {
-                    for (var i = 0; i < members.length; i++) {
-                        memberString = memberString + members[i].UserId + ",";
-                    }
-                    return memberString.substring(0, memberString.length - 1);
-                }
-                return '--';
-            }
+            elCls: 'center'
         },
         { title: 'Description', dataIndex: 'Description', width: 50, elCls: 'center' },
         { title: 'Status', dataIndex: 'Status', width: 50, elCls: 'center' },
@@ -169,7 +160,7 @@
         valueField: '#inputLeader',
         store: userStore
     });
- 
+
     memberSelect.render();
     leaderSelect.render();
 
