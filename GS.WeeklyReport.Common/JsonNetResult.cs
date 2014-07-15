@@ -31,6 +31,7 @@ namespace GS.WeeklyReport.Common
                 throw new InvalidOperationException("JSON GET is not allowed");
             HttpResponseBase response = context.HttpContext.Response;
             response.ContentType = string.IsNullOrEmpty(this.ContentType) ? "application/json" : this.ContentType;
+           
             if (this.ContentEncoding != null)
                 response.ContentEncoding = this.ContentEncoding;
             if (this.Data == null)
