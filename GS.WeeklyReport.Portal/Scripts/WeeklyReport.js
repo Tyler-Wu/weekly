@@ -104,13 +104,13 @@
             var workItem = {
                 'calendarId': 111, //event.id,
                 'title': event.info,
-                'itemId': event.workItemId,
+                'itemId': event.project.ProjectId,
                 'projectName': event.info,
                 'start': (event.start.getTime() / 1000),
                 'end': (event.end.getTime() / 1000),
                 'duration': durationTime,
-                'color': event.backgroundColor,
-                'allDay': event.allDay
+                'color': event.project.color,
+                'allDay': event.allDay//?allDay是什么东西？
             };
             console.log('Start: ' + event.start.getTime() / 1000);
             console.log('End: ' + event.end.getTime() / 1000);
@@ -150,16 +150,19 @@
 function initProjectList() {
     $.get("/Calendar/GetProjectList", function (result) {
         if (result) {
+            var eventObj = [];
             console.log(result);
             for (var i = 0; i < result.length; i++) {
-                $("#external-events h4").append('<div id="example" class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[i].Name + '</div>');
+                $("#external-events h4").append('<div id="example"  class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[i].Name + '</div>');
+                eventObj.push(result[i]);
             }
-            $('#external-events div.external-event').each(function () {
+            $('#external-events div.external-event').each(function (index) {
 
                 // it doesn't need to have a start or end
                 var eventObject = {
-                    title: $.trim($(this).text()) // use the element's text as the event title
-                };
+                    title: $.trim($(this).text()), // use the element's text as the event title
+                    project: eventObj[index],//把项目对象加入eventObject中
+            };
 
                 // store the Event Object in the DOM element so we can get to it later
                 $(this).data('eventObject', eventObject);

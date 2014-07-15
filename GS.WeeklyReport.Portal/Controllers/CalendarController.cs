@@ -62,8 +62,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                     workItem.CreateDate = DateTime.Now;
                     workItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
                     workItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
-                    workItem.ProjectId = new Guid("0478EB82-E075-4811-B6AB-2BF85CC96000");
-
+                    workItem.ProjectId = workItem.ItemId;
                     var model = workItemService.Add(workItem);
                     if (model != null)
                     {
@@ -74,7 +73,9 @@ namespace GS.WeeklyReport.Portal.Controllers
                 {
                     workItem.UpdateDate = DateTime.Now;
                     workItem.UpdateUser = _loginUser.UserId;
-                    if (workItemService.Update(workItem))
+                    WorkItem oldItem = workItemService.LoadEntities(w => w.ItemId == workItem.ItemId).FirstOrDefault();
+                    oldItem.Project = workItem.Project;
+                    if (workItemService.Update(oldItem))
                     {
                         return Content("sucessful");
                     }
