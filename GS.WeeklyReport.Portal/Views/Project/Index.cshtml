@@ -92,6 +92,7 @@
                 </div>
             </div>
         </div>
+        <input name="ProjectId" type="text" class="hide">
     </form>
 </div>
 
@@ -123,6 +124,7 @@
         enumUser = { "00000000-0000-0000-0000-000000000000": "winffe" },
         enumColor = { "1": "red", "2": "yellow" },
         columns = [
+         { title: 'id', dataIndex: 'ProjectId', width: 50, elCls: 'center' },
         { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
         { title: 'Leader', dataIndex: 'LeaderId', width: 50, elCls: 'center', renderer: Grid.Format.enumRenderer(enumUser) },
         {

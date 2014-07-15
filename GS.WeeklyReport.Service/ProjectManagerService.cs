@@ -15,16 +15,17 @@ namespace GS.WeeklyReport.Service
         private IUserRepository userRepository = new UserRepository();
         private IProjectRepository projectRepository = new ProjectRepository();
 
-        public bool SaveProject(Project model, string members, string editType)
+        public bool SaveProject(Project model, string members, string saveType)
         {
-            if (editType == "add")
+            if (saveType == "add")
             {
                 model.ProjectId = Guid.NewGuid();
                 model = projectRepository.Add(model);
             }
-
-            model.User = string.IsNullOrEmpty(members) ? null : userRepository.GetEntitiesByIds(members);
-            return projectRepository.Update(model);
+            var project = projectRepository.LoadEntities(p => p.ProjectId == model.ProjectId).SingleOrDefault();
+            project.User.Clear(); //= string.IsNullOrEmpty(members) ? null : userRepository.GetEntitiesByIds(members);
+            var b= projectRepository.Update(project);
+            return b;
         }
     }
 }

@@ -16,7 +16,6 @@ namespace GS.WeeklyReport.Portal.Controllers
     public class ProjectController : BaseController
     {
         private IProjectService service = new ProjectService();
-        private IUserService userService = new UserService();
         private ProjectManagerService projectManagerService = new ProjectManagerService();
 
         //
@@ -40,6 +39,7 @@ namespace GS.WeeklyReport.Portal.Controllers
             {
                 projectList.Add(new ProjectViewModel()
                 {
+                    ProjectId = project.ProjectId,
                     Name = project.Name,
                     LeaderId = project.LeaderId,
                     StartDate = project.StartDate,
@@ -70,10 +70,10 @@ namespace GS.WeeklyReport.Portal.Controllers
         [HttpPost]
         public ActionResult SaveProject(ProjectViewModel model)
         {
-            var editType = Request["editType"];
+            var saveType = Request["saveType"];
             var project = new Project()
             {
-                
+
                 ProjectId = model.ProjectId,
                 Name = model.Name,
                 LeaderId = model.LeaderId,
@@ -82,7 +82,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                 Status = "1",
                 Description = model.Description
             };
-            projectManagerService.SaveProject(project, model.Members, editType);
+            projectManagerService.SaveProject(project, model.Members, saveType);
 
             return Content("111");
         }
