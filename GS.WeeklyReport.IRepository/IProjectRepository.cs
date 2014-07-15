@@ -9,5 +9,6 @@ namespace GS.WeeklyReport.IRepository
 {
     public interface IProjectRepository:IBaseRepositroy<Project>
     {
+        List<Project> GetEntitiesByIds(string ids);
     }
 }

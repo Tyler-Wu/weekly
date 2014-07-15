@@ -70,8 +70,10 @@ namespace GS.WeeklyReport.Portal.Controllers
         [HttpPost]
         public ActionResult SaveProject(ProjectViewModel model)
         {
+            var editType = Request["editType"];
             var project = new Project()
             {
+                
                 ProjectId = model.ProjectId,
                 Name = model.Name,
                 LeaderId = model.LeaderId,
@@ -80,7 +82,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                 Status = "1",
                 Description = model.Description
             };
-            projectManagerService.SaveProject(project, model.Members);
+            projectManagerService.SaveProject(project, model.Members, editType);
 
             return Content("111");
         }

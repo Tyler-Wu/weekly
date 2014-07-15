@@ -10,6 +10,12 @@ namespace GS.WeeklyReport.Repository
 {
     public class ProjectRepository:BaseRepository<Project>,IProjectRepository
     {
-
+        public List<Project> GetEntitiesByIds(string ids)
+        {
+            var arry = ids.Split(',');
+           
+             List<Project> P=  arry.Select(item => new Guid(item)).Select(id => LoadEntities(u =>u.ProjectId== id).FirstOrDefault()).ToList();
+            return P;
+        }
     }
 }

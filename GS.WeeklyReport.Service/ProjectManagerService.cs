@@ -15,14 +15,15 @@ namespace GS.WeeklyReport.Service
         private IUserRepository userRepository = new UserRepository();
         private IProjectRepository projectRepository = new ProjectRepository();
 
-        public bool SaveProject(Project model, string ids)
+        public bool SaveProject(Project model, string members, string editType)
         {
-            if (model.ProjectId == new Guid("00000000-0000-0000-0000-000000000000"))
+            if (editType == "add")
             {
                 model.ProjectId = Guid.NewGuid();
                 model = projectRepository.Add(model);
             }
-            model.User = userRepository.GetEntitiesByIds(ids);
+
+            model.User = string.IsNullOrEmpty(members) ? null : userRepository.GetEntitiesByIds(members);
             return projectRepository.Update(model);
         }
     }

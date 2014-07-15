@@ -24,7 +24,7 @@ namespace GS.WeeklyReport.Repository
 
         public bool Update(T entity)
         {
-            
+           
             db.Entry(entity).State = EntityState.Modified;
             db.SaveChanges();
             return true;

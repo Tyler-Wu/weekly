@@ -51,13 +51,14 @@
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>UserName：</label>
                 <div class="controls">
-                    <input name="UserName" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    <input name="UserName" type="text" readonly="readonly" class="input-normal control-text">
+                    <input name="UserId" type="hidden" />
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>Name：</label>
                 <div class="controls">
-                    <input name="Name" type="text" data-rules="{required:true,number : true}" class="input-normal control-text">
+                    <input name="Name" type="text" readonly="readonly" class="input-normal control-text">
                 </div>
             </div>
         </div>
@@ -65,13 +66,13 @@
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>Role：</label>
                 <div class="controls">
-                    <input name="Role" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    <input name="RoleId" type="text" readonly="readonly" class="input-normal control-text">
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>CreateData：</label>
                 <div class="controls">
-                    <input name="CreateDate" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    <input name="CreateDate" type="text" readonly="readonly" class="input-normal control-text">
                 </div>
             </div>
         </div>
@@ -79,14 +80,14 @@
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>UpdataDate：</label>
                 <div class="controls">
-                    <input name="UpdateDate" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    <input name="UpdateDate" type="text" readonly="readonly" class="input-normal control-text">
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label">多选：</label>
                 <div id="s2" class="controls bui-form-field-select" data-select="">
+
                     <input type="hidden" name="Projects">
-                    <input type="button" id="cc" value="cc"/>
                 </div>
             </div>
         </div>
@@ -100,81 +101,71 @@
         Data = BUI.Data,
         Grid = Grid,
         Store = Data.Store,
-        Select = BUI.Select;
-    $(document).ready(function () {
-        alert("ss");
-                 $.get('../Project/GetProjiectForSelect', function (data) {
-                     alert("cc");
-                     var obj = {
-                         multipleSelect: true,
-                         items: data
-                     }
-                     $("#s2").attr("data-select", obj);
-                 });
+        Select = BUI.Select,
+        JitemsSelect = "[{",
+        Jitems = {},
+                             Role={'1':'Admin','2':'PM','3':'Member'},
+        Jitem;
+    $.ajaxSetup({
+        async: false
     });
-
-
-  var      userStore = new Data.Store(
-        {
-            url: "/User/GetUserForSelect",
-            autoLoad: true
-        }),
-        enumUser = $.getJSON("/User/GetUserForSelect", function (data) {
-            var enumString = "{";
-            if (data) {
-                for (var i = 0; i < data.length; i++) {
-                    enumString += '"' + data[i].value + '":"' + data[i].text + '",';
+    $.getJSON('../Project/GetProjiectForSelect', function (data) {
+        if (data) {
+            for (var i = 0; i < data.length; i++) {
+                Jitems = Jitems + "'" + data[i].value + "':'" + data[i].text + "',";
+                JitemsSelect = JitemsSelect + "'value':'" + data[i].value + "','text':'" + data[i].text + "'},{";
+                if (i == data.length - 1) {
+                    JitemsSelect = JitemsSelect + "'value':'" + data[i].value + "','text':'" + data[i].text + "'}]";
+                    Jitems = Jitems + "'" + data[i].value + "':'" + data[i].text + "'}";
                 }
             }
-            enumString += enumString.substring(0, enumString.length - 1) + "}";
-            console.log(enumString);
-            console.log(JSON.parse(enumString));
-            return JSON.parse(enumString);
-        }),
-         enumObj = { "1": "选项一", "2": "选项二", "3": "选项三" },
-        columns = [
-        { title: 'UserName', dataIndex: 'UserName', width: 50, elCls: 'center' },
-        { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
-        { title: 'Role', dataIndex: 'Role', width: 50, elCls: 'center' },
+            $("#s2").attr("data-select", "{multipleSelect:true,items:" + JitemsSelect + "}");
+        }
+
+
+    });
+    console.log(JitemsSelect);
+    var userStore = new Data.Store(
+       {
+           url: "/User/GetUserForSelect",
+           autoLoad: true
+       }),
+       columns = [
+       { title: 'UserName', dataIndex: 'UserName', width: 50, elCls: 'center' },
+       { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
+       { title: 'Role', dataIndex: 'RoleId', width: 50, elCls: 'center', renderer: Grid.Format.multipleItemsRenderer(Role) },
+       {
+           title: 'CreateDate', dataIndex: 'CreateDate', width: 50, elCls: 'center', renderer: function (value) {
+               if (value) {
+                   return value.substring(0, 10);
+               }
+               return '--';
+           }
+       },
         {
-            title: 'CreateDate', dataIndex: 'CreateDate', width: 50, elCls: 'center', renderer: function (value) {
+            title: 'UpdateDate', dataIndex: 'UpdateDate', width: 50, elCls: 'center', renderer: function (value) {
                 if (value) {
                     return value.substring(0, 10);
                 }
                 return '--';
             }
         },
-         {
-             title: 'UpdateDate', dataIndex: 'UpdateDate', width: 50, elCls: 'center', renderer: function (value) {
-                 if (value) {
-                     return value.substring(0, 10);
-                 }
-                 return '--';
-             }
-         },
-        { title: 'Projects', dataIndex: 'Projects', width: 50, elCls: 'center' , editor: { xtype: 'select', items: enumObj },
-            renderer: function (ec) {
-                var project = "";
-            for (var i = 0; i < ec.length; i++) {
-                project = project + ec[i].Name.toString() + " ";
-            }
-                return project;
-            } 
-        },
-        { title: 'Action', renderer: function () { return '<span id="Edit" class="grid-command btn-edit">Edit</span>'; } }
-        ],
-    Select = BUI.Select,
-    memberSelect = new Select.Select({
-        render: '#memberSelect',
-        valueField: '#inputMember',
-        multipleSelect: true,
-        store: userStore
-    }),
-    leaderSelect = new Select.Select({
-        render: '#leaderSelect',
-        valueField: '#inputLeader',
-        store: userStore
-    });
+       { title: 'Projects', dataIndex: 'Projects', width: 50, elCls: 'center', renderer: Grid.Format.multipleItemsRenderer(Jitems) },
+       { title: 'Action', renderer: function () { return '<span id="Edit" class="grid-command btn-edit">Edit</span>'; } }
+       ],
+
+   Select = BUI.Select,
+   memberSelect = new Select.Select({
+       render: '#memberSelect',
+       valueField: '#inputMember',
+       multipleSelect: true,
+       store: userStore
+   }),
+   leaderSelect = new Select.Select({
+       render: '#leaderSelect',
+       valueField: '#inputLeader',
+       store: userStore
+   });
 
     memberSelect.render();
     leaderSelect.render();
@@ -187,7 +178,7 @@
                 var edtor = this,
                 form = edtor.get('form'),
                 editType = editing.get('editType'),//add 或者 edit
-                url = '/Project/SaveProject';
+                url = '/User/EditSaveProject';
                 url += '?saveType=' + editType;
                 form.valid();
                 if (form.isValid()) {
@@ -217,7 +208,7 @@
         }
     }),
     store = new Store({
-        url: '/User/GetNumbersForSelect',
+        url: '/User/GetNumbers',
         autoLoad: true,
         pageSize: 2
     }),
@@ -259,5 +250,4 @@
         store.remove(selections);
     }
 </script>
-
 
