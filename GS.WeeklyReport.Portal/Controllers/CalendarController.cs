@@ -18,6 +18,7 @@ namespace GS.WeeklyReport.Portal.Controllers
     {
         private IWorkItemService workItemService = new WorkItemService();
         private IProjectService projectService = new ProjectService();
+        private IUserService userService = new UserService();
         private User _loginUser;
 
         // GET: /Calendar/
@@ -48,7 +49,7 @@ namespace GS.WeeklyReport.Portal.Controllers
             return Json(workItemList, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult AddWorkItem(WorkItem workItem)
+        public String AddWorkItem(WorkItem workItem)
         {
             _loginUser = Session["loginUser"] as User;
             //
@@ -62,11 +63,12 @@ namespace GS.WeeklyReport.Portal.Controllers
                     workItem.CreateDate = DateTime.Now;
                     workItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
                     workItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
-                    workItem.ProjectId = workItem.ItemId;
+                    workItem.ProjectId = workItem.ProjectId;
+                    workItem.Project = projectService.LoadEntities(p => p.ProjectId == workItem.ProjectId).FirstOrDefault();
                     var model = workItemService.Add(workItem);
                     if (model != null)
                     {
-                        return Content(model.ItemId.ToString());
+                        return model.ItemId.ToString();
                     }
                 }
                 else
@@ -74,14 +76,39 @@ namespace GS.WeeklyReport.Portal.Controllers
                     workItem.UpdateDate = DateTime.Now;
                     workItem.UpdateUser = _loginUser.UserId;
                     WorkItem oldItem = workItemService.LoadEntities(w => w.ItemId == workItem.ItemId).FirstOrDefault();
-                    oldItem.Project = workItem.Project;
+                    oldItem.UpdateUser = _loginUser.UserId;
+                    oldItem.Duration = workItem.Duration;
+                    oldItem.UpdateDate = DateTime.Now;
+                    oldItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
+                    oldItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
                     if (workItemService.Update(oldItem))
                     {
-                        return Content("sucessful");
+                        return workItem.ItemId.ToString();
                     }
                 }
             }
-            return Content("fail");
+            return "fail";
+        }
+
+        [HttpPost]
+        public String UpdateWorkItem(WorkItem workItem)
+        {
+            _loginUser = Session["loginUser"] as User;
+            //
+            if (_loginUser != null)
+            {
+                WorkItem oldItem = workItemService.LoadEntities(w => w.ItemId == workItem.ItemId).FirstOrDefault();
+                oldItem.UpdateUser = _loginUser.UserId;
+                oldItem.Duration = workItem.Duration;
+                oldItem.UpdateDate = DateTime.Now;
+                oldItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
+                oldItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
+                if (workItemService.Update(oldItem))
+                {
+                    return "success";
+                }
+            }
+            return "fail";
         }
     }
 }

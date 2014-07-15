@@ -1,4 +1,4 @@
-﻿$(document).ready(function() {
+﻿$(document).ready(function () {
     initProjectList();
     $('#calendar').fullCalendar({
         header: {
@@ -76,6 +76,19 @@
             console.log("data:{"
                 + "start :" + copiedEventObject.start + ",End:" + copiedEventObject.end + "}"
                 );
+
+
+            //当项目被拖进时间表的时候应该先添加进数据库
+            var durationTime = (copiedEventObject.end - copiedEventObject.start) / (3600 * 1000);
+            var workItem = getWorkItemFromEvent(copiedEventObject)//通过event得到workItem
+            var addWorkItemCallBack = function (response) {
+                if (response && response != "fail") {
+                    copiedEventObject.workItemId = response;//成功的话会返回一个workItemId
+                } else {
+                    alert("fail to add the workItem");
+                }
+            };
+            addWorkItem(workItem, addWorkItemCallBack);
             // is the "remove after drop" checkbox checked?
             if ($('#drop-remove').is(':checked')) {
                 // if so, remove the element from the "Draggable Events" list
@@ -98,33 +111,21 @@
             console.log("data:{"
                 + "start :" + a + ",End:" + b + "}"
                 );
+            var workItem = getWorkItemFromEvent(event);
+            updateWorkItem(workItem, function (data) {
+                if (data == "fail") {
+                    alert("fail to update this WorkItem!!");
+                }
+            });
         },
         eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
-            var durationTime = (event.end - event.start) / (3600 * 1000);
-            var workItem = {
-                'calendarId': 111, //event.id,
-                'title': event.info,
-                'itemId': event.project.ProjectId,
-                'projectName': event.info,
-                'start': (event.start.getTime() / 1000),
-                'end': (event.end.getTime() / 1000),
-                'duration': durationTime,
-                'color': event.project.color,
-                'allDay': event.allDay//?allDay是什么东西？
-            };
+            var workItem = getWorkItemFromEvent(event)//通过event得到workItem
             console.log('Start: ' + event.start.getTime() / 1000);
             console.log('End: ' + event.end.getTime() / 1000);
-            $.ajax
-            ({
-                url: '/Calendar/AddWorkItem',
-                type: 'Post',
-                data: workItem,
-                success: function (response) {
-
-                },
-                error: function (msg) {
-                    //  revertFunc();
-                },
+            updateWorkItem(workItem, function (data) {
+                if (data == "fail") {
+                    alert("fail to update this WorkItem!!");
+                }
             });
         },
         eventClick: function (event, element) {
@@ -144,9 +145,55 @@
         },
         eventMouseover: function (event) {
 
-        }
+        },
+
     });
 });
+
+//通过event得到workItem
+function getWorkItemFromEvent(event) {
+    var durationTime = (event.end - event.start) / (3600 * 1000);
+    return {
+        'calendarId': event.id, //event.id,
+        'title': event.info,
+        'itemId': event.workItemId,
+        'projectName': event.info,
+        'start': (event.start.getTime() / 1000),
+        'end': (event.end.getTime() / 1000),
+        'duration': durationTime,
+        'color': event.backgroundColor,
+        'allDay': event.allDay,
+        'projectId': event.project.ProjectId//?allDay是什么东西？
+    }
+}
+//更新workItem的函数
+function updateWorkItem(workItem, callback) {
+    $.ajax({
+        url: '/Calendar/UpdateWorkItem',
+        type: 'Post',
+        data: workItem,
+        success: function (response) {
+            callback(response);
+        },
+        error: function (msg) {
+            //  revertFunc();
+        },
+    });
+}
+//添加workItem的函数
+function addWorkItem(workItem, callback) {
+    $.ajax({
+        url: '/Calendar/AddWorkItem',
+        type: 'Post',
+        data: workItem,
+        success: function (response) {
+            callback(response);
+        },
+        error: function (msg) {
+            //  revertFunc();
+        },
+    });
+}
 function initProjectList() {
     $.get("/Calendar/GetProjectList", function (result) {
         if (result) {
@@ -162,7 +209,7 @@ function initProjectList() {
                 var eventObject = {
                     title: $.trim($(this).text()), // use the element's text as the event title
                     project: eventObj[index],//把项目对象加入eventObject中
-            };
+                };
 
                 // store the Event Object in the DOM element so we can get to it later
                 $(this).data('eventObject', eventObject);
