@@ -11,22 +11,23 @@ namespace GS.WeeklyReport.Portal.Controllers
 {
     public class CalendarDialogController : Controller
     {
+        IWorkItemService workItemService = new WorkItemService();
         //
         // GET: /calendarDialog/
-        public ActionResult CalendarDialog(string endTime, string startTime, String title, String backgroundColor, String id, String allDay, String workItemId, String duration,String calendarId)
-        { 
-            IProjectService service =new ProjectService();
-            var list=service.LoadEntities(p => true).Select(i=>new {i.Name,i.ProjectId}).AsEnumerable();
-            ViewData["calendarId"] = calendarId;
-            ViewData["ProjectList"] = list;
-            ViewData["EndTime"] = endTime;
-            ViewData["StartTime"] = startTime;
-            ViewData["ProjectTitle"] = title;
-            ViewData["Color"] = backgroundColor;
-            ViewData["Id"] = id;
-            ViewData["allDay"] = allDay;
-            ViewData["workItemId"] = workItemId;
-            ViewData["duration"] = duration;
+        public ActionResult CalendarDialog(String backgroundColor, String id)
+        {
+            WorkItem workItem=workItemService.LoadEntities(w => w.ItemId == new Guid(id)).FirstOrDefault();
+            ViewData["calendarId"] = workItem.ItemId;
+            //ViewData["ProjectList"] = list;
+            ViewData["body"] = workItem.Body??"";
+            ViewData["EndTime"] = workItem.End;
+            ViewData["StartTime"] = workItem.Start;
+            ViewData["ProjectTitle"] = workItem.Project.Name;
+            ViewData["Color"] =backgroundColor;
+            ViewData["Id"] = workItem.ItemId;
+            ViewData["allDay"] = workItem.AllDay;
+            ViewData["workItemId"] = workItem.ItemId;
+            ViewData["duration"] = workItem.Duration;
             //ViewBag.calendarId = calendarId;
             //ViewBag.ProjectList = list;
             //ViewBag.EndTime = endTime;

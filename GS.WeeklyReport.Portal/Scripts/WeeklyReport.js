@@ -9,27 +9,7 @@ $(document).ready(function() {
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
-        events: [
-         {
-             end: 1399255200,
-             color: "#817b58",
-             id: "fc1",
-             start: 1399248000,
-             title: "green - zhang",
-             projectName: "Info",
-             allDay: false,
-             workItemId: "dabc4299-9637-d440-62bf-81de94df8d56"
-         },
-         {
-             end: 1399280400,
-             color: "#817b58",
-             id: "fc2",
-             start: 1399276800,
-             title: "green - zhang",
-             projectName: "Info",
-             allDay: false,
-             workItemId: "dabc4299-9637-d440-62bf-81de94df8d56"
-         }],
+        events: [],
         firstDay: 1,
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar !!!,
@@ -70,7 +50,7 @@ $(document).ready(function() {
             copiedEventObject.start = date;
             copiedEventObject.end = new Date(tempDate.setHours(tempDate.getHours() + 1));
             copiedEventObject.allDay = allDay;
-            copiedEventObject.backgroundColor = bgcolor;
+            copiedEventObject.color = bgcolor;
 
             // render the event on the calendar
             // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
@@ -145,7 +125,7 @@ $(document).ready(function() {
                 autoScale: false,
                 scrolling: 'no',
                 autoDimensions: false,
-                href: '../CalendarDialog/CalendarDialog?endtime=' + endTime + '&id=' + event.id + '&starttime=' + startTime + '&title=' + event.title + '&backgroundColor=' + event.color.colorRgb() + '&allDay=' + event.allDay + '&workItemId=' + event.workItemId + '&duration=' + durationTime + '&calendarId=' + event.id
+                href: '../CalendarDialog/CalendarDialog?id=' + event.workItemId+'&backgroundColor=' + event.color+'&dtStamp='+new Date().getTime()//加个时间戳防止浏览器缓存问题
             });
             console.log(typeof event);
         },
@@ -154,6 +134,10 @@ $(document).ready(function() {
         }
     };
     initWorkItemList(function (workItems) {
+        //初始化颜色
+        for (var index in workItems) {
+            workItems[index].color = workItems[index].color.getColor();
+        }
         settings.events = workItems;
         $('#calendar').fullCalendar(settings);
     });
@@ -212,7 +196,7 @@ function initProjectList() {
             var eventObj = [];
             console.log(result);
             for (var i = 0; i < result.length; i++) {
-                $("#external-events h4").append('<div id="example"  class="external-event badge badge-inverse ui-draggable" style="position: relative;">' + result[i].Name + '</div>');
+                $("#external-events h4").append('<div id="example"  class="external-event badge badge-inverse ui-draggable" style="position: relative;background:'+result[i].Color.getColor()+'">' + result[i].Name + '</div>');
                 eventObj.push(result[i]);
             }
             $('#external-events div.external-event').each(function (index) {
@@ -319,3 +303,19 @@ String.prototype.colorRgb = function () {
     }
 };
 //initialize the calendar
+
+String.prototype.getColor = function () {
+    var colorNum = parseInt(this,10);
+    switch(colorNum){
+        case 1: return 'red';
+        case 2: return 'green';
+        case 3: return 'yellow';
+        case 4: return 'blue';
+        case 5: return 'purple';
+        case 6: return 'pink';
+        case 7: return 'orange';
+        case 8: return 'grey';
+        case 9: return 'brown';
+        default: return 'black';
+    };
+}
