@@ -51,42 +51,42 @@
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>UserName：</label>
                 <div class="controls">
-                    <input name="UserName" type="text" readonly="readonly" class="input-normal control-text">
+                    <input name="UserName" type="text"  class="input-normal control-text">
                     <input name="UserId" type="hidden" />
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>Name：</label>
                 <div class="controls">
-                    <input name="Name" type="text" readonly="readonly" class="input-normal control-text">
+                    <input name="Name" type="text"  class="input-normal control-text">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>Role：</label>
-                <div class="controls">
-                    <input name="RoleId" type="text" readonly="readonly" class="input-normal control-text">
+                <div id="Role" class="controls bui-form-field-select" data-select="">
+                    <input type="hidden" name="RoleId">
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>CreateData：</label>
-                <div class="controls">
-                    <input name="CreateDate" type="text" readonly="readonly" class="input-normal control-text">
+                <div id="range" class="controls">
+                    <input name="CreateDate" class="calendar" type="text">
                 </div>
+               
             </div>
         </div>
         <div class="row">
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>UpdataDate：</label>
-                <div class="controls">
-                    <input name="UpdateDate" type="text" readonly="readonly" class="input-normal control-text">
+                <div id="range" class="controls">
+                    <input name="UpdateDate" class="calendar" type="text">
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label">多选：</label>
-                <div id="s2" class="controls bui-form-field-select" data-select="">
-
+                <div id="Project" class="controls bui-form-field-select" data-select="">
                     <input type="hidden" name="Projects">
                 </div>
             </div>
@@ -96,6 +96,7 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/BUI/bui.js"></script>
 <script src="~/Scripts/lodash.js"></script>
+<script src="~/Scripts/json2.js"></script>
 <script type="text/javascript">
     var Grid = BUI.Grid,
         Data = BUI.Data,
@@ -104,27 +105,39 @@
         Select = BUI.Select,
         JitemsSelect = "[{",
         Jitems ={},
-                             Role = { '1': 'Admin', '2': 'PM', '3': 'Member' },
-        Jitem;
+        Roles = {},
+        RolesSelect="[{";
     $.ajaxSetup({
         async: false
     });
-    $.getJSON('../Project/GetProjiectForSelect', function (data) {
+    $.getJSON('../Project/GetProjiectForSelect', function(data) {
         if (data) {
             for (var i = 0; i < data.length; i++) {
-                Jitems = Jitems + "'" + data[i].value + "':'" + data[i].text + "',";
-                JitemsSelect = JitemsSelect + "'value':'" + data[i].value + "','text':'" + data[i].text + "'},{";
-                if (i == data.length - 1) {
+                Jitems[data[i].value] = data[i].text;
+                if (i != data.length - 1) {
+                    JitemsSelect = JitemsSelect + "'value':'" + data[i].value + "','text':'" + data[i].text + "'},{";
+                } else {
                     JitemsSelect = JitemsSelect + "'value':'" + data[i].value + "','text':'" + data[i].text + "'}]";
-                    Jitems = Jitems + "'" + data[i].value + "':'" + data[i].text + "'}";
                 }
             }
-            $("#s2").attr("data-select", "{multipleSelect:true,items:" + JitemsSelect + "}");
+            $("#Project").attr("data-select", "{multipleSelect:true,items:" + JitemsSelect + "}");
         }
-
-
     });
-    console.log(Jitems);
+        $.getJSON('/User/GetRoleselect', function (datas) {
+            if (datas) {
+                for (var z = 0; z < datas.length; z++) {
+                    Roles[datas[i].value] = datas[i].text;
+                    if (i != datas.length-1)
+                    { 
+                        RolesSelect = RolesSelect + "'value':'" + datas[i].value + "','text':'" + datas[i].text + "'},{";
+                    }
+                    else {
+                        RolesSelect = RolesSelect + "'value':'" + datas[i].value + "','text':'" + datas[i].text + "'}]";
+                    }
+                }
+                $("#Role").attr("data-select", "{multipleSelect:true,items:" + JitemsSelect + "}");
+            }
+    });
     console.log(JitemsSelect);
     var userStore = new Data.Store(
        {
@@ -155,7 +168,6 @@
        { title: 'Action', renderer: function () { return '<span id="Edit" class="grid-command btn-edit">Edit</span>'; } }
        ],
 
-   Select = BUI.Select,
    memberSelect = new Select.Select({
        render: '#memberSelect',
        valueField: '#inputMember',
@@ -209,8 +221,8 @@
         }
     }),
     store = new Store({
-        url: '/User/GetNumbers',
-        autoLoad: true,
+        url: '/User/GetUsers',
+        autoLoad:true,
         pageSize: 2
     }),
      grid = new Grid.Grid({

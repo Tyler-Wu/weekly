@@ -20,16 +20,15 @@ namespace GS.WeeklyReport.Portal.Controllers
     public class UserController : BaseController
     {
         IUserService service = new UserService();
-        IProjectService projectService = new ProjectService();
+        IRoleService Roleservice=new RoleService();
         private UserManagerService userManagerService = new UserManagerService();
         //
         // GET: /User/
         public ActionResult Index()
         {
-            var users = service.LoadEntities(u => true);
-            return View(users);
+            return View();
         }
-        public JsonResult GetNumbers()
+        public JsonResult GetUsers()
         {
             var usersList = new List<UserViewModels>();
             var users = service.LoadEntities(u => true);
@@ -48,14 +47,14 @@ namespace GS.WeeklyReport.Portal.Controllers
             }
             return Json(usersList, JsonRequestBehavior.AllowGet);
         }
-        private string GetProjectIds(ICollection<Project> users)
+        private string GetProjectIds(ICollection<Project> pro)
         {
             string ids = "";
-            if (users!=null)
+            if (pro!=null)
             {
-                 if (users.Count > 0)
+                 if (pro.Count > 0)
                 {
-                    ids = users.Aggregate(ids, (current, user) => current + (user.ProjectId + ","));
+                    ids = pro.Aggregate(ids, (current, user) => current + (user.ProjectId + ","));
                 }
             }
            
@@ -71,7 +70,8 @@ namespace GS.WeeklyReport.Portal.Controllers
         //[HttpPost]
         public JsonResult EditSaveProject(UserViewModels model)
         {
-            var editType = Request["editType"];
+            var editType = Request["saveType"];
+
             User user = new User();
             user.Name = model.Name;
             user.RoleId = model.RoleId;
@@ -80,31 +80,27 @@ namespace GS.WeeklyReport.Portal.Controllers
             user.UpdateDate = model.UpdateDate;
             user.UserId = model.UserId;
             userManagerService.SaveUser(user, model.Projects, editType);
-            //User user = service.LoadEntities(c => c.UserId == model.UserId).FirstOrDefault();
-            //List<Project> pro = string.IsNullOrEmpty(model.Projects) ? null : projectRepository.GetEntitiesByIds(model.Projects);
-            //Project p;
-            //user.Project.Clear();
-            //for (int i = 0; i < pro.Count; i++)
-            //{
-            //    Guid proGuid = pro[i].ProjectId;
-            //    p = projectService.LoadEntities(c => c.ProjectId == proGuid).FirstOrDefault();
-            //    user.Project.Add(p);
-            //}
-            ////user.Project = pro;
-            //service.Update(user);
             return null;
         }
 
-        //public JsonResult Create(UserViewModels model)
-        //{
-        //    User user = new User();
-        //    user.Name = model.Name;
-        //    user.RoleId = model.RoleId;
-        //    user.UserName = model.UserName;
-        //    user.CreateDate = model.CreateDate;
-        //    user.UpdateDate = model.UpdateDate;
-        //    userManagerService.CreateUser(user, model.Projects);
-        //}
+        public JsonResult GetRoleselect()
+        {
+           var role=Roleservice.LoadEntities(r => true).Select(r=>new {text=r.RoleId,value=r.Name});
+            return Json(role, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CreateUser(UserViewModels model)
+        {
+            var createType = Request["saveType"];
+            User user = new User();
+            user.Name = model.Name;
+            user.RoleId = model.RoleId;
+            user.UserName = model.UserName;
+            user.CreateDate = model.CreateDate;
+            user.UpdateDate = model.UpdateDate;
+            userManagerService.SaveUser(user, model.Projects,createType);
+            return null;
+        }
 
         // GET: /User/Details/5
         public ActionResult Details(Guid id)
