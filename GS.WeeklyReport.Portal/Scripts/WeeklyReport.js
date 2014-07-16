@@ -1,6 +1,9 @@
-﻿$(document).ready(function () {
+﻿/// <reference path="../Views/Shared/_CalendarDialogViewPage.cshtml" />
+$(document).ready(function() {
     initProjectList();
-    $('#calendar').fullCalendar({
+    
+
+    var settings = {
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -40,7 +43,8 @@
         maxTime: 19,
         firstHour: 7,
         axisFormat: 'h(:mm)tt',
-        drop: function (date, allDay, ui) { // this function is called when something is dropped
+        //把calendar拖进时间表事件
+        drop: function(date, allDay, ui) { // this function is called when something is dropped
             var bgcolor;
             if ($.browser.msie) {
                 bgcolor = this.currentStyle.backgroundColor;
@@ -75,15 +79,15 @@
 
             console.log("data:{"
                 + "start :" + copiedEventObject.start + ",End:" + copiedEventObject.end + "}"
-                );
+            );
 
 
             //当项目被拖进时间表的时候应该先添加进数据库
             var durationTime = (copiedEventObject.end - copiedEventObject.start) / (3600 * 1000);
-            var workItem = getWorkItemFromEvent(copiedEventObject)//通过event得到workItem
-            var addWorkItemCallBack = function (response) {
+            var workItem = getWorkItemFromEvent(copiedEventObject) //通过event得到workItem
+            var addWorkItemCallBack = function(response) {
                 if (response && response != "fail") {
-                    copiedEventObject.workItemId = response;//成功的话会返回一个workItemId
+                    copiedEventObject.workItemId = response; //成功的话会返回一个workItemId
                 } else {
                     alert("fail to add the workItem");
                 }
@@ -96,13 +100,14 @@
             }
 
         },
-        event: function (event, element) {
-            $('#deleteThisShedule').click(function () {
-                $('#calendar').fullCalendar('removeEvents', event.id);
-                $.fancybox.close();
-            });
-        },
-        eventDrop: function (event) {
+        //event: function (event, element) {
+        //    $('#deleteThisShedule').click(function () {
+        //        $('#calendar').fullCalendar('removeEvents', event.id);
+        //        $.fancybox.close();
+        //    });
+        //},
+        //上下拖动calendar事件
+        eventDrop: function(event) {
             var a = $('#calendar').fullCalendar('formatDate', event.start, "yyyy-MM-dd HH:mm:ss");
             var b;
             if (event.end != null || event.end != undefined) {
@@ -110,28 +115,29 @@
             }
             console.log("data:{"
                 + "start :" + a + ",End:" + b + "}"
-                );
+            );
             var workItem = getWorkItemFromEvent(event);
-            updateWorkItem(workItem, function (data) {
+            updateWorkItem(workItem, function(data) {
                 if (data == "fail") {
                     alert("fail to update this WorkItem!!");
                 }
             });
         },
-        eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
-            var workItem = getWorkItemFromEvent(event)//通过event得到workItem
+        //calendar下拉事件
+        eventResize: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+            var workItem = getWorkItemFromEvent(event) //通过event得到workItem
             console.log('Start: ' + event.start.getTime() / 1000);
             console.log('End: ' + event.end.getTime() / 1000);
-            updateWorkItem(workItem, function (data) {
+            updateWorkItem(workItem, function(data) {
                 if (data == "fail") {
                     alert("fail to update this WorkItem!!");
                 }
             });
         },
-        eventClick: function (event, element) {
+        eventClick: function(event, element) {
             var startTime = event.start.getTime() / 1000,
                 endTime = event.end.getTime() / 1000,
-            durationTime = (event.end - event.start) / (3600 * 1000);
+                durationTime = (event.end - event.start) / (3600 * 1000);
 
             $.fancybox({
                 width: 520,
@@ -139,17 +145,22 @@
                 autoScale: false,
                 scrolling: 'no',
                 autoDimensions: false,
-                href: '../CalendarDialog/CalendarDialog?endtime=' + endTime + '&id=' + event.id + '&starttime=' + startTime + '&title=' + event.title + '&backgroundColor=' + event.backgroundColor.colorRgb() + '&allDay=' + event.allDay + '&workItemId=' + event.workItemId + '&duration=' + durationTime
+                href: '../CalendarDialog/CalendarDialog?endtime=' + endTime + '&id=' + event.id + '&starttime=' + startTime + '&title=' + event.title + '&backgroundColor=' + event.backgroundColor.colorRgb() + '&allDay=' + event.allDay + '&workItemId=' + event.workItemId + '&duration=' + durationTime + '&calendarId=' + event.id
             });
             console.log(typeof event);
         },
-        eventMouseover: function (event) {
+        eventMouseover: function(event) {
 
-        },
-
+        }
+    };
+    initWorkItemList(function (workItems) {
+        settings.events = workItems;
+        $('#calendar').fullCalendar(settings);
     });
 });
-
+function getLocalTime(nS) {
+    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
+}
 //通过event得到workItem
 function getWorkItemFromEvent(event) {
     var durationTime = (event.end - event.start) / (3600 * 1000);
@@ -163,8 +174,8 @@ function getWorkItemFromEvent(event) {
         'duration': durationTime,
         'color': event.backgroundColor,
         'allDay': event.allDay,
-        'projectId': event.project.ProjectId//?allDay是什么东西？
-    }
+        'projectId': event.project.ProjectId //?allDay是什么东西？
+    };
 }
 //更新workItem的函数
 function updateWorkItem(workItem, callback) {
@@ -194,6 +205,7 @@ function addWorkItem(workItem, callback) {
         },
     });
 }
+//初始化项目列表
 function initProjectList() {
     $.get("/Calendar/GetProjectList", function (result) {
         if (result) {
@@ -222,6 +234,14 @@ function initProjectList() {
                 });
 
             });
+        }
+    });
+}
+//找到workItem列表
+function initWorkItemList(callback) {
+    $.get("/Calendar/GetWorkItemList", function (result) {
+        if (result) {
+            callback(result);
         }
     });
 }

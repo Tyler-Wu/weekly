@@ -23,7 +23,6 @@ namespace GS.WeeklyReport.Portal
                       "~/Scripts/jquery-ui-1.8.21.custom.min.js",
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/WeeklyReport.js",
                       "~/Scripts/bui.js",
                       "~/Scripts/fancyBox-1.3.1.js"
             ));

@@ -13,10 +13,11 @@ namespace GS.WeeklyReport.Portal.Controllers
     {
         //
         // GET: /calendarDialog/
-        public ActionResult CalendarDialog(string endTime, string startTime, String title, String backgroundColor, String id, String allDay, String workItemId, String duration)
+        public ActionResult CalendarDialog(string endTime, string startTime, String title, String backgroundColor, String id, String allDay, String workItemId, String duration,String calendarId)
         { 
             IProjectService service =new ProjectService();
             var list=service.LoadEntities(p => true).Select(i=>new {i.Name,i.ProjectId}).AsEnumerable();
+            ViewBag.calendarId = calendarId;
             ViewBag.ProjectList = list;
             ViewBag.EndTime = endTime;
             ViewBag.StartTime = startTime;

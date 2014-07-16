@@ -40,6 +40,14 @@ namespace GS.WeeklyReport.Portal.Controllers
             return Json(projectList, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
+        public JsonResult GetWorkItemList()
+        {
+            _loginUser = Session["loginUser"] as User;
+            var workItemList = workItemService.LoadEntities(w => w.UserId == _loginUser.UserId).Select(item=>new{title=item.Project.Name,start=item.Start,end=item.End,allDay=item.AllDay,color=item.Project.Color}).AsEnumerable();
+            return Json(workItemList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public JsonResult GetWorkItem(int timeSpan)
         {
             DateTime dt = DateTime.Now;
@@ -55,8 +63,6 @@ namespace GS.WeeklyReport.Portal.Controllers
             //
             if (_loginUser != null)
             {
-                if (workItem.ItemId == new Guid("00000000-0000-0000-0000-000000000000"))
-                {
                     workItem.ItemId = Guid.NewGuid();
                     workItem.UserId = _loginUser.UserId;
                     workItem.CreateUser = _loginUser.UserId;
@@ -70,22 +76,6 @@ namespace GS.WeeklyReport.Portal.Controllers
                     {
                         return model.ItemId.ToString();
                     }
-                }
-                else
-                {
-                    workItem.UpdateDate = DateTime.Now;
-                    workItem.UpdateUser = _loginUser.UserId;
-                    WorkItem oldItem = workItemService.LoadEntities(w => w.ItemId == workItem.ItemId).FirstOrDefault();
-                    oldItem.UpdateUser = _loginUser.UserId;
-                    oldItem.Duration = workItem.Duration;
-                    oldItem.UpdateDate = DateTime.Now;
-                    oldItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
-                    oldItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
-                    if (workItemService.Update(oldItem))
-                    {
-                        return workItem.ItemId.ToString();
-                    }
-                }
             }
             return "fail";
         }
@@ -101,9 +91,25 @@ namespace GS.WeeklyReport.Portal.Controllers
                 oldItem.UpdateUser = _loginUser.UserId;
                 oldItem.Duration = workItem.Duration;
                 oldItem.UpdateDate = DateTime.Now;
+                oldItem.Start = workItem.Start;
+                oldItem.End = workItem.End;
                 oldItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
                 oldItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
                 if (workItemService.Update(oldItem))
+                {
+                    return "success";
+                }
+            }
+            return "fail";
+        }
+
+        public String DelWorkItem(WorkItem workItem)
+        {
+            _loginUser = Session["loginUser"] as User;
+            if (_loginUser != null)
+            {
+                WorkItem oldItem=workItemService.LoadEntities(w => w.ItemId == workItem.ItemId).FirstOrDefault();
+                if (workItemService.Delete(oldItem))
                 {
                     return "success";
                 }

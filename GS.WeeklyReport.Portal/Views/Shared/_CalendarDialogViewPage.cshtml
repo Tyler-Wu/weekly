@@ -91,35 +91,75 @@
         $("#endTime").val(getLocalTime(@ViewBag.EndTime));
 
         $('#deleteThisShedule').click(function () {
-            var id = '@ViewBag.Id';
-            $('#calendar').fullCalendar('removeEvents', [id]);
-            $.fancybox.close();
-        });
-        $('#submitThisShedule').click(function () {
             var workItem = {
-                'calendarId': 111, //event.id,
+                'calendarId': '@ViewBag.calendarId', //event.id,
                 'title': '@ViewBag.ProjectTitle',
                 'itemId': '@ViewBag.workItemId',
                 'projectName': '@ViewBag.ProjectTitle',
                 'start': '@ViewBag.StartTime',
                 'end': '@ViewBag.EndTime',
-                'duration':'@ViewBag.duration',
+                'duration': '@ViewBag.duration',
                 'color': '@ViewBag.Color ',
                 'allDay': '@ViewBag.allDay',
                 'body': $('#textAreaInfo').val()
             };
-            $.ajax({
-                type: 'Post',
-                url: '/Calendar/AddWorkItem',
-                data: workItem,
-                success: function (response) {
-                    alert('Success');
+            if (confirm("Are you sure to delete this WorkItem?")) {
+                removeWorkItem(workItem, function (response) {
+                    if (response && response != "fail") {
+                        var id = '@ViewBag.Id';
+                        $('#calendar').fullCalendar('removeEvents', [id]);
+                        $.fancybox.close();
+                    }
+                });
+            }
+        });
+        $('#submitThisShedule').click(function () {
+            var workItem = {
+                'calendarId': '@ViewBag.calendarId',//event.id,
+                'title': '@ViewBag.ProjectTitle',
+                'itemId': '@ViewBag.workItemId',
+                'projectName': '@ViewBag.ProjectTitle',
+                'start': '@ViewBag.StartTime',
+                'end': '@ViewBag.EndTime',
+                'duration': '@ViewBag.duration',
+                'color': '@ViewBag.Color ',
+                'allDay': '@ViewBag.allDay',
+                'body': $('#textAreaInfo').val()
+            };
+            updateWorkItem(workItem, function (response) {
+                if (response && response != "fail") {
+                    alert('success');
                     $.fancybox.close();
-                },
-                error: function (msg) {
-                    console.log('error: ' + msg);
-                },
+                }
             });
         });
     });
+    //更新workItem的函数
+    function updateWorkItem(workItem, callback) {
+        $.ajax({
+            url: '/Calendar/UpdateWorkItem',
+            type: 'Post',
+            data: workItem,
+            success: function (response) {
+                callback(response);
+            },
+            error: function (msg) {
+                //  revertFunc();
+            },
+        });
+    }
+    //添加workItem的函数
+    function removeWorkItem(workItem, callback) {
+        $.ajax({
+            url: '/Calendar/DelWorkItem',
+            type: 'Post',
+            data: workItem,
+            success: function (response) {
+                callback(response);
+            },
+            error: function (msg) {
+                //  revertFunc();
+            },
+        });
+    }
 </script>
