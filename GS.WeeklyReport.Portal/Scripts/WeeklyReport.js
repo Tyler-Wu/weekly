@@ -64,7 +64,7 @@ $(document).ready(function() {
             // we need to copy it, so that multiple events don't have a reference to the same object
             var copiedEventObject = $.extend({}, originalEventObject);
             copiedEventObject.workItemId = '00000000-0000-0000-0000-000000000000';
-            copiedEventObject.info = this.outerText;
+            copiedEventObject.title = this.outerText;
             // assign it the date that was reported 
             copiedEventObject.id = guid();
             copiedEventObject.start = date;
@@ -145,7 +145,7 @@ $(document).ready(function() {
                 autoScale: false,
                 scrolling: 'no',
                 autoDimensions: false,
-                href: '../CalendarDialog/CalendarDialog?endtime=' + endTime + '&id=' + event.id + '&starttime=' + startTime + '&title=' + event.title + '&backgroundColor=' + event.backgroundColor.colorRgb() + '&allDay=' + event.allDay + '&workItemId=' + event.workItemId + '&duration=' + durationTime + '&calendarId=' + event.id
+                href: '../CalendarDialog/CalendarDialog?endtime=' + endTime + '&id=' + event.id + '&starttime=' + startTime + '&title=' + event.title + '&backgroundColor=' + event.color.colorRgb() + '&allDay=' + event.allDay + '&workItemId=' + event.workItemId + '&duration=' + durationTime + '&calendarId=' + event.id
             });
             console.log(typeof event);
         },
@@ -166,9 +166,9 @@ function getWorkItemFromEvent(event) {
     var durationTime = (event.end - event.start) / (3600 * 1000);
     return {
         'calendarId': event.id, //event.id,
-        'title': event.info,
+        'title': event.title,
         'itemId': event.workItemId,
-        'projectName': event.info,
+        'projectName': event.title,
         'start': (event.start.getTime() / 1000),
         'end': (event.end.getTime() / 1000),
         'duration': durationTime,

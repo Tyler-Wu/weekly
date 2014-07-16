@@ -2,6 +2,7 @@
 @using AutoMapper.Internal
 @{
     ViewBag.Title = "CalendarDialog";
+    var data = ViewData;
 }
 @*<div class="panel panel-primary">
         <div class=" panel-heading">
@@ -29,10 +30,10 @@
         </div>
     </div>*@
 <div class="row-fluid sortable">
-    <div class="page-header-top" style="background: @ViewBag.Color;width: 520px;height: 5px"></div>
+    <div class="page-header-top" style="background: @ViewData["Color"];width: 520px;height: 5px"></div>
     <h3 class="panel-title">新建日程</h3>
 
-    <div class="box span12" style="margin: 0;" id="@ViewBag.Id">
+    <div class="box span12" style="margin: 0;" id="@ViewData["Id"]">
         <!--<div class="box-header well" data-original-title>
                 <h2><i class="icon-edit"></i> Form Elements</h2>
                 <div class="box-icon">
@@ -47,7 +48,7 @@
                     <div class="control-group">
                         <label class="control-label" for="appendedInput">Project Name: </label>
                         <div class="controls">
-                            <label class="control-label" style="text-align: left">@ViewBag.ProjectTitle</label>
+                            <label class="control-label" style="text-align: left">@ViewData["ProjectTitle"]</label>
                         </div>
                     </div>
                     <div class="control-group">
@@ -87,43 +88,44 @@
             return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
         }
 
-        $("#startTime").val(getLocalTime(@ViewBag.StartTime));
-        $("#endTime").val(getLocalTime(@ViewBag.EndTime));
+        $("#startTime").val(getLocalTime(@ViewData["StartTime"]));
+        $("#endTime").val(getLocalTime(@ViewData["EndTime"]));
 
         $('#deleteThisShedule').click(function () {
             var workItem = {
-                'calendarId': '@ViewBag.calendarId', //event.id,
-                'title': '@ViewBag.ProjectTitle',
-                'itemId': '@ViewBag.workItemId',
-                'projectName': '@ViewBag.ProjectTitle',
-                'start': '@ViewBag.StartTime',
-                'end': '@ViewBag.EndTime',
-                'duration': '@ViewBag.duration',
-                'color': '@ViewBag.Color ',
-                'allDay': '@ViewBag.allDay',
+                'calendarId': '@ViewData["calendarId"]', //event.id,
+                'title': '@ViewData["ProjectTitle"]',
+                'itemId': '@ViewData["workItemId"]',
+                'projectName': '@ViewData["ProjectTitle"]',
+                'start': '@ViewData["StartTime"]',
+                'end': '@ViewData["EndTime"]',
+                'duration': '@ViewData["duration"]',
+                'color': '@ViewData["Color"]',
+                'allDay': '@ViewData["allDay"]',
                 'body': $('#textAreaInfo').val()
             };
             if (confirm("Are you sure to delete this WorkItem?")) {
                 removeWorkItem(workItem, function (response) {
                     if (response && response != "fail") {
-                        var id = '@ViewBag.Id';
+                        var id = '@ViewData["Id"]';
                         $('#calendar').fullCalendar('removeEvents', [id]);
                         $.fancybox.close();
                     }
                 });
             }
         });
-        $('#submitThisShedule').click(function () {
+        $('#submitThisShedule').click(function ()
+        {
             var workItem = {
-                'calendarId': '@ViewBag.calendarId',//event.id,
-                'title': '@ViewBag.ProjectTitle',
-                'itemId': '@ViewBag.workItemId',
-                'projectName': '@ViewBag.ProjectTitle',
-                'start': '@ViewBag.StartTime',
-                'end': '@ViewBag.EndTime',
-                'duration': '@ViewBag.duration',
-                'color': '@ViewBag.Color ',
-                'allDay': '@ViewBag.allDay',
+                'calendarId': '@ViewData["calendarId"]',//event.id,
+                'title': '@ViewData["ProjectTitle"]',
+                'itemId': '@ViewData["workItemId"]',
+                'projectName': '@ViewData["ProjectTitle"]',
+                'start': '@ViewData["StartTime"]',
+                'end': '@ViewData["EndTime"]',
+                'duration': '@ViewData["duration"]',
+                'color': '@ViewData["Color"]',
+                'allDay': '@ViewData["allDay"]',
                 'body': $('#textAreaInfo').val()
             };
             updateWorkItem(workItem, function (response) {
