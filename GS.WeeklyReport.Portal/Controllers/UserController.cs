@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using GS.WeeklyReport.IRepository;
 using GS.WeeklyReport.IService;
 using GS.WeeklyReport.Repository;
 using GS.WeeklyReport.Service;
@@ -50,10 +51,14 @@ namespace GS.WeeklyReport.Portal.Controllers
         private string GetProjectIds(ICollection<Project> users)
         {
             string ids = "";
-            if (users.Count > 0)
+            if (users!=null)
             {
-                ids = users.Aggregate(ids, (current, user) => current + (user.ProjectId + ","));
+                 if (users.Count > 0)
+                {
+                    ids = users.Aggregate(ids, (current, user) => current + (user.ProjectId + ","));
+                }
             }
+           
             return ids.Length > 0 ? ids.Substring(0, ids.Length) : ids;
         }
 
@@ -66,20 +71,27 @@ namespace GS.WeeklyReport.Portal.Controllers
         //[HttpPost]
         public JsonResult EditSaveProject(UserViewModels model)
         {
-            User user = service.LoadEntities(u => u.UserId == model.UserId).FirstOrDefault();
-            if (model.Projects == null)
-            { 
-               
-                user.Project.Clear();
-                service.Update(user);
-            }
-            else
-            {
-               
-              user= userManagerService.SaveUser(user, model.Projects);
-                // projectManagerService.SaveProject(project, model.Members);
-                service.Update(user);
-            } 
+            var editType = Request["editType"];
+            User user = new User();
+            user.Name = model.Name;
+            user.RoleId = model.RoleId;
+            user.UserName = model.UserName;
+            user.CreateDate = model.CreateDate;
+            user.UpdateDate = model.UpdateDate;
+            user.UserId = model.UserId;
+            userManagerService.SaveUser(user, model.Projects, editType);
+            //User user = service.LoadEntities(c => c.UserId == model.UserId).FirstOrDefault();
+            //List<Project> pro = string.IsNullOrEmpty(model.Projects) ? null : projectRepository.GetEntitiesByIds(model.Projects);
+            //Project p;
+            //user.Project.Clear();
+            //for (int i = 0; i < pro.Count; i++)
+            //{
+            //    Guid proGuid = pro[i].ProjectId;
+            //    p = projectService.LoadEntities(c => c.ProjectId == proGuid).FirstOrDefault();
+            //    user.Project.Add(p);
+            //}
+            ////user.Project = pro;
+            //service.Update(user);
             return null;
         }
 

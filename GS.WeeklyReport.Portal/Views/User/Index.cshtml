@@ -103,8 +103,8 @@
         Store = Data.Store,
         Select = BUI.Select,
         JitemsSelect = "[{",
-        Jitems = {},
-                             Role={'1':'Admin','2':'PM','3':'Member'},
+        Jitems ={},
+                             Role = { '1': 'Admin', '2': 'PM', '3': 'Member' },
         Jitem;
     $.ajaxSetup({
         async: false
@@ -124,6 +124,7 @@
 
 
     });
+    console.log(Jitems);
     console.log(JitemsSelect);
     var userStore = new Data.Store(
        {

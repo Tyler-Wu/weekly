@@ -7,31 +7,29 @@ using GS.WeeklyReport.IRepository;
 using GS.WeeklyReport.IService;
 using GS.WeeklyReport.Repository;
 using WeeklyReport.Models;
-
 namespace GS.WeeklyReport.Service
 {
   public  class UserManagerService
     {
+
         private IUserRepository userRepository = new UserRepository();
         private IProjectRepository projectRepository = new ProjectRepository();
-        public User SaveUser(User model, string ids)
+        public bool SaveUser(User model, string ids, string editType)
         {
-           
-            model.Project = projectRepository.GetEntitiesByIds(ids);
-            return model;
-            
-            // return userRepository.Update(model);
-        }
-        public bool CreateUser(User model, string ids)
-        {
-           
+            if (editType == "add")
+            {
                 model.UserId = Guid.NewGuid();
                 model = userRepository.Add(model);
-            if (ids!=null)
-            {
-                model.Project = projectRepository.GetEntitiesByIds(ids);
             }
-            return userRepository.Update(model);
+            List<Project> pro = string.IsNullOrEmpty(ids) ? null : projectRepository.GetEntitiesByIds(ids);
+            User user = userRepository.LoadEntities(u => u.UserId == model.UserId).FirstOrDefault();
+            user.Project.Clear();
+            for (int i = 0; i < pro.Count; i++)
+            {
+                user.Project.Add(pro[i]);
+            }
+            return userRepository.Update(user);
         }
+     
     }
 }
