@@ -31,7 +31,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         public JsonResult GetUsers()
         {
             var usersList = new List<UserViewModels>();
-            var users = service.LoadEntities(u => true);
+            var users = userManagerService.LoadEntities(u => true);
             foreach (var user in users)
             {
                 usersList.Add(new UserViewModels()

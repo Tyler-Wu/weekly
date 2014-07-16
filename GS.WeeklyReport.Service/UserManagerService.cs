@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using GS.WeeklyReport.IRepository;
@@ -45,6 +46,10 @@ namespace GS.WeeklyReport.Service
             }
             return userRepository.Update(user);
         }
-     
+
+        public IQueryable<User> LoadEntities(Expression<Func<User, bool>> whereExpression)
+        {
+            return userRepository.LoadEntities(whereExpression);
+        }
     }
 }
