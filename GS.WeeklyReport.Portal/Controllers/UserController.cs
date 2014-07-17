@@ -40,7 +40,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                     Name = user.Name,
                     RoleId = user.RoleId,
                     CreateDate = user.CreateDate,
-                    UpdateDate = System.DateTime.Now,
+                    UpdateDate =user.UpdateDate,
                     Projects = GetProjectIds(user.Project),
                     UserId = user.UserId,
                 });
@@ -56,8 +56,11 @@ namespace GS.WeeklyReport.Portal.Controllers
                 {
                     ids = pro.Aggregate(ids, (current, user) => current + (user.ProjectId + ","));
 
-                } 
-                ids = ids.Remove(ids.Length - 1);
+                }
+                if (ids != "")
+                {
+                    ids = ids.Remove(ids.Length - 1);
+                }
             }
            
             return ids.Length > 0 ? ids.Substring(0, ids.Length) : ids;
@@ -81,8 +84,12 @@ namespace GS.WeeklyReport.Portal.Controllers
             user.CreateDate = model.CreateDate;
             user.UpdateDate = model.UpdateDate;
             user.UserId = model.UserId;
-            userManagerService.SaveUser(user, model.Projects, editType);
-            return null;
+            user = userManagerService.SaveUser(user, model.Projects, editType);
+            if (user != null)
+            {
+                return Json(new { user.CreateDate, user.UpdateDate }, JsonRequestBehavior.AllowGet);
+            }
+            return Json("fail", JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetRoleselect()

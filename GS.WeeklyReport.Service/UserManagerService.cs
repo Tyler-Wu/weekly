@@ -15,36 +15,35 @@ namespace GS.WeeklyReport.Service
 
         private IUserRepository userRepository = new UserRepository();
         private IProjectRepository projectRepository = new ProjectRepository();
-        public bool SaveUser(User model, string ids, string editType)
+        public User SaveUser(User model, string ids, string editType)
         {
             User user; 
-            List<Project> pro = string.IsNullOrEmpty(ids) ? null : projectRepository.GetEntitiesByIds(ids);
+           // List<Project> pro = string.IsNullOrEmpty(ids) ? null : projectRepository.GetEntitiesByIds(ids);
             if (editType == "add")
             {
                 model.UserId = Guid.NewGuid();
-                user = new User();
-                user.Name = model.Name;
-                user.RoleId = model.RoleId;
-                user.UpdateDate = System.DateTime.Now;
-                user.UserId = model.UserId;
-                user.CreateDate = System.DateTime.Now;
-                user.UserName = model.UserName; 
-                user = userRepository.Add(user);
+                model.UpdateDate = System.DateTime.Now;
+                model.CreateDate = System.DateTime.Now;
+                user = userRepository.Add(model);
             }
             else
             {
              user = userRepository.LoadEntities(u => u.UserId == model.UserId).FirstOrDefault();
                 user.UpdateDate = System.DateTime.Now;
+                user.Name = model.Name;
+                user.RoleId = model.RoleId;
+                user.UserName = model.UserName;
             }
             user.Project.Clear();
-            if (pro!=null)
+            user.Project = string.IsNullOrEmpty(ids) ? null : projectRepository.GetEntitiesByIds(ids);
+            if (userRepository.Update(user))
             {
-                 for (int i = 0; i < pro.Count; i++)
-                    {
-                        user.Project.Add(pro[i]);
-                    }
+                return user;
             }
-            return userRepository.Update(user);
+            else
+            {
+                return null;
+            }
         }
 
         public IQueryable<User> LoadEntities(Expression<Func<User, bool>> whereExpression)

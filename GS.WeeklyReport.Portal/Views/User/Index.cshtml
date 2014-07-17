@@ -51,7 +51,7 @@
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>UserName：</label>
                 <div class="controls">
-                    <input name="UserName" type="text" class="input-normal control-text">
+                    <input id="UserName" name="UserName" type="text" class="input-normal control-text">
                     <input name="UserId" type="hidden" />
                 </div>
             </div>
@@ -107,7 +107,7 @@
             $("#Project").attr("data-select", "{multipleSelect:true,items:" + JitemsSelect + "}");
         }
     });
-        $.getJSON('/User/GetRoleselect', function (datas) {
+     $.getJSON('/User/GetRoleselect', function (datas) {
             if (datas) {
                 for (var z = 0; z < datas.length; z++) {
                     Roles[datas[z].value] = datas[z].text;
@@ -154,24 +154,27 @@
         { title: 'Action', renderer: function() { return '<span id="Edit" class="grid-command btn-edit">Edit</span>'; } }
     ];
 
+
     var editing = new Grid.Plugins.DialogEditing({
         contentId: 'contentDialog', //设置隐藏的Dialog内容
         triggerCls: 'btn-edit', //触发显示Dialog的样式
+        autoSave: true,
         editor: {
-            success: function () {
+            success: function() {
                 var edtor = this,
-                form = edtor.get('form'),
-                editType = editing.get('editType'),//add 或者 edit
-                url = '/User/EditSaveProject';
+                    form = edtor.get('form'),
+                    editType = editing.get('editType'), //add 或者 edit
+                    url = '/User/EditSaveProject';
                 url += '?saveType=' + editType;
                 form.valid();
                 if (form.isValid()) {
-                    form.ajaxSubmit({ //表单异步提交
+                    form.ajaxSubmit({//表单异步提交
                         url: url,
-                        success: function (data) {
+                        success: function(data) {
                             if (editType == 'add') {
-                                //do something
-                            } else {
+                            }
+                            if (editType == 'edit') {
+                                console.log(data);
                                 //do other
                             }
                             //将a 改成 1 测试一下显示错误
@@ -180,20 +183,31 @@
                                 form.getField(field).showErrors([data.error]); //也可以多个字段的错误信息 例如 errors : [{field : 'a',error: 'addd'},{field : 'a',error: 'addd'}]
                             } else {
                                 edtor.accept();
+
                             }
 
                         },
-                        error: function () {
+                        error: function() {
                             //do something
                         }
                     });
                 }
             }
         }
-    }),
-    store = new Store({
+    });
+
+    editing.on('editorshow', function (ev) {
+        if (ev.editType == 'add') {  //如果马上保存，通过 ev.editType == 'add' 来判断
+            $('#UserName').attr('readonly', false);
+        } else {
+            $('#UserName').attr('readonly', true);
+        }
+    });
+
+  var store = new Store({
         url: '/User/GetUsers',
-        autoLoad:true,
+        autoLoad: true,
+        autoSync : true,
         pageSize: 2
     }),
      grid = new Grid.Grid({
@@ -222,6 +236,8 @@
      });
 
     grid.render();
+
+   
 
     //添加记录
     function addFunction() {
