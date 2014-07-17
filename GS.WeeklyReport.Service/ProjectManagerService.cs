@@ -15,7 +15,7 @@ namespace GS.WeeklyReport.Service
     {
         private IUserRepository userRepository = new UserRepository();
         private IProjectRepository projectRepository = new ProjectRepository();
-        public bool SaveProject(Project model, string members, string saveType)
+        public Project SaveProject(Project model, string members, string saveType)
         {
             Project project;
             List<User> user = string.IsNullOrEmpty(members) ? null : userRepository.GetEntitiesByIds(members);
@@ -36,7 +36,14 @@ namespace GS.WeeklyReport.Service
             }
             project.User.Clear();
             project.User = user;
-           return projectRepository.Update(project);
+            if (projectRepository.Update(project))
+            {
+                return project;
+            }
+            else
+            {
+                return null;
+            }
         }
         public IQueryable<Project> LoadEntities(Expression<Func<Project, bool>> whereExpression)
         {

@@ -71,7 +71,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveProject(ProjectViewModel model)
+        public JsonResult SaveProject(ProjectViewModel model)
         {
             var saveType = Request["saveType"];
             var project = new Project()
@@ -85,9 +85,12 @@ namespace GS.WeeklyReport.Portal.Controllers
                 Status = "1",
                 Description = model.Description
             };
-            projectManagerService.SaveProject(project, model.Members, saveType);
-
-            return Content("111");
+          project= projectManagerService.SaveProject(project, model.Members, saveType);
+          if (project != null)
+            {
+                return Json(project, JsonRequestBehavior.AllowGet);
+            }
+            return Json("fail", JsonRequestBehavior.AllowGet);
         }
     }
 }
