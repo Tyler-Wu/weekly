@@ -105,7 +105,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                 oldItem.End = workItem.End;
                 oldItem.StartDate = TimeHelper.GetTime(workItem.Start.ToString());
                 oldItem.EndDate = TimeHelper.GetTime(workItem.End.ToString());
-                oldItem.Body = workItem.Body;
+                oldItem.Body = workItem.Body; 
                 if (workItemService.Update(oldItem))
                 {
                     return "success";

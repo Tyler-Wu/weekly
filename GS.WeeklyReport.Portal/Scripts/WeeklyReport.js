@@ -131,7 +131,7 @@ $(document).ready(function() {
         },
         eventMouseover: function(event) {
 
-        }
+        } 
     };
     initWorkItemList(function (workItems) {
         //初始化颜色
