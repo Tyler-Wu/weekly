@@ -40,7 +40,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                     Name = user.Name,
                     RoleId = user.RoleId,
                     CreateDate = user.CreateDate,
-                    UpdateDate = user.UpdateDate,
+                    UpdateDate = System.DateTime.Now,
                     Projects = GetProjectIds(user.Project),
                     UserId = user.UserId,
                 });
@@ -55,7 +55,9 @@ namespace GS.WeeklyReport.Portal.Controllers
                  if (pro.Count > 0)
                 {
                     ids = pro.Aggregate(ids, (current, user) => current + (user.ProjectId + ","));
-                }
+
+                } 
+                ids = ids.Remove(ids.Length - 1);
             }
            
             return ids.Length > 0 ? ids.Substring(0, ids.Length) : ids;
@@ -67,7 +69,7 @@ namespace GS.WeeklyReport.Portal.Controllers
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
+        [HttpPost]
         public JsonResult EditSaveProject(UserViewModels model)
         {
             var editType = Request["saveType"];
@@ -85,40 +87,11 @@ namespace GS.WeeklyReport.Portal.Controllers
 
         public JsonResult GetRoleselect()
         {
-           var role=Roleservice.LoadEntities(r => true).Select(r=>new {text=r.RoleId,value=r.Name});
+            var role = Roleservice.LoadEntities(r => true).Select(r => new { value = r.RoleId, text = r.Name });
             return Json(role, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CreateUser(UserViewModels model)
-        {
-            var createType = Request["saveType"];
-            User user = new User();
-            user.Name = model.Name;
-            user.RoleId = model.RoleId;
-            user.UserName = model.UserName;
-            user.CreateDate = model.CreateDate;
-            user.UpdateDate = model.UpdateDate;
-            userManagerService.SaveUser(user, model.Projects,createType);
-            return null;
-        }
 
-        // GET: /User/Details/5
-        public ActionResult Details(Guid id)
-        {
-            var user = service.LoadEntities(u => u.UserId == id).FirstOrDefault();
-            return View(user);
-        }
-
-        //
-        // GET: /User/Create
-        //public ActionResult Create()
-        //{
-
-        //    return View();
-        //}
-
-        //
-        // POST: /User/Create
         [HttpPost]
         public ActionResult Create(User entity)
         {
@@ -135,56 +108,6 @@ namespace GS.WeeklyReport.Portal.Controllers
                 return View("Error");
             }
         }
-
-        //
-        // GET: /User/Edit/5
-        public ActionResult Edit(Guid id)
-        {
-            var user = service.LoadEntities(u => u.UserId == id).FirstOrDefault();
-            return View(user);
-        }
-
-        //
-        // POST: /User/Edit/5
-        [HttpPost]
-        public ActionResult Edit(User entity)
-        {
-            try
-            {
-                User user = service.LoadEntities(u => u.UserId == entity.UserId).FirstOrDefault();
-                user.Name = entity.Name;
-                user.RoleId = entity.RoleId;
-                user.UpdateDate = DateTime.Now;
-
-                // TODO: Add update logic here
-                service.Update(user);
-                ViewBag.text = "You have edited the User successfully.";
-                return View("success");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return View("Error");
-            }
-        }
-
-        //
-        // GET: /User/Delete/5
-        public String Delete(Guid id)
-        {
-            var user = service.LoadEntities(u => u.UserId == id).FirstOrDefault();
-            if (service.Delete(user))
-            {
-                return "success";
-            }
-            else
-            {
-                return "false";
-            }
-        }
-
-        //
-        // POST: /User/Delete/5
         [HttpPost]
         public ActionResult Delete(Guid id, FormCollection collection)
         {

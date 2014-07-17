@@ -22,20 +22,20 @@ namespace GS.WeeklyReport.Service
             if (editType == "add")
             {
                 model.UserId = Guid.NewGuid();
-                model = userRepository.Add(model);
                 user = new User();
                 user.Name = model.Name;
                 user.RoleId = model.RoleId;
-                user.UpdateDate = model.UpdateDate;
+                user.UpdateDate = System.DateTime.Now;
                 user.UserId = model.UserId;
-                user.CreateDate = model.CreateDate;
-                user.UserName = model.UserName;
+                user.CreateDate = System.DateTime.Now;
+                user.UserName = model.UserName; 
+                user = userRepository.Add(user);
             }
             else
             {
              user = userRepository.LoadEntities(u => u.UserId == model.UserId).FirstOrDefault();
+                user.UpdateDate = System.DateTime.Now;
             }
-            Project p;
             user.Project.Clear();
             if (pro!=null)
             {

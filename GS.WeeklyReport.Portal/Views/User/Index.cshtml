@@ -46,19 +46,19 @@
     </div><!--/row-->
 </div>
 <div id="contentDialog" class="hide">
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="post">
         <div class="row">
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>UserName：</label>
                 <div class="controls">
-                    <input name="UserName" type="text"  class="input-normal control-text">
+                    <input name="UserName" type="text" class="input-normal control-text">
                     <input name="UserId" type="hidden" />
                 </div>
             </div>
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>Name：</label>
                 <div class="controls">
-                    <input name="Name" type="text"  class="input-normal control-text">
+                    <input name="Name" type="text" class="input-normal control-text">
                 </div>
             </div>
         </div>
@@ -67,21 +67,6 @@
                 <label class="control-label"><s>*</s>Role：</label>
                 <div id="Role" class="controls bui-form-field-select" data-select="">
                     <input type="hidden" name="RoleId">
-                </div>
-            </div>
-            <div class="control-group span8">
-                <label class="control-label"><s>*</s>CreateData：</label>
-                <div id="range" class="controls">
-                    <input name="CreateDate" class="calendar" type="text">
-                </div>
-               
-            </div>
-        </div>
-        <div class="row">
-            <div class="control-group span8">
-                <label class="control-label"><s>*</s>UpdataDate：</label>
-                <div id="range" class="controls">
-                    <input name="UpdateDate" class="calendar" type="text">
                 </div>
             </div>
             <div class="control-group span8">
@@ -96,7 +81,6 @@
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/BUI/bui.js"></script>
 <script src="~/Scripts/lodash.js"></script>
-<script src="~/Scripts/json2.js"></script>
 <script type="text/javascript">
     var Grid = BUI.Grid,
         Data = BUI.Data,
@@ -126,62 +110,49 @@
         $.getJSON('/User/GetRoleselect', function (datas) {
             if (datas) {
                 for (var z = 0; z < datas.length; z++) {
-                    Roles[datas[i].value] = datas[i].text;
-                    if (i != datas.length-1)
+                    Roles[datas[z].value] = datas[z].text;
+                    if (z != datas.length-1)
                     { 
-                        RolesSelect = RolesSelect + "'value':'" + datas[i].value + "','text':'" + datas[i].text + "'},{";
+                        RolesSelect = RolesSelect + "'value':'" + datas[z].value + "','text':'" + datas[z].text + "'},{";
                     }
                     else {
-                        RolesSelect = RolesSelect + "'value':'" + datas[i].value + "','text':'" + datas[i].text + "'}]";
+                        RolesSelect = RolesSelect + "'value':'" + datas[z].value + "','text':'" + datas[z].text + "'}]";
                     }
                 }
-                $("#Role").attr("data-select", "{multipleSelect:true,items:" + JitemsSelect + "}");
+                $("#Role").attr("data-select", "{items:" + RolesSelect + "}");
             }
-    });
-    console.log(JitemsSelect);
-    var userStore = new Data.Store(
-       {
-           url: "/User/GetUserForSelect",
-           autoLoad: true
-       }),
-       columns = [
-       { title: 'UserName', dataIndex: 'UserName', width: 50, elCls: 'center' },
-       { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
-       { title: 'Role', dataIndex: 'RoleId', width: 50, elCls: 'center', renderer: Grid.Format.multipleItemsRenderer(Role) },
-       {
-           title: 'CreateDate', dataIndex: 'CreateDate', width: 50, elCls: 'center', renderer: function (value) {
-               if (value) {
-                   return value.substring(0, 10);
-               }
-               return '--';
-           }
-       },
+        });
+    columns = [
+        { title: 'UserName', dataIndex: 'UserName', width: 50, elCls: 'center' },
+        { title: 'Name', dataIndex: 'Name', width: 50, elCls: 'center' },
+        { title: 'Role', dataIndex: 'RoleId', width: 50, elCls: 'center', renderer: Grid.Format.multipleItemsRenderer(Roles) },
         {
-            title: 'UpdateDate', dataIndex: 'UpdateDate', width: 50, elCls: 'center', renderer: function (value) {
+            title: 'CreateDate',
+            dataIndex: 'CreateDate',
+            width: 50,
+            elCls: 'center',
+            renderer: function(value) {
                 if (value) {
                     return value.substring(0, 10);
                 }
                 return '--';
             }
         },
-       { title: 'Projects', dataIndex: 'Projects', width: 50, elCls: 'center', renderer: Grid.Format.multipleItemsRenderer(Jitems) },
-       { title: 'Action', renderer: function () { return '<span id="Edit" class="grid-command btn-edit">Edit</span>'; } }
-       ],
-
-   memberSelect = new Select.Select({
-       render: '#memberSelect',
-       valueField: '#inputMember',
-       multipleSelect: true,
-       store: userStore
-   }),
-   leaderSelect = new Select.Select({
-       render: '#leaderSelect',
-       valueField: '#inputLeader',
-       store: userStore
-   });
-
-    memberSelect.render();
-    leaderSelect.render();
+        {
+            title: 'UpdateDate',
+            dataIndex: 'UpdateDate',
+            width: 50,
+            elCls: 'center',
+            renderer: function(value) {
+                if (value) {
+                    return value.substring(0, 10);
+                }
+                return '--';
+            }
+        },
+        { title: 'Projects', dataIndex: 'Projects', width: 50, elCls: 'center', renderer: Grid.Format.multipleItemsRenderer(Jitems) },
+        { title: 'Action', renderer: function() { return '<span id="Edit" class="grid-command btn-edit">Edit</span>'; } }
+    ];
 
     var editing = new Grid.Plugins.DialogEditing({
         contentId: 'contentDialog', //设置隐藏的Dialog内容

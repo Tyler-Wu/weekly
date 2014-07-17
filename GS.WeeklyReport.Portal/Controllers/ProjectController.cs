@@ -22,19 +22,14 @@ namespace GS.WeeklyReport.Portal.Controllers
         // GET: /Project/
         public ActionResult Index()
         {
-            var projectList = service.LoadEntities(p => true);
-            return View(projectList);
-            //return View();
+            return View();
         }
 
         [HttpGet]
         public JsonResult GetProject()
         {
             var projectList = new List<ProjectViewModel>();
-            var projects = service.LoadEntities(p => true);
-            //var projectList =
-            //    project.Select(x => new { x.Name, x.LeaderId, x.StartDate, x.Description, x.Status, x.Color, x.User })
-            //        .AsEnumerable();
+            var projects =projectManagerService.LoadEntities(p=>true);
             foreach (var project in projects)
             {
                 projectList.Add(new ProjectViewModel()
@@ -60,9 +55,14 @@ namespace GS.WeeklyReport.Portal.Controllers
         private string GetUserIds(ICollection<User> users)
         {
             string ids = "";
-            if (users.Count > 0)
+            if (users != null)
             {
-                ids = users.Aggregate(ids, (current, user) => current + (user.UserId + ","));
+                if (users.Count > 0)
+                {
+                    ids = users.Aggregate(ids, (current, user) => current + (user.UserId + ","));
+                    
+                }
+                ids = ids.Remove(ids.Length - 1);
             }
             return ids.Length > 0 ? ids.Substring(0, ids.Length) : ids;
         }
