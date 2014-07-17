@@ -43,7 +43,17 @@ namespace GS.WeeklyReport.Portal.Controllers
         public JsonResult GetWorkItemList()
         {
             _loginUser = Session["loginUser"] as User;
-            var workItemList = workItemService.LoadEntities(w => w.UserId == _loginUser.UserId).Select(item=>new{workItemId=item.ItemId,id=item.ItemId,title=item.Project.Name,start=item.Start,end=item.End,allDay=item.AllDay,color=item.Project.Color,project=item.Project}).AsEnumerable();
+            var workItemList = workItemService.LoadEntities(w => w.UserId == _loginUser.UserId).Select(item=>new
+            {
+                workItemId=item.ItemId,
+                id=item.ItemId,
+                title=item.Project.Name,
+                start=item.Start,
+                end=item.End,
+                allDay=item.AllDay,
+                color=item.Project.Color,
+                projectId=item.Project.ProjectId
+            }).AsEnumerable();
             return Json(workItemList, JsonRequestBehavior.AllowGet);
         }
 

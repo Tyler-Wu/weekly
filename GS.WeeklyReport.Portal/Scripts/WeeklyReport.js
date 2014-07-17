@@ -158,7 +158,7 @@ function getWorkItemFromEvent(event) {
         'duration': durationTime,
         'color': event.backgroundColor,
         'allDay': event.allDay,
-        'projectId': event.project.ProjectId //?allDay是什么东西？
+        'projectId': event.ProjectId //?allDay是什么东西？
     };
 }
 //更新workItem的函数
