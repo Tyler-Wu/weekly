@@ -137,6 +137,11 @@ $(document).ready(function() {
         //初始化颜色
         for (var index in workItems) {
             workItems[index].color = workItems[index].color.getColor();
+            workItems[index].project = {
+                ProjectId: workItems[index].projectId,
+                Color: workItems[index].color,
+                Name:workItems[index].title
+        };
         }
         settings.events = workItems;
         $('#calendar').fullCalendar(settings);
@@ -158,7 +163,7 @@ function getWorkItemFromEvent(event) {
         'duration': durationTime,
         'color': event.backgroundColor,
         'allDay': event.allDay,
-        'projectId': event.ProjectId //?allDay是什么东西？
+        'projectId': event.project.ProjectId //?allDay是什么东西？
     };
 }
 //更新workItem的函数
@@ -304,18 +309,28 @@ String.prototype.colorRgb = function () {
 };
 //initialize the calendar
 
-String.prototype.getColor = function () {
-    var colorNum = parseInt(this,10);
-    switch(colorNum){
-        case 1: return 'red';
-        case 2: return 'green';
-        case 3: return 'yellow';
-        case 4: return 'blue';
-        case 5: return 'purple';
-        case 6: return 'pink';
-        case 7: return 'orange';
-        case 8: return 'grey';
-        case 9: return 'brown';
-        default: return 'black';
+String.prototype.getColor = function() {
+    var colorNum = parseInt(this, 10);
+    switch (colorNum) {
+    case 1:
+        return 'red';
+    case 2:
+        return 'green';
+    case 3:
+        return 'yellow';
+    case 4:
+        return 'blue';
+    case 5:
+        return 'purple';
+    case 6:
+        return 'pink';
+    case 7:
+        return 'orange';
+    case 8:
+        return 'grey';
+    case 9:
+        return 'brown';
+    default:
+        return 'black';
     };
-}
+};
