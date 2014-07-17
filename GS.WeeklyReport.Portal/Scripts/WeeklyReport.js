@@ -196,7 +196,7 @@ function initProjectList() {
             var eventObj = [];
             console.log(result);
             for (var i = 0; i < result.length; i++) {
-                $("#external-events h4").append('<div id="example"  class="external-event badge badge-inverse ui-draggable" style="position: relative;background:'+result[i].Color.getColor()+'">' + result[i].Name + '</div>');
+                $("#external-events ul#example").append('<li><div class="external-event badge badge-inverse ui-draggable" style="position: relative;background:' + result[i].Color.getColor() + '">' + result[i].Name + '</div></li>');
                 eventObj.push(result[i]);
             }
             $('#external-events div.external-event').each(function (index) {

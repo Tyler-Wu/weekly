@@ -35,7 +35,8 @@ namespace GS.WeeklyReport.Portal
                     "~/Content/css/font-awesome.css",
                     "~/Content/css/bootstrap-cerulean.css",
                     "~/Content/fancyBox-1.3.1.css",
-                    "~/Content/calendar-dialog.css"
+                    "~/Content/calendar-dialog.css",
+                    "~/Content/css/comment.css"
              ));
         }
     }

@@ -225,6 +225,7 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\calendar-dialog.css" />
+    <Content Include="Content\css\comment.css" />
     <Content Include="Content\css\fancybox.css" />
     <Content Include="Content\css\font-awesome-ie7.css" />
     <Content Include="Content\css\font-awesome-ie7.min.css" />

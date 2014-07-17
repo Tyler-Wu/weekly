@@ -1,0 +1,25 @@
+﻿.login-header {
+    padding: 40px 0 30px;
+}
+.login-input {
+    margin-left: -5px !important;
+}
+#remember{
+    margin: 0 5px 3px;  
+}
+
+.login-input-prepend {
+    margin-bottom: 15px; 
+}
+.login-btn {
+    width: 50%;
+}
+.center {
+    text-align: center;
+}
+#example {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    list-style: none;
+}
