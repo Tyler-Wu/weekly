@@ -19,8 +19,8 @@ namespace GS.WeeklyReport.Portal.Controllers
 {
     public class UserController : BaseController
     {
-        IUserService service = new UserService();
-        IRoleService Roleservice=new RoleService();
+        private IUserService service = new UserService();
+        private IRoleService Roleservice = new RoleService();
         private UserManagerService userManagerService = new UserManagerService();
         //
         // GET: /User/
@@ -28,6 +28,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         {
             return View();
         }
+
         public JsonResult GetUsers()
         {
             var usersList = new List<UserViewModels>();
@@ -40,19 +41,20 @@ namespace GS.WeeklyReport.Portal.Controllers
                     Name = user.Name,
                     RoleId = user.RoleId,
                     CreateDate = user.CreateDate,
-                    UpdateDate =user.UpdateDate,
+                    UpdateDate = user.UpdateDate,
                     Projects = GetProjectIds(user.Project),
                     UserId = user.UserId,
                 });
             }
             return Json(usersList, JsonRequestBehavior.AllowGet);
         }
+
         private string GetProjectIds(ICollection<Project> pro)
         {
             string ids = "";
-            if (pro!=null)
+            if (pro != null)
             {
-                 if (pro.Count > 0)
+                if (pro.Count > 0)
                 {
                     ids = pro.Aggregate(ids, (current, user) => current + (user.ProjectId + ","));
 
@@ -62,7 +64,7 @@ namespace GS.WeeklyReport.Portal.Controllers
                     ids = ids.Remove(ids.Length - 1);
                 }
             }
-           
+
             return ids.Length > 0 ? ids.Substring(0, ids.Length) : ids;
         }
 
@@ -92,30 +94,19 @@ namespace GS.WeeklyReport.Portal.Controllers
             return Json("fail", JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetRoleselect()
+        public JsonResult GetRoleForSelect()
         {
             var role = Roleservice.LoadEntities(r => true).Select(r => new { value = r.RoleId, text = r.Name });
             return Json(role, JsonRequestBehavior.AllowGet);
         }
 
-
-        [HttpPost]
-        public ActionResult Create(User entity)
+        public JsonResult GetUsersByPage(int pageIndex, int pageSize)
         {
-            try
-            {
-                // TODO: Add insert logic here
-                entity.UserId = Guid.NewGuid();
-                entity.CreateDate = DateTime.Now;
-                service.Add(entity);
-                return View("success");
-            }
-            catch
-            {
-                return View("Error");
-            }
+            int totalCount;
+            var userList = userManagerService.LoadPageEntities(pageSize, pageIndex, out totalCount, u => true, true, o => o.UserId);
+            return Json(new {results = userList, totalCount = totalCount});
         }
-        [HttpPost]
+
         public ActionResult Delete(Guid id, FormCollection collection)
         {
             try

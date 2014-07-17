@@ -10,26 +10,25 @@ using GS.WeeklyReport.Repository;
 using WeeklyReport.Models;
 namespace GS.WeeklyReport.Service
 {
-  public  class UserManagerService
+    public class UserManagerService
     {
 
         private IUserRepository userRepository = new UserRepository();
         private IProjectRepository projectRepository = new ProjectRepository();
         public User SaveUser(User model, string ids, string editType)
         {
-            User user; 
-           // List<Project> pro = string.IsNullOrEmpty(ids) ? null : projectRepository.GetEntitiesByIds(ids);
+            User user;
             if (editType == "add")
             {
                 model.UserId = Guid.NewGuid();
-                model.UpdateDate = System.DateTime.Now;
-                model.CreateDate = System.DateTime.Now;
+                model.UpdateDate = DateTime.Now;
+                model.CreateDate = DateTime.Now;
                 user = userRepository.Add(model);
             }
             else
             {
-             user = userRepository.LoadEntities(u => u.UserId == model.UserId).FirstOrDefault();
-                user.UpdateDate = System.DateTime.Now;
+                user = userRepository.LoadEntities(u => u.UserId == model.UserId).FirstOrDefault();
+                user.UpdateDate = DateTime.Now;
                 user.Name = model.Name;
                 user.RoleId = model.RoleId;
                 user.UserName = model.UserName;
@@ -40,15 +39,18 @@ namespace GS.WeeklyReport.Service
             {
                 return user;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public IQueryable<User> LoadEntities(Expression<Func<User, bool>> whereExpression)
         {
             return userRepository.LoadEntities(whereExpression);
+        }
+        public IQueryable<User> LoadPageEntities<TS>(int pageSize, int pageIndex,
+           out int totalCount,
+           Expression<Func<User, bool>> whereLambda, bool isAsc, Expression<Func<User, TS>> orderBy)
+        {
+            return userRepository.LoadPageEntities(pageSize, pageIndex, out totalCount, whereLambda, isAsc, orderBy);
         }
     }
 }

@@ -100,7 +100,7 @@
             $("#Project").attr("data-select", "{multipleSelect:true,items:" +JSON.stringify(data)+ "}");
         }
     });
-     $.getJSON('/User/GetRoleselect', function (data) {
+     $.getJSON('/User/GetRoleForSelect', function (data) {
             if (data) {
                 for (var i = 0; i < data.length;i++) {
                     Roles[data[i].value] = data[i].text;
@@ -187,10 +187,20 @@
     });
 
   var store = new Store({
-        url: '/User/GetUsers',
+        url: '/User/GetUsersByPage',
         autoLoad: true,
-        autoSync : true,
-        pageSize: 2
+        autoSync: true,
+        proxy: {//设置请求相关的参数
+            method: 'post',
+            //dataType : 'jsonp', //返回数据的类型
+            limitParam: 'pageSize', //一页多少条记录
+            pageIndexParam: 'pageIndex', //页码
+            startParam: 'startNum', //起始记录
+            pageStart : 1
+        },
+        root : 'results',
+        totalProperty : 'totalCount',
+        pageSize: 5
     }),
      grid = new Grid.Grid({
          render: '#grid',
@@ -214,7 +224,11 @@
              }]
          },
          plugins: [editing, Grid.Plugins.CheckSelection],
-         store: store
+         store: store,
+         bbar:{
+                // pagingBar:表明包含分页栏
+      pagingBar:true
+  }
      });
 
     grid.render();
