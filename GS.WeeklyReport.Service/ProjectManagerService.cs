@@ -22,29 +22,20 @@ namespace GS.WeeklyReport.Service
             if (saveType == "add")
             {
                 model.ProjectId = Guid.NewGuid();
-                
-                project=new Project();
-                project.ProjectId = model.ProjectId;
-                project.Name = model.Name;
-                project.LeaderId = model.LeaderId;
-                project.Description = model.Description;
-                project.Status = model.Status;
-                project.Color = model.Color;
-                project.StartDate = model.StartDate;
-                project = projectRepository.Add(project);
+               
+                project = projectRepository.Add(model);
             }
             else
             {
                 project = projectRepository.LoadEntities(p => p.ProjectId == model.ProjectId).SingleOrDefault();
+                project.Color = model.Color;
+                project.LeaderId = model.LeaderId;
+                project.Description = model.Description;
+                project.Status = model.Status;
+                project.StartDate = model.StartDate;
             }
             project.User.Clear();
-            if (user != null)
-            {
-                for (int i = 0; i < user.Count; i++)
-                {
-                    project.User.Add(user[i]);
-                }
-            }
+            project.User = user;
            return projectRepository.Update(project);
         }
         public IQueryable<Project> LoadEntities(Expression<Func<Project, bool>> whereExpression)

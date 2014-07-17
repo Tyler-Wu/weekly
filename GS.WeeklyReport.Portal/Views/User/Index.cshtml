@@ -51,7 +51,7 @@
             <div class="control-group span8">
                 <label class="control-label"><s>*</s>UserName：</label>
                 <div class="controls">
-                    <input id="UserName" name="UserName" type="text" class="input-normal control-text">
+                    <input id="UserName" name="UserName" data-rules="{required:true}" type="text" class="input-normal control-text">
                     <input name="UserId" type="hidden" />
                 </div>
             </div>
@@ -87,10 +87,8 @@
         Grid = Grid,
         Store = Data.Store,
         Select = BUI.Select,
-        JitemsSelect = "[{",
-        Jitems ={},
-        Roles = {},
-        RolesSelect="[{";
+        Jitems = {},
+        Roles = {};
     $.ajaxSetup({
         async: false
     });
@@ -98,28 +96,16 @@
         if (data) {
             for (var i = 0; i < data.length; i++) {
                 Jitems[data[i].value] = data[i].text;
-                if (i != data.length - 1) {
-                    JitemsSelect = JitemsSelect + "'value':'" + data[i].value + "','text':'" + data[i].text + "'},{";
-                } else {
-                    JitemsSelect = JitemsSelect + "'value':'" + data[i].value + "','text':'" + data[i].text + "'}]";
-                }
             }
-            $("#Project").attr("data-select", "{multipleSelect:true,items:" + JitemsSelect + "}");
+            $("#Project").attr("data-select", "{multipleSelect:true,items:" +JSON.stringify(data)+ "}");
         }
     });
-     $.getJSON('/User/GetRoleselect', function (datas) {
-            if (datas) {
-                for (var z = 0; z < datas.length; z++) {
-                    Roles[datas[z].value] = datas[z].text;
-                    if (z != datas.length-1)
-                    { 
-                        RolesSelect = RolesSelect + "'value':'" + datas[z].value + "','text':'" + datas[z].text + "'},{";
-                    }
-                    else {
-                        RolesSelect = RolesSelect + "'value':'" + datas[z].value + "','text':'" + datas[z].text + "'}]";
-                    }
+     $.getJSON('/User/GetRoleselect', function (data) {
+            if (data) {
+                for (var i = 0; i < data.length;i++) {
+                    Roles[data[i].value] = data[i].text;
                 }
-                $("#Role").attr("data-select", "{items:" + RolesSelect + "}");
+                $("#Role").attr("data-select", "{items:" + JSON.stringify(data) + "}");
             }
         });
     columns = [
@@ -164,7 +150,7 @@
                 var edtor = this,
                     form = edtor.get('form'),
                     editType = editing.get('editType'), //add 或者 edit
-                    url = '/User/EditSaveProject';
+                    url = '/User/SaveUser';
                 url += '?saveType=' + editType;
                 form.valid();
                 if (form.isValid()) {
@@ -174,8 +160,6 @@
                             if (editType == 'add') {
                             }
                             if (editType == 'edit') {
-                                console.log(data);
-                                //do other
                             }
                             //将a 改成 1 测试一下显示错误
                             if (data.hasError) { //返回的数据是 {hasError : fasle,error : 'xxxx',field : 'xxx'},也可以是任意格式的数据如 ： {success : false,'error' : 'xxxxx'}
@@ -183,9 +167,7 @@
                                 form.getField(field).showErrors([data.error]); //也可以多个字段的错误信息 例如 errors : [{field : 'a',error: 'addd'},{field : 'a',error: 'addd'}]
                             } else {
                                 edtor.accept();
-
                             }
-
                         },
                         error: function() {
                             //do something

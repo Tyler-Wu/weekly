@@ -62,7 +62,10 @@ namespace GS.WeeklyReport.Portal.Controllers
                     ids = users.Aggregate(ids, (current, user) => current + (user.UserId + ","));
                     
                 }
-                ids = ids.Remove(ids.Length - 1);
+                if (ids != "")
+                {
+                    ids = ids.Remove(ids.Length - 1);
+                }
             }
             return ids.Length > 0 ? ids.Substring(0, ids.Length) : ids;
         }

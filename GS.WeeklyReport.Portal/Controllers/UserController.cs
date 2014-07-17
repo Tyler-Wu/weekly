@@ -73,7 +73,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         }
 
         [HttpPost]
-        public JsonResult EditSaveProject(UserViewModels model)
+        public JsonResult SaveUser(UserViewModels model)
         {
             var editType = Request["saveType"];
 
