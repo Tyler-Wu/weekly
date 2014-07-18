@@ -94,7 +94,7 @@ namespace GS.WeeklyReport.Portal.Controllers
         public String UpdateWorkItem(WorkItem workItem)
         {
             _loginUser = Session["loginUser"] as User;
-            //
+            // 
             if (_loginUser != null)
             {
                 WorkItem oldItem = workItemService.LoadEntities(w => w.ItemId == workItem.ItemId).FirstOrDefault();
